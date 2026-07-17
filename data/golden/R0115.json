@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0115",
+    "patient": {
+      "name": "Gagan Ghose",
+      "age": 79,
+      "sex": "F",
+      "abha_id": "25-6204-6851-5865"
+    },
+    "admission_date": "2026-07-06",
+    "discharge_date": "2026-07-14",
+    "claim_type": "reimbursement",
+    "specialty": "ophthalmology",
+    "diagnosis_text": "Senile cataract",
+    "procedures": [
+      "Phacoemulsification with IOL implantation"
+    ],
+    "medications": [
+      "Eye drops - Moxifloxacin 0.5%",
+      "Eye drops - Prednisolone acetate 1%",
+      "Eye drops - Ketorolac 0.5%"
+    ],
+    "clinical_notes": "Patient presented with progressive, painless diminution of vision in the right eye over 6 months, more pronounced for near work and in bright light, consistent with senile cataract. Best corrected visual acuity was 6/36 in the right eye. Slit-lamp examination confirmed nuclear sclerosis grade III cataract. Patient underwent uneventful phacoemulsification with foldable IOL implantation under topical anaesthesia. Intraoperative course was uncomplicated with good capsular bag stability. Post-operatively, vision improved to 6/9 on Day 1. Patient discharged the same day with topical antibiotic-steroid combination eye drops and advised to avoid water contact and strenuous activity for 2 weeks, with follow-up on Day 7.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL6116583",
+      "sum_insured": 500000,
+      "claimed_amount": 40164
+    }
+  },
+  "answer_key": {
+    "record_id": "R0115",
+    "icd_codes": [
+      "H25.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0038",
+    "patient": {
+      "name": "Dipta Chowdhury",
+      "age": 30,
+      "sex": "F",
+      "abha_id": "12-5328-7046-5572"
+    },
+    "admission_date": "2026-04-30",
+    "discharge_date": "2026-05-04",
+    "claim_type": "cashless",
+    "specialty": "endocrinology",
+    "diagnosis_text": "Fever under evaluation, ?viral ?bacterial",
+    "procedures": [
+      "IV insulin infusion titration",
+      "Arterial blood gas monitoring"
+    ],
+    "medications": [
+      "IV Insulin infusion (regular insulin)",
+      "IV Normal Saline",
+      "Inj Potassium chloride correction"
+    ],
+    "clinical_notes": "Known case of Type 2 diabetes mellitus presented with a 2-day history of vomiting, abdominal pain, and altered sensorium. On evaluation, blood glucose was 485 mg/dL with metabolic acidosis (pH 7.18, bicarbonate 9 mEq/L) and ketonuria 3+, confirming diabetic ketoacidosis. Managed in ICU with IV insulin infusion as per protocol, aggressive fluid resuscitation, and potassium correction with hourly monitoring of blood glucose and electrolytes. Precipitating cause identified as poor drug compliance with an intercurrent UTI. Acidosis corrected by 36 hours, patient transitioned to subcutaneous insulin, sensorium improved fully. Discharged in stable condition on a basal-bolus insulin regimen with diabetes education and follow-up advice.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL1014156",
+      "sum_insured": 500000,
+      "claimed_amount": 99477
+    }
+  },
+  "answer_key": {
+    "record_id": "R0038",
+    "icd_codes": [
+      "E11.1"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

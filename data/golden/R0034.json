@@ -1,0 +1,48 @@
+{
+  "record": {
+    "record_id": "R0034",
+    "patient": {
+      "name": "Ikbal Shankar",
+      "age": 67,
+      "sex": "M",
+      "abha_id": "18-0023-9042-4861"
+    },
+    "admission_date": "2026-06-06",
+    "discharge_date": "2026-06-08",
+    "claim_type": "reimbursement",
+    "specialty": "neurology",
+    "diagnosis_text": "Cerebral infarction (acute ischemic stroke)",
+    "procedures": [
+      "CT brain plain",
+      "IV thrombolysis with alteplase"
+    ],
+    "medications": [
+      "Inj Alteplase (rtPA)",
+      "Tab Aspirin 150mg OD",
+      "Tab Atorvastatin 40mg OD",
+      "Tab Clopidogrel 75mg OD"
+    ],
+    "clinical_notes": "Patient ko achanak se left side mein kamzori aa gayi thi aur baat karne mein bhi dikkat ho rahi thi, isliye 2 ghante ke andar hospital laya gaya. CT scan mein bleeding nahi tha, stroke confirm hua right side ke brain mein. Time window ke andar hone ki wajah se clot dissolve karne ki dawa (alteplase) di gayi. Uske baad thodi improvement dikhi left haath aur pair mein. 24 ghante stroke unit mein observation mein rakha gaya, koi bleeding nahi hua dobara scan mein. Physiotherapy shuru ki gayi, discharge ke time halki kamzori baaki thi left side mein, ghar par physiotherapy jari rakhne ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL1148936",
+      "sum_insured": 1000000,
+      "claimed_amount": 155107
+    }
+  },
+  "answer_key": {
+    "record_id": "R0034",
+    "icd_codes": [
+      "I63.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

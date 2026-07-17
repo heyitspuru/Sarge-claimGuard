@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0050",
+    "patient": {
+      "name": "Balvan Naik",
+      "age": 39,
+      "sex": "M",
+      "abha_id": "16-9784-6493-6657"
+    },
+    "admission_date": "2026-05-20",
+    "discharge_date": "2026-05-21",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Acute appendicitis",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Metronidazole 500mg IV TID",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "Patient ko pichhle 2 din se pet mein dard tha jo right side shift ho gaya, bukhar aur ulti bhi thi. USG mein appendix inflamed dikha. Emergency laparoscopic appendectomy ki gayi GA ke under. Operation ke baad recovery achhi rahi, patient ne oral diet second din se le li, koi complication nahi hua. Discharge ke time patient stable tha, wound clean and dry, follow-up ke liye bola gaya hai.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL8720097",
+      "sum_insured": 500000,
+      "claimed_amount": 81040
+    }
+  },
+  "answer_key": {
+    "record_id": "R0050",
+    "icd_codes": [
+      "K35.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

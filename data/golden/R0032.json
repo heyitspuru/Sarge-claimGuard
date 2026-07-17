@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0032",
+    "patient": {
+      "name": "Jyoti Kuruvilla",
+      "age": 47,
+      "sex": "F",
+      "abha_id": "93-0666-8364-5074"
+    },
+    "admission_date": "2026-06-27",
+    "discharge_date": "2026-07-03",
+    "claim_type": "cashless",
+    "specialty": "cardiology",
+    "diagnosis_text": "Acute myocardial infarction",
+    "procedures": [
+      "Coronary angiography",
+      "Primary PTCA with drug-eluting stent to LAD"
+    ],
+    "medications": [
+      "Tab Aspirin 150mg OD",
+      "Tab Clopidogrel 75mg OD",
+      "Tab Atorvastatin 80mg OD",
+      "Inj Heparin as per protocol"
+    ],
+    "clinical_notes": "Patient presented to emergency with severe, crushing central chest pain radiating to the left arm and jaw, associated with sweating and breathlessness, of 2 hours duration. ECG showed ST-elevation in leads V1-V4 consistent with anterior wall STEMI. Troponin I was markedly elevated. Patient was taken up for emergent coronary angiography which revealed 95% thrombotic occlusion of the proximal LAD. Primary PTCA was performed with successful deployment of a drug-eluting stent, achieving TIMI III flow. Post-procedure course was uneventful, no arrhythmias or heart failure noted. Echo showed mild LV dysfunction (EF 45%). Patient started on dual antiplatelet therapy, statin, and beta-blocker, mobilized gradually, and discharged in stable condition with cardiac rehabilitation advice.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL9528831",
+      "sum_insured": 1000000,
+      "claimed_amount": 431429
+    }
+  },
+  "answer_key": {
+    "record_id": "R0032",
+    "icd_codes": [
+      "I21.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

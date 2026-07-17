@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0145",
+    "patient": {
+      "name": "Janaki Virk",
+      "age": 47,
+      "sex": "M",
+      "abha_id": "84-2408-7152-3610"
+    },
+    "admission_date": "2026-04-27",
+    "discharge_date": "2026-05-02",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Acute appendicitis",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Metronidazole 500mg IV TID",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "H/o pain abdomen x 2 days, shifted to RIF, fever+, vomiting+. USG s/o acute appendicitis. Emergency lap appendectomy done under GA. Intra-op: appendix inflamed, no perforation/rupture. Post-op course uneventful, started orally on POD1, drain removed POD2. Afebrile at discharge, wound healthy, sutures to be removed on Day 7 at follow up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL9210883",
+      "sum_insured": 500000,
+      "claimed_amount": 49293
+    }
+  },
+  "answer_key": {
+    "record_id": "R0145",
+    "icd_codes": [
+      "K35.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

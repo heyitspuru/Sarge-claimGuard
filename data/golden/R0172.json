@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0172",
+    "patient": {
+      "name": "Bishakha Dara",
+      "age": 51,
+      "sex": "F",
+      "abha_id": "19-3339-8031-9510"
+    },
+    "admission_date": "2026-04-25",
+    "discharge_date": "2026-04-26",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Inguinal hernia",
+    "procedures": [
+      "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Tab Diclofenac 50mg BD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "8-month h/o reducible right groin swelling, worse on straining, cough impulse +ve. Dx: right indirect inguinal hernia. Elective open hernioplasty with mesh (Lichtenstein) under SA. Intra-op: indirect sac, bowel viable, no strangulation. Mesh placed tension-free. Post-op pain controlled with oral analgesics, ambulated same evening, wound clean. Discharged POD1, advised to avoid heavy lifting for 6 weeks, suture removal Day 10.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL3924517",
+      "sum_insured": 500000,
+      "claimed_amount": 42788
+    }
+  },
+  "answer_key": {
+    "record_id": "R0172",
+    "icd_codes": [
+      "K40.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

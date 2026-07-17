@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0114",
+    "patient": {
+      "name": "Udant Basu",
+      "age": 49,
+      "sex": "F",
+      "abha_id": "29-2507-4694-7136"
+    },
+    "admission_date": "2026-04-27",
+    "discharge_date": "2026-05-04",
+    "claim_type": "cashless",
+    "specialty": "pulmonology",
+    "diagnosis_text": "Community-acquired pneumonia",
+    "procedures": [
+      "Oxygen supplementation via nasal cannula",
+      "Chest physiotherapy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Azithromycin 500mg IV OD",
+      "Nebulization with Salbutamol/Ipratropium",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "5-day h/o fever, productive cough, breathlessness. SpO2 90% RA, coarse crepts RLL. CXR: RLL consolidation. CURB-65 = 2, admitted. IV Ceftriaxone + Azithromycin, O2 via NC, nebulization started. D3: SpO2 96% RA, afebrile, cough improving. Weaned off O2 by D4. Discharged stable on oral antibiotics, advised follow-up CXR after 2 weeks.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL9364670",
+      "sum_insured": 1000000,
+      "claimed_amount": 47350
+    }
+  },
+  "answer_key": {
+    "record_id": "R0114",
+    "icd_codes": [
+      "J18.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

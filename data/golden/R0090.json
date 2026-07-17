@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0090",
+    "patient": {
+      "name": "Saumya Dutta",
+      "age": 25,
+      "sex": "F",
+      "abha_id": "53-3204-5080-0487"
+    },
+    "admission_date": "2026-06-29",
+    "discharge_date": "2026-07-06",
+    "claim_type": "cashless",
+    "specialty": "obstetrics",
+    "diagnosis_text": "Abdominal pain, cause unclear, obs.",
+    "procedures": [
+      "Emergency lower segment caesarean section"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Oxytocin as per protocol",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Primi, 39 wks POG, admitted in early labour. Labour augmented; CTG showed recurrent late decelerations, FHR 100-110 bpm - fetal distress. Non-reassuring NST + failure to progress -> emergency LSCS. Live female baby delivered, good Apgar, no resuscitation needed. EBL within normal limits, uterus well contracted post-delivery. Uneventful post-op course, ambulated D1, breastfeeding established. Mother-baby dyad discharged D3, stable, postnatal f/u and wound care advised.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL0125034",
+      "sum_insured": 500000,
+      "claimed_amount": 94019
+    }
+  },
+  "answer_key": {
+    "record_id": "R0090",
+    "icd_codes": [
+      "O82"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

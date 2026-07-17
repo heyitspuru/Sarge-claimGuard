@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0071",
+    "patient": {
+      "name": "Nirja Shan",
+      "age": 20,
+      "sex": "F",
+      "abha_id": "32-6819-5044-6600"
+    },
+    "admission_date": "2026-05-07",
+    "discharge_date": "2026-05-08",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "C/o low-grade to high-grade fever x 8 days, step-ladder pattern, relative bradycardia noted. Blood C/S: Salmonella Typhi isolated, sensitive to ceftriaxone. Widal reactive. Rx: Inj Ceftriaxone 2g IV OD x 10 days. Defervescence by D4. No GI bleed/perforation. Discharged afebrile, advised to complete oral antibiotic course and maintain food/water hygiene.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL1665941",
+      "sum_insured": 500000,
+      "claimed_amount": 35242
+    }
+  },
+  "answer_key": {
+    "record_id": "R0071",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

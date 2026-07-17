@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0108",
+    "patient": {
+      "name": "Gaurang Narayanan",
+      "age": 19,
+      "sex": "M",
+      "abha_id": "59-3536-0004-9748"
+    },
+    "admission_date": "2026-06-30",
+    "discharge_date": "2026-07-06",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "C/o low-grade to high-grade fever x 8 days, step-ladder pattern, relative bradycardia noted. Blood C/S: Salmonella Typhi isolated, sensitive to ceftriaxone. Widal reactive. Rx: Inj Ceftriaxone 2g IV OD x 10 days. Defervescence by D4. No GI bleed/perforation. Discharged afebrile, advised to complete oral antibiotic course and maintain food/water hygiene.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL4896886",
+      "sum_insured": 500000,
+      "claimed_amount": 48964
+    }
+  },
+  "answer_key": {
+    "record_id": "R0108",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

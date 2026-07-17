@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0061",
+    "patient": {
+      "name": "Faras Garg",
+      "age": 28,
+      "sex": "M",
+      "abha_id": "20-0119-2520-0020"
+    },
+    "admission_date": "2026-04-23",
+    "discharge_date": "2026-04-28",
+    "claim_type": "reimbursement",
+    "specialty": "endocrinology",
+    "diagnosis_text": "Generalised weakness, w/u ongoing",
+    "procedures": [
+      "IV insulin infusion titration",
+      "Arterial blood gas monitoring"
+    ],
+    "medications": [
+      "IV Insulin infusion (regular insulin)",
+      "IV Normal Saline",
+      "Inj Potassium chloride correction"
+    ],
+    "clinical_notes": "Patient ko pehle se sugar (diabetes) tha, 2 din se ulti aur pet dard ho raha tha aur hosh bhi thoda kam tha. Blood sugar bahut zyada tha (485) aur DKA confirm hua blood test se. ICU mein IV insulin drip start ki gayi, saath mein fluids aur potassium bhi diya gaya. Dhire dhire sugar aur acidosis control hua, 36 ghante mein patient normal hone laga. Discharge ke time patient poori tarah hosh mein tha, insulin injection lene ki salah di gayi ghar par.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL1019538",
+      "sum_insured": 500000,
+      "claimed_amount": 74829
+    }
+  },
+  "answer_key": {
+    "record_id": "R0061",
+    "icd_codes": [
+      "E11.1"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

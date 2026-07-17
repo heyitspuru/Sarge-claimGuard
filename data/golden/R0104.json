@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0104",
+    "patient": {
+      "name": "Vanya Singh",
+      "age": 78,
+      "sex": "M",
+      "abha_id": "40-3533-8869-6052"
+    },
+    "admission_date": "2026-06-19",
+    "discharge_date": "2026-06-20",
+    "claim_type": "reimbursement",
+    "specialty": "orthopedics",
+    "diagnosis_text": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "medications": [
+      "Inj Cefuroxime 1.5g IV BD",
+      "Inj Enoxaparin 40mg SC OD",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Patient ghar par gir gaye the, uske baad se right leg par weight nahi daal pa rahe the aur leg thodi chhoti aur bahar ki taraf mudi hui lag rahi thi. X-ray mein hip ki fracture confirm hui. Operation kiya gaya (hemiarthroplasty) spinal anesthesia ke under. Operation acche se hua, koi dikkat nahi hui. Blood clot na bane isliye injection diya gaya roz. Doosre din se walker ki madad se chalna shuru karaya gaya. Discharge ke time patient walker se chal pa rahe the, ghar par precautions batayi gayi hain.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL3585744",
+      "sum_insured": 500000,
+      "claimed_amount": 280552
+    }
+  },
+  "answer_key": {
+    "record_id": "R0104",
+    "icd_codes": [
+      "S72.0"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

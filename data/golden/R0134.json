@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0134",
+    "patient": {
+      "name": "Advay Kumer",
+      "age": 18,
+      "sex": "F",
+      "abha_id": "13-5885-7095-1585"
+    },
+    "admission_date": "2026-05-22",
+    "discharge_date": "2026-05-24",
+    "claim_type": "reimbursement",
+    "specialty": "obstetrics",
+    "diagnosis_text": "Delivery by emergency lower segment caesarean section",
+    "procedures": [
+      "Emergency lower segment caesarean section"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Oxytocin as per protocol",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Primigravida at 39 weeks of gestation was admitted in early labour. Labour was augmented, however cardiotocography showed recurrent late decelerations with fetal heart rate in the range of 100-110 bpm, suggestive of fetal distress. In view of non-reassuring fetal status and failure to progress, decision for emergency lower segment caesarean section was taken. A live female baby was delivered with good Apgar scores, no immediate resuscitation required. Intraoperative blood loss was within normal limits, uterus well contracted. Post-operative course was uneventful, patient ambulated on Day 1, breastfeeding established, and was discharged on Day 3 in stable condition along with the neonate, with advice on wound care and postnatal follow-up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL9103453",
+      "sum_insured": 1000000,
+      "claimed_amount": 91180
+    }
+  },
+  "answer_key": {
+    "record_id": "R0134",
+    "icd_codes": [
+      "O82"
+    ],
+    "expected_packaging": "ready"
+  }
+}

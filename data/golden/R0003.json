@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0003",
+    "patient": {
+      "name": "Jacob Vala",
+      "age": 21,
+      "sex": "M",
+      "abha_id": "62-5276-0189-5559"
+    },
+    "admission_date": "2026-05-03",
+    "discharge_date": "2026-05-07",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "C/o low-grade to high-grade fever x 8 days, step-ladder pattern, relative bradycardia noted. Blood C/S: Salmonella Typhi isolated, sensitive to ceftriaxone. Widal reactive. Rx: Inj Ceftriaxone 2g IV OD x 10 days. Defervescence by D4. No GI bleed/perforation. Discharged afebrile, advised to complete oral antibiotic course and maintain food/water hygiene.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL7971147",
+      "sum_insured": 500000,
+      "claimed_amount": 55896
+    }
+  },
+  "answer_key": {
+    "record_id": "R0003",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

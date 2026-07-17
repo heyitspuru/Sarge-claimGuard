@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0099",
+    "patient": {
+      "name": "Indali Chandra",
+      "age": 41,
+      "sex": "F",
+      "abha_id": "20-4177-9841-1162"
+    },
+    "admission_date": "2026-05-24",
+    "discharge_date": "2026-05-25",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Abdominal pain, cause unclear, obs.",
+    "procedures": [
+      "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Tab Diclofenac 50mg BD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "8-month h/o reducible right groin swelling, worse on straining, cough impulse +ve. Dx: right indirect inguinal hernia. Elective open hernioplasty with mesh (Lichtenstein) under SA. Intra-op: indirect sac, bowel viable, no strangulation. Mesh placed tension-free. Post-op pain controlled with oral analgesics, ambulated same evening, wound clean. Discharged POD1, advised to avoid heavy lifting for 6 weeks, suture removal Day 10.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL8933297",
+      "sum_insured": 500000,
+      "claimed_amount": 60606
+    }
+  },
+  "answer_key": {
+    "record_id": "R0099",
+    "icd_codes": [
+      "K40.9"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

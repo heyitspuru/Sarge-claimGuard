@@ -1,0 +1,44 @@
+{
+  "record": {
+    "record_id": "R0146",
+    "patient": {
+      "name": "Aashi Pau",
+      "age": 89,
+      "sex": "M",
+      "abha_id": "22-2805-3773-5673"
+    },
+    "admission_date": "2026-05-22",
+    "discharge_date": "2026-05-29",
+    "claim_type": "cashless",
+    "specialty": "orthopedics",
+    "diagnosis_text": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "medications": [
+      "Inj Cefuroxime 1.5g IV BD",
+      "Inj Enoxaparin 40mg SC OD",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "H/o fall at home, unable to bear weight on R lower limb, limb shortened + externally rotated. X-ray pelvis/hip: displaced # neck of femur (R). Planned bipolar hemiarthroplasty under SA - uneventful, good prosthesis seating. Post-op: LMWH DVT prophylaxis, early mobilization with walker from D2, physiotherapy. Wound healthy, afebrile. Discharged ambulant with walker, hip precautions and OPD physiotherapy advised.",
+    "documents": [
+      "discharge_summary",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL5010165",
+      "sum_insured": 500000,
+      "claimed_amount": 227580
+    }
+  },
+  "answer_key": {
+    "record_id": "R0146",
+    "icd_codes": [
+      "S72.0"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

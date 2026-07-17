@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0009",
+    "patient": {
+      "name": "Gavin Lal",
+      "age": 18,
+      "sex": "F",
+      "abha_id": "85-2538-8853-9336"
+    },
+    "admission_date": "2026-06-19",
+    "discharge_date": "2026-06-24",
+    "claim_type": "cashless",
+    "specialty": "pulmonology",
+    "diagnosis_text": "Community-acquired pneumonia",
+    "procedures": [
+      "Oxygen supplementation via nasal cannula",
+      "Chest physiotherapy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Azithromycin 500mg IV OD",
+      "Nebulization with Salbutamol/Ipratropium",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "5-day h/o fever, productive cough, breathlessness. SpO2 90% RA, coarse crepts RLL. CXR: RLL consolidation. CURB-65 = 2, admitted. IV Ceftriaxone + Azithromycin, O2 via NC, nebulization started. D3: SpO2 96% RA, afebrile, cough improving. Weaned off O2 by D4. Discharged stable on oral antibiotics, advised follow-up CXR after 2 weeks.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL3387500",
+      "sum_insured": 500000,
+      "claimed_amount": 56076
+    }
+  },
+  "answer_key": {
+    "record_id": "R0009",
+    "icd_codes": [
+      "J18.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

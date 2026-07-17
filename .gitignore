@@ -2,7 +2,7 @@ __pycache__/
 *.egg-info/
 .env
 .venv/
-data/synthetic/
+data/synthetic/*
 !data/synthetic/sample/
 .pytest_cache/
 .ruff_cache/

@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0168",
+    "patient": {
+      "name": "Bachittar Chaudhuri",
+      "age": 19,
+      "sex": "F",
+      "abha_id": "05-3240-2557-7355"
+    },
+    "admission_date": "2026-05-26",
+    "discharge_date": "2026-06-02",
+    "claim_type": "cashless",
+    "specialty": "obstetrics",
+    "diagnosis_text": "Delivery by emergency lower segment caesarean section",
+    "procedures": [
+      "Emergency lower segment caesarean section"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Oxytocin as per protocol",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Pehli baar pregnant patient 39 weeks mein labour ke liye admit hui thi. Labour ke dauran baby ki heart rate girne lagi thi (fetal distress ke signs the), isliye emergency operation (LSCS) karne ka decision liya gaya. Ek healthy baby girl delivery hui, achhi condition mein thi turant. Operation ke dauran zyada bleeding nahi hui, uterus theek se contract hua. Maa aur baby dono ki recovery achhi rahi, breastfeeding bhi shuru ho gayi. Discharge teesre din kiya gaya dono stable condition mein, wound care aur follow up ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL2141871",
+      "sum_insured": 500000,
+      "claimed_amount": 71114
+    }
+  },
+  "answer_key": {
+    "record_id": "R0168",
+    "icd_codes": [
+      "O82"
+    ],
+    "expected_packaging": "ready"
+  }
+}

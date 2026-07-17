@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0133",
+    "patient": {
+      "name": "Kashvi Bhandari",
+      "age": 28,
+      "sex": "F",
+      "abha_id": "63-0500-9374-1261"
+    },
+    "admission_date": "2026-05-30",
+    "discharge_date": "2026-06-05",
+    "claim_type": "reimbursement",
+    "specialty": "endocrinology",
+    "diagnosis_text": "Type 2 diabetes mellitus with diabetic ketoacidosis",
+    "procedures": [
+      "IV insulin infusion titration",
+      "Arterial blood gas monitoring"
+    ],
+    "medications": [
+      "IV Insulin infusion (regular insulin)",
+      "IV Normal Saline",
+      "Inj Potassium chloride correction"
+    ],
+    "clinical_notes": "T2DM x 6 yrs, presented c/o vomiting, abdominal pain, altered sensorium x 2 days. RBS 485 mg/dL, ABG: pH 7.18, HCO3 9, ketonuria 3+ - DKA. Precipitant: UTI + non-compliance. ICU care: IV insulin infusion, fluid resuscitation, K+ correction, hourly glucose monitoring. Acidosis resolved by 36h, switched to SC basal-bolus insulin. Sensorium normalized. Discharged stable, diabetes education given, follow-up in endocrinology OPD advised.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL9391525",
+      "sum_insured": 1000000,
+      "claimed_amount": 77702
+    }
+  },
+  "answer_key": {
+    "record_id": "R0133",
+    "icd_codes": [
+      "E11.1"
+    ],
+    "expected_packaging": "ready"
+  }
+}

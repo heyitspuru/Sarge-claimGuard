@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0042",
+    "patient": {
+      "name": "Dhruv Bandi",
+      "age": 71,
+      "sex": "F",
+      "abha_id": "78-8526-1149-1316"
+    },
+    "admission_date": "2026-05-08",
+    "discharge_date": "2026-05-15",
+    "claim_type": "cashless",
+    "specialty": "cardiology",
+    "diagnosis_text": "Generalised weakness, w/u ongoing",
+    "procedures": [
+      "Coronary angiography",
+      "Primary PTCA with drug-eluting stent to LAD"
+    ],
+    "medications": [
+      "Tab Aspirin 150mg OD",
+      "Tab Clopidogrel 75mg OD",
+      "Tab Atorvastatin 80mg OD",
+      "Inj Heparin as per protocol"
+    ],
+    "clinical_notes": "Presented with acute onset central chest pain, diaphoresis, 2 hrs duration. ECG: STEMI anterior wall. Trop I markedly elevated. Emergency CAG done - 95% proximal LAD occlusion. Primary PTCA + DES to LAD, TIMI III flow achieved post-procedure. Post-PCI course uneventful, no arrhythmia. 2D-Echo: EF 45%, mild hypokinesia anterior wall. DAPT + statin + beta-blocker started. Ambulated D2, discharged stable D4 with cardiac rehab and lifestyle advice.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL7723267",
+      "sum_insured": 500000,
+      "claimed_amount": 260179
+    }
+  },
+  "answer_key": {
+    "record_id": "R0042",
+    "icd_codes": [
+      "I21.9"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

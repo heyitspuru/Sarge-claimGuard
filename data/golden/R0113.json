@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0113",
+    "patient": {
+      "name": "Irya Majumdar",
+      "age": 65,
+      "sex": "M",
+      "abha_id": "20-4191-5379-6003"
+    },
+    "admission_date": "2026-06-13",
+    "discharge_date": "2026-06-15",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Cholelithiasis (gallstones) with chronic cholecystitis",
+    "procedures": [
+      "Laparoscopic cholecystectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Pantoprazole 40mg IV OD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "3-month h/o recurrent colicky RUQ pain, fatty food intolerance. USG abdomen: multiple gallstones, GB wall thickened - chronic calculous cholecystitis. LFTs WNL. Elective lap cholecystectomy under GA. Intra-op: chronically inflamed GB, Calot's triangle well delineated, CBD not injured, specimen retrieved intact. Smooth post-op course, oral fluids started 6h post-op, ambulated same evening. Discharged POD1, low-fat diet and wound care advice given.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL6907093",
+      "sum_insured": 500000,
+      "claimed_amount": 86701
+    }
+  },
+  "answer_key": {
+    "record_id": "R0113",
+    "icd_codes": [
+      "K80.2"
+    ],
+    "expected_packaging": "ready"
+  }
+}

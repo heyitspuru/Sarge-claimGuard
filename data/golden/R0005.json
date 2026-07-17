@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0005",
+    "patient": {
+      "name": "Saumya Ratti",
+      "age": 57,
+      "sex": "M",
+      "abha_id": "84-2684-6563-2122"
+    },
+    "admission_date": "2026-05-04",
+    "discharge_date": "2026-05-09",
+    "claim_type": "cashless",
+    "specialty": "ophthalmology",
+    "diagnosis_text": "Senile cataract",
+    "procedures": [
+      "Phacoemulsification with IOL implantation"
+    ],
+    "medications": [
+      "Eye drops - Moxifloxacin 0.5%",
+      "Eye drops - Prednisolone acetate 1%",
+      "Eye drops - Ketorolac 0.5%"
+    ],
+    "clinical_notes": "C/o gradual painless diminution of vision, right eye, x 6 months. BCVA 6/36 RE. Slit lamp: NS grade III cataract. Underwent phacoemulsification with foldable IOL implantation under topical anaesthesia, day-care procedure. Intra-op uneventful. POD1 vision 6/9, cornea clear, IOL well centered. Discharged same day on topical antibiotic-steroid-NSAID combination, F/U on Day 7 and Day 30.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL3307924",
+      "sum_insured": 1000000,
+      "claimed_amount": 31255
+    }
+  },
+  "answer_key": {
+    "record_id": "R0005",
+    "icd_codes": [
+      "H25.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}
