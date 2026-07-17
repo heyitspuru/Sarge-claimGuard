@@ -1,0 +1,24 @@
+[project]
+name = "claimguard"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi", "uvicorn[standard]", "pydantic>=2", "pydantic-settings",
+  "psycopg[binary]", "pgvector", "faker", "google-genai", "fhir.resources>=7", "httpx",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+markers = ["db: requires a reachable postgres"]
