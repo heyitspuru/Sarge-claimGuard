@@ -19,18 +19,18 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#1E40AF` | `--color-primary` |
+| Primary | `#F0225F` | `--color-primary` |
 | On Primary | `#FFFFFF` | `--color-on-primary` |
-| Secondary | `#3B82F6` | `--color-secondary` |
-| Accent/CTA | `#D97706` | `--color-accent` |
-| Background | `#F8FAFC` | `--color-background` |
-| Foreground | `#1E3A8A` | `--color-foreground` |
-| Muted | `#E9EEF6` | `--color-muted` |
-| Border | `#DBEAFE` | `--color-border` |
-| Destructive | `#DC2626` | `--color-destructive` |
-| Ring | `#1E40AF` | `--color-ring` |
+| Secondary | `#C11A4C` | `--color-secondary` |
+| Accent/CTA | `#F0225F` | `--color-accent` |
+| Background | `#DBD7D8` | `--color-background` |
+| Foreground | `#2B2528` | `--color-foreground` |
+| Muted | `#CFC9CB` | `--color-muted` |
+| Border | `#C4BEC0` | `--color-border` |
+| Destructive | `#B91C1C` | `--color-destructive` |
+| Ring | `#F0225F` | `--color-ring` |
 
-**Color Notes:** Blue data + amber highlights [Accent adjusted from #F59E0B for WCAG 3:1]
+**Color Notes:** Warm off-white base + vivid pink for every interactive element (buttons, links, active states, focus rings). Contrast: `#F0225F` on `#DBD7D8` ≈ 3:1 — fine for buttons/large UI, never for body text; body text is always `#2B2528` (≈11:1). White on `#F0225F` ≈ 4.1:1 — button labels must be ≥16px semibold. Hover states use `#C11A4C`.
 
 ### Typography
 
@@ -76,7 +76,7 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #D97706;
+  background: #F0225F;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -86,15 +86,15 @@
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  background: #C11A4C;
   transform: translateY(-1px);
 }
 
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #1E40AF;
-  border: 2px solid #1E40AF;
+  color: #C11A4C;
+  border: 2px solid #F0225F;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -107,7 +107,7 @@
 
 ```css
 .card {
-  background: #F8FAFC;
+  background: #FFFFFF; /* cards sit on the #DBD7D8 page background */
   border-radius: 12px;
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -133,9 +133,9 @@
 }
 
 .input:focus {
-  border-color: #1E40AF;
+  border-color: #F0225F;
   outline: none;
-  box-shadow: 0 0 0 3px #1E40AF20;
+  box-shadow: 0 0 0 3px #F0225F20;
 }
 ```
 
@@ -156,6 +156,35 @@
   width: 90%;
 }
 ```
+
+---
+
+## Background Effect (DotField)
+
+Page background: flat `#DBD7D8` with the ReactBits DotField layer on top.
+
+Install (Phase 3, after frontend scaffold): `npx shadcn@latest add @react-bits/DotField-JS-CSS`
+
+```jsx
+<div style={{ width: '1080px', height: '1080px', position: 'relative' }}>
+  <DotField
+    dotRadius={2}
+    dotSpacing={20}
+    cursorRadius={100}
+    cursorForce={0}
+    bulgeOnly
+    bulgeStrength={0}
+    glowRadius={50}
+    sparkle={false}
+    waveAmplitude={0}
+    gradientFrom="rgba(240, 34, 95, 0.35)"
+    gradientTo="rgba(240, 122, 158, 0.25)"
+    glowColor="#F2B9C9"
+  />
+</div>
+```
+
+Only the three colors changed from the user's original config (purple → pink family derived from `#F0225F`); all behavior props are kept exactly as provided. For full-page use, replace the fixed 1080px wrapper with `inset-0 absolute` behind the content layer, and keep the effect static (respects `prefers-reduced-motion` since force/wave/sparkle are already 0/off).
 
 ---
 

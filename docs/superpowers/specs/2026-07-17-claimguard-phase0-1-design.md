@@ -17,7 +17,7 @@ This spec covers the deltas from `PROJECT_SPEC.md` and the concrete design for t
 | Repo | Own nested git repo at `Desktop/claimGuard` | Home dir is one giant repo; same pattern as Companion project |
 | Frontend container | Deferred to Phase 3 (deviation from PROJECT_SPEC Phase 0 exit criteria) | First real UI is the Compliance Radar dashboard; FastAPI serves a placeholder page meanwhile |
 | UI stack (Phase 3, locked now) | React 18 + Vite + Tailwind + shadcn/ui + Lucide icons | Per spec + shadcn MCP configured in `.mcp.json`; ReactBits registry added to `components.json` when frontend exists |
-| UI design system | `design-system/claimguard/MASTER.md` (ui-ux-pro-max, density 8) | Data-Dense Dashboard style; primary `#1E40AF`, accent `#D97706`, status green/amber/red; Fira Sans body / Fira Code headings; WCAG AA |
+| UI design system | `design-system/claimguard/MASTER.md` (ui-ux-pro-max, density 8; user-customized palette) | Data-Dense Dashboard style; background `#DBD7D8`, all interactive elements `#F0225F` (hover `#C11A4C`), body text `#2B2528`; ReactBits DotField background layer (`@react-bits/DotField-JS-CSS`, pink-recolored); Fira Sans body / Fira Code headings |
 
 ## Architecture (Phase 0+1 subset)
 
