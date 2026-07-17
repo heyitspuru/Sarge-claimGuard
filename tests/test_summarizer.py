@@ -56,3 +56,23 @@ def test_summarize_ignores_extra_keys():
 
     assert summary.primary_diagnosis == "Acute appendicitis"
     assert not hasattr(summary, "invented_field")
+
+
+def test_summarize_defensive_missing_keys():
+    """Test that summarize handles missing keys from non-schema-enforced LLM output."""
+    record = _record()
+    # Simulate Gemini not enforcing schema and missing secondary_diagnoses and medications
+    incomplete_result = {
+        "primary_diagnosis": "Acute appendicitis",
+        "procedures": ["Laparoscopic appendectomy"],
+        "admission_course": "Admitted with RIF pain; surgery day 1; uneventful recovery.",
+    }
+    summary = summarize(record, llm=_fake_llm(incomplete_result))
+
+    # Should not raise KeyError; missing list fields default to []
+    assert summary.record_id == "R0001"
+    assert summary.primary_diagnosis == "Acute appendicitis"
+    assert summary.secondary_diagnoses == []
+    assert summary.medications == []
+    assert summary.procedures == ["Laparoscopic appendectomy"]
+    assert summary.admission_course == "Admitted with RIF pain; surgery day 1; uneventful recovery."

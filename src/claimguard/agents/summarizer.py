@@ -40,5 +40,8 @@ def summarize(record: DischargeRecord, llm=llm.complete) -> DischargeSummary:
     return DischargeSummary(
         record_id=record.record_id,
         source_fields=SOURCE_FIELDS,
-        **{k: result[k] for k in SOURCE_FIELDS},
+        **{
+            k: result.get(k, "" if k in {"primary_diagnosis", "admission_course"} else [])
+            for k in SOURCE_FIELDS
+        },
     )
