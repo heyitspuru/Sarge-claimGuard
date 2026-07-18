@@ -1,6 +1,7 @@
 """LLM provider interface. mock = deterministic/offline (all tests); gemini = runtime."""
 import hashlib
 import json
+from functools import lru_cache
 
 from claimguard.config import get_settings
 
@@ -29,7 +30,11 @@ def _mock_embed(texts):
     return out
 
 
+@lru_cache
 def _gemini_client():
+    # Reuse one client: constructing a fresh genai.Client per call lets the
+    # first instance's cleanup close the shared httpx transport, which breaks
+    # any subsequent call ("Cannot send a request, as the client has been closed").
     from google import genai
     return genai.Client(api_key=get_settings().gemini_api_key)
 
@@ -54,7 +59,14 @@ def complete(prompt: str, *, system: str = "", tier: str = "fast",
 
 def embed(texts: list[str]) -> list[list[float]]:
     if get_settings().llm_provider == "gemini":
+        from google.genai import types
         client = _gemini_client()
-        res = client.models.embed_content(model=get_settings().embed_model, contents=texts)
+        # gemini-embedding-001 defaults to 3072 dims; truncate to EMBED_DIM (768)
+        # via Matryoshka output_dimensionality so it matches the pgvector(768) schema.
+        res = client.models.embed_content(
+            model=get_settings().embed_model,
+            contents=texts,
+            config=types.EmbedContentConfig(output_dimensionality=EMBED_DIM),
+        )
         return [e.values for e in res.embeddings]
     return _mock_embed(texts)

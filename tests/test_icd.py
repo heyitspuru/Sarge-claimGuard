@@ -73,11 +73,11 @@ def test_load_refs_into_db_upserts_icd_codes_and_policy_clauses():
     assert n_clauses >= 30
 
     row = conn.execute(
-        "SELECT description, embedding FROM icd_codes WHERE code = 'A90'"
+        "SELECT description, vector_dims(embedding) FROM icd_codes WHERE code = 'A90'"
     ).fetchone()
     assert row is not None
     assert row[0] == "Dengue fever [classical dengue]"
-    assert len(row[1]) == 768
+    assert row[1] == 768  # pgvector returns a Vector object; check dims in SQL
 
     # re-run to confirm upsert (no duplicate rows, no error)
     icd.load_refs_into_db(conn)
