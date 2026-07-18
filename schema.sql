@@ -1,4 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS vector;
+-- ponytail: claims/audit_log are written starting in Phase 1 runtime persistence / Phase 2 (the eval audit callback is a no-op today)
 CREATE TABLE IF NOT EXISTS claims (
   record_id text PRIMARY KEY, status text NOT NULL, package jsonb,
   created_at timestamptz DEFAULT now(), updated_at timestamptz DEFAULT now());

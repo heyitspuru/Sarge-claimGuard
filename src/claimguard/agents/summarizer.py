@@ -27,7 +27,10 @@ JSON_SCHEMA = {
 }
 
 
-def summarize(record: DischargeRecord, llm=llm.complete) -> DischargeSummary:
+def summarize(
+    record: DischargeRecord,
+    llm=llm.complete,  # note: shadows the llm module import; fine — this function doesn't call llm.embed
+) -> DischargeSummary:
     prompt = (
         f"Diagnosis: {record.diagnosis_text}\n"
         f"Procedures: {', '.join(record.procedures)}\n"

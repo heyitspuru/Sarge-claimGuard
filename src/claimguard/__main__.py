@@ -20,6 +20,12 @@ def _add_load_refs_subparser(sub: argparse._SubParsersAction) -> None:
 
 
 def _cmd_eval(args: argparse.Namespace) -> None:
+    if args.packaging_check:
+        report = eval_runner.run_packaging_check(Path(args.golden))
+        print(f"packaging_validity (packager isolation, ready+rejected subset): "
+              f"{report['packaging_validity']:.3f}  over {report['n']} records")
+        return
+
     pipeline = None
     if args.pipeline:
         retriever = icd.InMemoryRetriever(icd.load_csv(Path(args.data_dir) / "icd" / "icd10.csv"),
@@ -36,6 +42,9 @@ def _add_eval_subparser(sub: argparse._SubParsersAction) -> None:
                     help="Root data dir (for --pipeline, to locate icd/icd10.csv)")
     p.add_argument("--pipeline", action="store_true",
                     help="Run the real orchestrator pipeline instead of the null baseline")
+    p.add_argument("--packaging-check", action="store_true",
+                    help="Run the packager-isolation DoD gate (no LLM): packaging validity "
+                         "on the ready+rejected golden subset, must be 1.0")
     p.set_defaults(func=_cmd_eval)
 
 

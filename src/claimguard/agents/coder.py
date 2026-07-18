@@ -23,8 +23,12 @@ JSON_SCHEMA = {
 
 
 # ponytail: single-query retrieval; per-secondary-diagnosis queries when multi-morbidity accuracy matters.
-def assign_codes(summary: DischargeSummary, retrieve, llm=llm.complete,
-                  threshold: float = 0.7) -> list[CodedDiagnosis]:
+def assign_codes(
+    summary: DischargeSummary,
+    retrieve,
+    llm=llm.complete,  # note: shadows the llm module import; fine — this function doesn't call llm.embed
+    threshold: float = 0.7,
+) -> list[CodedDiagnosis]:
     query = " ".join([summary.primary_diagnosis, *summary.secondary_diagnoses])
     candidates = retrieve(query, 5)
     by_code = {c.code: c for c in candidates}

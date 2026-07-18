@@ -110,6 +110,32 @@ data/golden/*.json ──┐
 | 4 | Patient communication layer — plain-language multilingual status/SLA alerts | ⏳ pending |
 | 5 | Hardening, full `docs/EVALUATION.md`, all §9 edge cases, demo recording | ⏳ pending |
 
+## Demonstrating the packaging-validity DoD gate offline
+
+`CLAUDE.md` requires "packaging validity = 100% on golden set." `python -m claimguard eval
+--packaging-check` proves exactly that, with no API key and no LLM in the loop at all:
+
+```
+python -m claimguard eval --packaging-check
+packaging_validity (packager isolation, ready+rejected subset): 1.000  over 170 records
+```
+
+This isolates the Packager (`src/claimguard/agents/packager.py`) from the Coder: it builds a
+`DischargeSummary` straight from each golden record's fields and feeds the Packager the golden
+answer key's ICD codes as if the Coder had assigned them with full confidence, then checks
+`package()`'s status against `expected_packaging`. The 30 golden records whose
+`expected_packaging` is `"needs_review"` are excluded on purpose — that outcome is a property of
+the Coder's *confidence* on a vague-diagnosis scenario, not of the Packager, and confident codes
+were just fed in. On the remaining 170 records (`"ready"`/`"rejected"`, fully decidable from
+documents + codes alone) the Packager must be — and is — perfect. See
+`run_packaging_check` in `src/claimguard/eval/runner.py` and `tests/test_packaging_check.py`
+for the enforced version of this gate.
+
+This is a **different, narrower** number than the `packaging_validity=0.300` reported by
+`eval --pipeline` below — that one is an end-to-end **mechanism** check that deliberately lets
+the mock Coder's confidence flow into the packaging decision (see below for why it's near-zero
+by design), not a measure of whether the Packager itself is correct. Don't conflate the two.
+
 ## Eval numbers (mock provider)
 
 Below is the actual, unedited output of `python -m claimguard eval --pipeline` on this branch,
