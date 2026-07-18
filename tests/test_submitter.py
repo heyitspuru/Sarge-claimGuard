@@ -1,6 +1,6 @@
 import pytest
 from claimguard.agents.submitter import submit
-from claimguard.models import ClaimPackage, SubmissionResult
+from claimguard.models import ClaimPackage
 
 
 def test_non_ready_package_raises_error():

@@ -5,8 +5,22 @@ from collections.abc import Callable
 from pathlib import Path
 
 from claimguard.eval.metrics import hierarchical_f1
+from claimguard.models import DischargeRecord
+from claimguard.orchestrator import PipelineDeps, run_claim
 
 Pipeline = Callable[[dict], dict]
+
+
+def make_pipeline(retrieve: Callable, llm: Callable) -> Pipeline:
+    """Adapt run_claim to the eval Pipeline contract: record dict -> {"icd_codes", "packaging"}."""
+
+    def pipeline(record_dict: dict) -> dict:
+        record = DischargeRecord.model_validate(record_dict)
+        deps = PipelineDeps(llm=llm, retrieve=retrieve, store={}, audit=lambda e: None)
+        result = run_claim(record, deps)
+        return {"icd_codes": result["icd_codes"], "packaging": result["packaging"] or "error"}
+
+    return pipeline
 
 
 def run_eval(golden_dir: Path, pipeline: Pipeline | None = None) -> dict:
