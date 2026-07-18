@@ -1,11 +1,35 @@
 """LLM provider interface. mock = deterministic/offline (all tests); gemini = runtime."""
 import hashlib
 import json
+import time
 from functools import lru_cache
 
 from claimguard.config import get_settings
 
 EMBED_DIM = 768
+
+
+def _with_backoff(call, *, tries: int = 4, base: float = 20.0):
+    """Retry a Gemini call on 429 rate-limit, honoring the server's retry hint.
+    Free-tier RPM is low; a burst eval otherwise dies on the first 429.
+    # ponytail: fixed backoff; swap for a token-bucket limiter if throughput matters.
+    """
+    for attempt in range(tries):
+        try:
+            return call()
+        except Exception as e:  # google.genai.errors.ClientError (429) or transient
+            msg = str(e)
+            if "429" not in msg and "RESOURCE_EXHAUSTED" not in msg:
+                raise
+            if attempt == tries - 1:
+                raise
+            wait = base * (attempt + 1)
+            if "retryDelay" in msg:
+                import re
+                m = re.search(r"retryDelay['\"]?:\s*['\"]?(\d+)", msg)
+                if m:
+                    wait = min(float(m.group(1)) + 2, 60)
+            time.sleep(wait)
 
 
 def _min_instance(schema: dict):
@@ -46,7 +70,8 @@ def _gemini_complete(prompt, system, tier, json_schema):
     if json_schema:
         cfg |= {"response_mime_type": "application/json"}
         prompt += "\nRespond ONLY with JSON matching this schema:\n" + json.dumps(json_schema)
-    resp = _gemini_client().models.generate_content(model=model, contents=prompt, config=cfg or None)
+    resp = _with_backoff(lambda: _gemini_client().models.generate_content(
+        model=model, contents=prompt, config=cfg or None))
     return json.loads(resp.text) if json_schema else resp.text
 
 
@@ -63,10 +88,10 @@ def embed(texts: list[str]) -> list[list[float]]:
         client = _gemini_client()
         # gemini-embedding-001 defaults to 3072 dims; truncate to EMBED_DIM (768)
         # via Matryoshka output_dimensionality so it matches the pgvector(768) schema.
-        res = client.models.embed_content(
+        res = _with_backoff(lambda: client.models.embed_content(
             model=get_settings().embed_model,
             contents=texts,
             config=types.EmbedContentConfig(output_dimensionality=EMBED_DIM),
-        )
+        ))
         return [e.values for e in res.embeddings]
     return _mock_embed(texts)

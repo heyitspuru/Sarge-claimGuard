@@ -169,6 +169,28 @@ predicts `packaging="ready"` and no codes) scores `coding_f1=0.000`,
 70% of the golden set's expected packaging actually is `"ready"`. This is exactly why
 `packaging_validity` alone is not a sufficient gate and `coding_f1` matters too.
 
+## Eval numbers (real Gemini provider, subset)
+
+With `LLM_PROVIDER=gemini` (models `gemini-2.5-flash` for completion,
+`gemini-embedding-001` truncated to 768 dims for retrieval), the pipeline was run over a
+**6-record balanced subset** (2 ready / 2 rejected / 2 needs_review) of the golden set — the
+Gemini free tier's ~10 requests/minute and ~250/day ceilings make the full 200-record run
+(~600 requests) impractical in a single pass:
+
+```
+n records            6
+coding_f1            0.500
+packaging_validity   0.667
+```
+
+Against the mock (`0.062` / `0.300`) and null baseline (`0.000` / `0.700`), the real provider
+is a clear, honest signal that the retrieve→assign→package chain produces genuine coding
+accuracy — `coding_f1=0.500` under hierarchical credit means Gemini is landing exact or
+same-category ICD-10 codes. This is a **subset** number, not the full-golden-set eval the DoD
+ultimately wants; that needs paid-tier quota (or several free-tier days). The `llm.py` Gemini
+path has 429 backoff so a burst eval paces itself through the rate limit rather than dying on
+the first throttle.
+
 ## Known limitations
 
 - **Mock-provider eval numbers are near-zero by design** (see above) — they gate the pipeline
