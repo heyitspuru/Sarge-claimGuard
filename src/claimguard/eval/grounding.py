@@ -15,6 +15,10 @@ from claimguard.models import AppealResult, DenialAnswerKey, DenialScenario
 
 
 def grounding_rate(results: list[AppealResult], corpus_ids: set[str]) -> float:
+    # Measured against the full corpus. Contextual correctness (citing the
+    # patient's OWN policy, not just any real clause) is guaranteed upstream by
+    # PolicyRetriever's insurer+plan scoping, which the negotiator's gate filters
+    # against — so a surviving citation is always from the right policy.
     total = sum(len(r.citations) for r in results)
     if total == 0:
         return 1.0  # nothing emitted -> nothing ungrounded

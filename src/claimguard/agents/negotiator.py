@@ -12,14 +12,17 @@ from claimguard import llm as _llm
 from claimguard.models import AppealResult, Citation, DenialScenario
 
 _SYSTEM = (
-    "You are an insurance claims-appeal advocate. You are given an insurer's "
-    "decision and the patient's own policy clauses (candidates). Draft an appeal "
-    "ONLY when a candidate clause genuinely supports one, and cite ONLY the "
-    "clause_id values from the provided candidates. If no candidate supports an "
-    "appeal — the exclusion truly applies, or the basis is contradictory or "
-    "absent — return status \"no_valid_appeal\" and explain why. Never invent a "
-    "clause or cite an id that is not in the candidate list. A persuasive but "
-    "ungrounded appeal is a failure."
+    "You are an insurance claims-appeal advocate whose credibility depends on "
+    "raising ONLY grounded appeals — declining a weak or genuinely-excluded case "
+    "is a correct outcome, not a failure. You are given an insurer's decision and "
+    "the patient's own policy clauses (candidates). Draft an appeal ONLY when a "
+    "candidate clause genuinely supports one, and cite ONLY the clause_id values "
+    "from the provided candidates. If no candidate supports an appeal — the "
+    "exclusion truly applies, or the basis is contradictory or absent — return "
+    "status \"no_valid_appeal\" and explain why. Never invent a clause or cite an "
+    "id that is not in the candidate list, and never invent a quotation: quote a "
+    "clause only as its text actually reads. A persuasive but ungrounded appeal "
+    "is a failure."
 )
 
 _SCHEMA = {
@@ -51,7 +54,6 @@ def draft_appeal(scenario: DenialScenario, retrieve, llm=_llm.complete) -> Appea
         f"{scenario.diagnosis}. {d.reason_text}",
         scenario.insurer_id, scenario.plan_id, 5,
     )
-    candidate_ids = {c["clause_id"] for c in candidates}
 
     clause_lines = "\n".join(
         f"- {c['clause_id']} | {c['clause_type']} | {c['text']}" for c in candidates
@@ -75,17 +77,28 @@ def draft_appeal(scenario: DenialScenario, retrieve, llm=_llm.complete) -> Appea
     appeal_text = result.get("appeal_text", "") or ""
 
     # Deterministic grounding gate: keep only citations that resolve to a
-    # retrieved candidate clause. This is where the hard rule is enforced.
+    # retrieved candidate clause, and quote the clause's REAL text — never the
+    # model's, since a fabricated quotation on a real clause_id is still a
+    # fabrication. Malformed citation shapes degrade to a refusal, not a crash.
     citations: list[Citation] = []
     if status == "appeal":
-        for c in result.get("citations", []) or []:
+        cand_by_id = {c["clause_id"]: c for c in candidates}
+        raw = result.get("citations")
+        if not isinstance(raw, list):
+            raw = []
+        seen: set[str] = set()
+        for c in raw:
+            if not isinstance(c, dict):
+                continue
             cid = c.get("clause_id")
-            if cid in candidate_ids:
-                citations.append(Citation(
-                    clause_id=cid,
-                    quoted_text=c.get("quoted_text", "") or "",
-                    relevance=c.get("relevance", "") or "",
-                ))
+            if not isinstance(cid, str) or cid not in cand_by_id or cid in seen:
+                continue
+            seen.add(cid)
+            citations.append(Citation(
+                clause_id=cid,
+                quoted_text=cand_by_id[cid]["text"],  # authoritative clause text
+                relevance=str(c.get("relevance", "") or ""),
+            ))
         if not citations:
             # an appeal with nothing grounded is not an appeal
             status = "no_valid_appeal"

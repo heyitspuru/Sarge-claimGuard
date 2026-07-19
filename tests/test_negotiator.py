@@ -83,3 +83,29 @@ def test_degenerate_llm_output_defaults_to_refusal():
     r = draft_appeal(_scenario(), _retrieve, llm=fake_llm)
     assert r.status == "no_valid_appeal"
     assert r.citations == []
+
+
+def test_quoted_text_comes_from_the_real_clause_not_the_model():
+    # the model attaches a fabricated quotation to a real clause_id -> the gate
+    # replaces it with the clause's authoritative text (no fabricated quotes).
+    def fake_llm(prompt, *, system="", tier="fast", json_schema=None):
+        return {"status": "appeal", "appeal_text": "Appeal.",
+                "citations": [{"clause_id": "STAR-SEC1-C02",
+                               "quoted_text": "the policy pays 100% with no cap",  # false
+                               "relevance": "a"}],
+                "reasoning": "..."}
+    r = draft_appeal(_scenario(), _retrieve, llm=fake_llm)
+    real_text = next(c["text"] for c in _CANDIDATES if c["clause_id"] == "STAR-SEC1-C02")
+    assert r.citations[0].quoted_text == real_text
+    assert "no cap" not in r.citations[0].quoted_text
+
+
+def test_malformed_citation_shapes_refuse_instead_of_crashing():
+    # citations as strings, clause_id as a list -> must not raise; refuse safely.
+    for bad in (["STAR-SEC1-C02"], "STAR-SEC1-C02",
+                [{"clause_id": ["STAR-SEC1-C02"], "quoted_text": "x", "relevance": "y"}]):
+        def fake_llm(prompt, *, system="", tier="fast", json_schema=None, _bad=bad):
+            return {"status": "appeal", "appeal_text": "x", "citations": _bad, "reasoning": "r"}
+        r = draft_appeal(_scenario(), _retrieve, llm=fake_llm)
+        assert r.status == "no_valid_appeal"
+        assert r.citations == []

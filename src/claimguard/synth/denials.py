@@ -1,8 +1,13 @@
 """Synthetic denials corpus generator (deterministic, no LLM).
 
 Constructs insurer-decision scenarios from the REAL policy clauses in
-data/policies, so each scenario's answer key is correct by construction
-(clause-level verification, not per-scenario hand-check). Four categories:
+data/policies. Each scenario's answer-key *label* follows from the constructed
+insurer-reason narrative (over-application vs. genuine exclusion vs. mis-citation
+vs. vague), NOT from a clinical clause-to-diagnosis match — the diagnosis is
+cycled from the clinical templates for realism and is not topically bound to the
+cited clause. So grounding (clause_ids resolve) is exact by construction, while
+honest_no_accuracy measures the model's reading of the reason wording. Four
+categories:
 
   partial_sublimit   -> appeal viable: insurer over-applied a real sub_limit
   genuine_exclusion  -> no valid appeal: insurer correctly cites an exclusion/
