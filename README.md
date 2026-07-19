@@ -104,8 +104,8 @@ data/golden/*.json ──┐
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Scaffold, synthetic data engine, ICD/policy reference data, eval harness skeleton, NHCX reality check | ✅ done |
-| 1 | Thin pipeline (Summarizer→Coder→Packager→Submitter), orchestrator + audit log, integration + edge-case tests, real pipeline wired into eval, this README | ✅ done (this task) |
-| 2 | Negotiation/Appeal Agent — clause-grounded appeals, grounding rate ≥ 0.98 hard gate, "honest no valid appeal" path | ⏳ pending |
+| 1 | Thin pipeline (Summarizer→Coder→Packager→Submitter), orchestrator + audit log, integration + edge-case tests, real pipeline wired into eval, this README | ✅ done |
+| 2 | Negotiation/Appeal Agent — clause-grounded appeals, deterministic citation gate (grounding rate ≥ 0.98), "honest no valid appeal" path, denials corpus + grounding eval | ✅ done |
 | 3 | Compliance Radar — timestamp capture, pre-submission delay vs. IRDAI baseline, pre-breach alerts | ⏳ pending |
 | 4 | Patient communication layer — plain-language multilingual status/SLA alerts | ⏳ pending |
 | 5 | Hardening, full `docs/EVALUATION.md`, all §9 edge cases, demo recording | ⏳ pending |
@@ -191,10 +191,44 @@ ultimately wants; that needs paid-tier quota (or several free-tier days). The `l
 path has 429 backoff so a burst eval paces itself through the rate limit rather than dying on
 the first throttle.
 
+## Eval numbers (Negotiation Agent — Phase 2)
+
+The clause-grounding hard rule is enforced **deterministically**, not by trusting the LLM:
+`draft_appeal` filters every citation the model emits against the clauses actually retrieved
+from the patient's own policy, drops any `clause_id` outside that set, and downgrades an
+"appeal" left with no grounded citation to `no_valid_appeal`. Citing a clause that isn't in the
+corpus is therefore structurally impossible.
+
+The CI grounding gate proves it offline (no API key):
+
+```
+python -m claimguard eval --negotiation      # requires LLM_PROVIDER=gemini for real appeals
+```
+
+and the test `tests/edge_cases/test_case_12_ungroundable_clause.py` runs the real
+`draft_appeal` over the whole 48-scenario denials corpus with the mock provider and asserts
+`grounding_rate >= 0.98` (it is 1.0 by construction). The denials corpus
+(`data/denials/`, `python -m claimguard gen-denials`) has 48 scenarios balanced across four
+categories — over-applied sub-limit and mis-cited rejection (appeal viable), genuine exclusion
+and ungroundable (honest "no") — constructed deterministically from the real policy clauses so
+their answer keys are correct by construction.
+
+Real-provider appeal quality (does Gemini draft a *correct* grounded appeal, and refuse the
+genuine exclusions) needs a full run of `eval --negotiation`, which is **not gettable on the
+free tier in one pass**: `gemini-2.5-flash` free tier allows only ~20 generate requests/day, so
+48 reasoning-tier calls exhaust it. The deterministic gate and the mock run (`grounding_rate=1.0`,
+`honest_no_accuracy=0.5` for the refuse-all mock baseline over all 48) establish the safety
+property; the real appeal-quality number belongs in a future update from a paid tier or a
+multi-day free-tier run, labeled `gemini`.
+
 ## Known limitations
 
 - **Mock-provider eval numbers are near-zero by design** (see above) — they gate the pipeline
   mechanism, not coding accuracy. Real numbers require `LLM_PROVIDER=gemini` + a Gemini API key.
+- **Gemini free tier is ~20 generate requests/day** on `gemini-2.5-flash`, so neither the
+  200-record pipeline eval nor the 48-scenario negotiation eval completes in one free-tier pass.
+  The `llm.py` path has 429 backoff, but the daily cap is the hard limit — real full-corpus
+  numbers need paid tier or several days.
 - **60-code ICD-10 subset** (`data/icd/icd10.csv`), sized to the synthetic template universe
   (12 templates), not the full WHO ICD-10 table. Swap in the full table before generalizing
   beyond the synthetic corpus.
@@ -212,9 +246,12 @@ the first throttle.
   risk of a real insurer's name or product colliding with these.
 - **FHIR validation is base R4 only** (`fhir.resources`), no NHCX-specific profile
   constraints layered on top yet (`src/claimguard/agents/packager.py`).
-- **The Negotiation Agent, Compliance Radar, patient comms, and the ≥0.98 grounding-rate
-  gate do not exist yet** — `grounding_rate` in every eval report above is `None` /
-  `"n/a (Phase 2)"` on purpose, not a bug.
+- **Compliance Radar and patient comms (Phases 3–4) do not exist yet.** In the *pipeline* eval
+  reports (`eval --pipeline`), `grounding_rate` is `"n/a (Phase 2)"` on purpose — grounding is
+  measured by the separate `eval --negotiation` report, not the pipeline one.
+- **Negotiator real appeal-quality numbers are pending** a full `eval --negotiation` run (free-tier
+  daily quota; see above). The deterministic grounding gate is proven; the LLM's appeal *quality*
+  is not yet measured against real Gemini over the full corpus.
 
 ## Running the tests
 
