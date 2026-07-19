@@ -33,6 +33,20 @@ def _add_gen_denials_subparser(sub: argparse._SubParsersAction) -> None:
 
 
 def _cmd_eval(args: argparse.Namespace) -> None:
+    if args.negotiation:
+        from claimguard.agents.negotiator import draft_appeal
+        from claimguard.coverage import PolicyRetriever, load_policies
+        from claimguard.eval import grounding
+        policies = load_policies(Path(args.policies))
+        retriever = PolicyRetriever(policies, llm.embed)
+        report = grounding.run_negotiation_eval(
+            Path(args.denials),
+            negotiator=lambda s: draft_appeal(s, retriever, llm.complete),
+            policies_dir=Path(args.policies),
+        )
+        grounding.print_negotiation_report(report)
+        return
+
     if args.packaging_check:
         report = eval_runner.run_packaging_check(Path(args.golden))
         print(f"packaging_validity (packager isolation, ready+rejected subset): "
@@ -58,6 +72,10 @@ def _add_eval_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--packaging-check", action="store_true",
                     help="Run the packager-isolation DoD gate (no LLM): packaging validity "
                          "on the ready+rejected golden subset, must be 1.0")
+    p.add_argument("--negotiation", action="store_true",
+                    help="Run the Negotiator grounding eval over the denials corpus")
+    p.add_argument("--denials", type=str, default="data/denials")
+    p.add_argument("--policies", type=str, default="data/policies")
     p.set_defaults(func=_cmd_eval)
 
 

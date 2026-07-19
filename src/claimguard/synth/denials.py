@@ -83,8 +83,8 @@ def _scenarios_for_policy(policy: dict, base_i: int) -> list[tuple[DenialScenari
         # miscited_rejection: insurer cites a clause that does not apply; coverage does apply
         if coverage and waiting:
             add("miscited_rejection", d, p, "rejected", 75000, 0,
-                f"Claim rejected citing a waiting-period restriction that does not apply to "
-                f"this hospitalization.",
+                "Claim rejected citing a waiting-period restriction that does not apply to "
+                "this hospitalization.",
                 waiting["clause_id"], True, [coverage["clause_id"]])
 
         # ungroundable: vague reason, no specific clause, no supporting basis
