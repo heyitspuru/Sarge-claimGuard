@@ -60,6 +60,18 @@ pytest
 deterministically, with no API key. Set `LLM_PROVIDER=gemini` and `GEMINI_API_KEY=...` to run
 the same `eval --pipeline` command against the real Gemini provider instead.
 
+**Compliance Radar dashboard** (Phase 3): with the API up (`docker compose up -d` or
+`uvicorn claimguard.api:app`), run
+
+```bash
+cd frontend && npm install && npm run dev   # http://localhost:5173
+```
+
+The dashboard is labeled **SYNTHETIC DATA** — journeys are a deterministic synthetic timeline
+per record (the pipeline itself runs in milliseconds); real timestamps arrive only with a real
+deployment. If the API is down, the dashboard renders bundled sample data so the UI is always
+demoable.
+
 ## Architecture sketch
 
 ```
@@ -106,7 +118,7 @@ data/golden/*.json ──┐
 | 0 | Scaffold, synthetic data engine, ICD/policy reference data, eval harness skeleton, NHCX reality check | ✅ done |
 | 1 | Thin pipeline (Summarizer→Coder→Packager→Submitter), orchestrator + audit log, integration + edge-case tests, real pipeline wired into eval, this README | ✅ done |
 | 2 | Negotiation/Appeal Agent — clause-grounded appeals, deterministic citation gate (grounding rate ≥ 0.98), "honest no valid appeal" path, denials corpus + grounding eval | ✅ done |
-| 3 | Compliance Radar — timestamp capture, pre-submission delay vs. IRDAI baseline, pre-breach alerts | ⏳ pending |
+| 3 | Compliance Radar — synthetic journey timeline, pre-submission delay vs. IRDAI baseline (1h pre-auth / 3h discharge), pre-breach alert at 2h, React/shadcn dashboard | ✅ done |
 | 4 | Patient communication layer — plain-language multilingual status/SLA alerts | ⏳ pending |
 | 5 | Hardening, full `docs/EVALUATION.md`, all §9 edge cases, demo recording | ⏳ pending |
 
