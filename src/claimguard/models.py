@@ -111,3 +111,28 @@ class DenialAnswerKey(BaseModel):
     appeal_viable: bool
     expected_clause_ids: list[str]
     category: str
+
+
+# --- Phase 3: Compliance Radar ---
+
+
+class RadarStage(BaseModel):
+    stage: str
+    at_minutes: int  # offset from the order handoff (order = 0)
+
+
+class Journey(BaseModel):
+    record_id: str
+    claim_type: str
+    stages: list[RadarStage]
+
+
+class RadarReport(BaseModel):
+    record_id: str
+    claim_type: str
+    pre_submission_delay_min: int
+    stage_gaps: dict[str, int]
+    slowest_stage: str
+    breach_status: Literal["ok", "pre_breach", "breach"]
+    alert: bool
+    synthetic: bool = True
