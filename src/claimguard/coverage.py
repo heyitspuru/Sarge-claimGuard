@@ -44,3 +44,39 @@ def load_policies(policies_dir: Path) -> list[dict]:
 def clause_ids(policies: list[dict]) -> set[str]:
     """Return the set of all clause_ids across the given policies."""
     return {clause["clause_id"] for policy in policies for clause in policy["clauses"]}
+
+
+def _cosine(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    na = sum(x * x for x in a) ** 0.5
+    nb = sum(y * y for y in b) ** 0.5
+    if na == 0 or nb == 0:
+        return 0.0
+    return dot / (na * nb)
+
+
+class PolicyRetriever:
+    """Retrieve policy clauses scoped to one insurer+plan, cosine-ranked.
+
+    The Negotiator grounds appeals only against the patient's own policy, so
+    retrieval is keyed by (insurer_id, plan_id); clauses from other policies
+    are never returned. Mirrors the ICD InMemoryRetriever.
+    """
+
+    def __init__(self, policies: list[dict], embed_fn):
+        # index: (insurer_id, plan_id) -> list of (clause_dict, embedding)
+        self._index: dict[tuple[str, str], list[tuple[dict, list[float]]]] = {}
+        for policy in policies:
+            key = (policy["insurer_id"], policy["plan_id"])
+            clauses = policy["clauses"]
+            vecs = embed_fn([c["text"] for c in clauses]) if clauses else []
+            self._index[key] = list(zip(clauses, vecs))
+        self._embed = embed_fn
+
+    def __call__(self, query: str, insurer_id: str, plan_id: str, k: int = 5) -> list[dict]:
+        entries = self._index.get((insurer_id, plan_id))
+        if not entries:
+            return []
+        qv = self._embed([query])[0]
+        ranked = sorted(entries, key=lambda e: _cosine(qv, e[1]), reverse=True)
+        return [clause for clause, _ in ranked[:k]]

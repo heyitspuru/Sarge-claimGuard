@@ -5,6 +5,7 @@ from pathlib import Path
 
 from claimguard import db, icd, llm
 from claimguard.eval import runner as eval_runner
+from claimguard.synth import denials as gen_denials
 from claimguard.synth import generate as gen_data
 
 
@@ -17,6 +18,18 @@ def _cmd_load_refs(args: argparse.Namespace) -> None:
 def _add_load_refs_subparser(sub: argparse._SubParsersAction) -> None:
     p = sub.add_parser("load-refs", help="Embed ICD-10 codes + policy clauses into the db")
     p.set_defaults(func=_cmd_load_refs)
+
+
+def _cmd_gen_denials(args: argparse.Namespace) -> None:
+    n = gen_denials.generate_denials(Path(args.policies), Path(args.out))
+    print(f"generated {n} denial scenarios into {args.out}")
+
+
+def _add_gen_denials_subparser(sub: argparse._SubParsersAction) -> None:
+    p = sub.add_parser("gen-denials", help="Generate the synthetic denials corpus (no LLM)")
+    p.add_argument("--policies", type=str, default="data/policies")
+    p.add_argument("--out", type=str, default="data/denials")
+    p.set_defaults(func=_cmd_gen_denials)
 
 
 def _cmd_eval(args: argparse.Namespace) -> None:
@@ -54,6 +67,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     gen_data.add_subparser(sub)
     _add_load_refs_subparser(sub)
+    _add_gen_denials_subparser(sub)
     _add_eval_subparser(sub)
 
     return parser

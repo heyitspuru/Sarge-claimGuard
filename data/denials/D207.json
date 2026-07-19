@@ -1,0 +1,27 @@
+{
+  "scenario": {
+    "scenario_id": "D207",
+    "insurer_id": "STAR",
+    "plan_id": "SEC1",
+    "diagnosis": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "decision": {
+      "claim_id": "CLM-D207",
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "outcome": "rejected",
+      "claimed_amount": 60000,
+      "approved_amount": 0,
+      "reason_text": "Claim not admissible as per policy. No further details provided.",
+      "cited_clause_id": null
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D207",
+    "appeal_viable": false,
+    "expected_clause_ids": [],
+    "category": "ungroundable"
+  }
+}

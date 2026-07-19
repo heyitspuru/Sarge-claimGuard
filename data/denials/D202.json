@@ -1,0 +1,30 @@
+{
+  "scenario": {
+    "scenario_id": "D202",
+    "insurer_id": "STAR",
+    "plan_id": "SEC1",
+    "diagnosis": "Cerebral infarction (acute ischemic stroke)",
+    "procedures": [
+      "CT brain plain",
+      "IV thrombolysis with alteplase"
+    ],
+    "decision": {
+      "claim_id": "CLM-D202",
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "outcome": "rejected",
+      "claimed_amount": 75000,
+      "approved_amount": 0,
+      "reason_text": "Claim rejected citing a waiting-period restriction that does not apply to this hospitalization.",
+      "cited_clause_id": "STAR-SEC1-C04"
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D202",
+    "appeal_viable": true,
+    "expected_clause_ids": [
+      "STAR-SEC1-C01"
+    ],
+    "category": "miscited_rejection"
+  }
+}

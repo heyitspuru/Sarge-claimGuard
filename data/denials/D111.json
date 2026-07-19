@@ -1,0 +1,27 @@
+{
+  "scenario": {
+    "scenario_id": "D111",
+    "insurer_id": "MEDI",
+    "plan_id": "PLUS1",
+    "diagnosis": "Inguinal hernia",
+    "procedures": [
+      "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
+    ],
+    "decision": {
+      "claim_id": "CLM-D111",
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "outcome": "rejected",
+      "claimed_amount": 60000,
+      "approved_amount": 0,
+      "reason_text": "Claim not admissible as per policy. No further details provided.",
+      "cited_clause_id": null
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D111",
+    "appeal_viable": false,
+    "expected_clause_ids": [],
+    "category": "ungroundable"
+  }
+}

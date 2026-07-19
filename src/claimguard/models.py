@@ -67,3 +67,47 @@ class SubmissionResult(BaseModel):
     submission_id: str
     status: str
     outcome: str | None = None
+
+
+# --- Phase 2: Negotiation / Appeal ---
+
+
+class InsurerDecision(BaseModel):
+    claim_id: str
+    insurer_id: str
+    plan_id: str
+    outcome: Literal["partial", "rejected"]
+    claimed_amount: int
+    approved_amount: int
+    reason_text: str
+    cited_clause_id: str | None = None
+
+
+class DenialScenario(BaseModel):
+    scenario_id: str
+    insurer_id: str
+    plan_id: str
+    diagnosis: str
+    procedures: list[str]
+    decision: InsurerDecision
+
+
+class Citation(BaseModel):
+    clause_id: str
+    quoted_text: str
+    relevance: str
+
+
+class AppealResult(BaseModel):
+    scenario_id: str
+    status: Literal["appeal", "no_valid_appeal"]
+    appeal_text: str
+    citations: list[Citation] = Field(default_factory=list)
+    reasoning: str = ""
+
+
+class DenialAnswerKey(BaseModel):
+    scenario_id: str
+    appeal_viable: bool
+    expected_clause_ids: list[str]
+    category: str

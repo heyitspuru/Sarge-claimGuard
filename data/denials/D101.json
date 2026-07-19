@@ -1,0 +1,28 @@
+{
+  "scenario": {
+    "scenario_id": "D101",
+    "insurer_id": "MEDI",
+    "plan_id": "PLUS1",
+    "diagnosis": "Type 2 diabetes mellitus with diabetic ketoacidosis",
+    "procedures": [
+      "IV insulin infusion titration",
+      "Arterial blood gas monitoring"
+    ],
+    "decision": {
+      "claim_id": "CLM-D101",
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "outcome": "rejected",
+      "claimed_amount": 90000,
+      "approved_amount": 0,
+      "reason_text": "Claim rejected: the condition falls within an excluded / waiting-period category. Pre-Existing Diseases, as declared or otherwise known to the Insured Person at t",
+      "cited_clause_id": "MEDI-PLUS1-C07"
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D101",
+    "appeal_viable": false,
+    "expected_clause_ids": [],
+    "category": "genuine_exclusion"
+  }
+}
