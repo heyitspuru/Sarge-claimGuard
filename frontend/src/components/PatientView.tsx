@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, Clock, FlaskConical, Loader2, MessageCircle, Pill } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { fetchPatientStatus, AuthError, type Language, type PatientStatus } from "@/lib/api";
+import { fetchPatient, AuthError, type Advocacy, type Language, type PatientStatus } from "@/lib/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AdvocacyPanel } from "@/components/AdvocacyPanel";
 import { SignOutButton } from "@/components/SignOutButton";
 import { cn } from "@/lib/utils";
 
@@ -30,14 +31,18 @@ export function PatientView() {
   const navigate = useNavigate();
   const [lang, setLang] = useState<Language>("en");
   const [status, setStatus] = useState<PatientStatus | null>(null);
+  const [advocacy, setAdvocacy] = useState<Advocacy | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    fetchPatientStatus(lang)
-      .then((s) => {
-        if (!cancelled) setStatus(s);
+    fetchPatient(lang)
+      .then((p) => {
+        if (!cancelled) {
+          setStatus(p.status);
+          setAdvocacy(p.advocacy);
+        }
       })
       .catch((err) => {
         // The session ended (expired, signed out elsewhere, consent withdrawn).
@@ -122,6 +127,8 @@ export function PatientView() {
               </div>
             </CardContent>
           </Card>
+
+          {advocacy && <AdvocacyPanel advocacy={advocacy} />}
 
           <Card className={CARD_HOVER}>
             <CardHeader>

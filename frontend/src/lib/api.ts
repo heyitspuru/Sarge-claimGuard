@@ -212,11 +212,49 @@ const SAMPLE_COPY: Record<Language, { happening: string; next: string; pharmacy:
   },
 };
 
+export interface Clause {
+  clause_id: string;
+  clause_type: string;
+  kind: string;
+  text: string;
+}
+
+export interface Advocacy {
+  state: "none" | "reviewing" | "filed" | "no_valid_appeal";
+  outcome?: string;
+  cited_clause: Clause | null;
+  supporting_clause: Clause | null;
+  filed_after_min: number;
+  messages: PatientMessage[];
+  outcome_of_appeal: string | null;
+}
+
+export interface PatientPayload {
+  status: PatientStatus;
+  advocacy: Advocacy;
+}
+
 /**
  * The authenticated patient's own claim. Takes no record id — the server derives it
  * from the session, which is what makes it impossible to ask for someone else's.
  */
-export async function fetchPatientStatus(lang: Language = "en"): Promise<PatientStatus> {
+export async function fetchPatient(lang: Language = "en"): Promise<PatientPayload> {
+  try {
+    return await request<PatientPayload>(`/patient/me?lang=${lang}`);
+  } catch (err) {
+    if (!isOffline(err)) throw err;
+    const status = await fetchPatientStatus(lang);
+    return {
+      status,
+      advocacy: {
+        state: "none", cited_clause: null, supporting_clause: null,
+        filed_after_min: 90, messages: [], outcome_of_appeal: null,
+      },
+    };
+  }
+}
+
+async function fetchPatientStatus(lang: Language = "en"): Promise<PatientStatus> {
   try {
     return (await request<{ status: PatientStatus }>(`/patient/me?lang=${lang}`)).status;
   } catch (err) {

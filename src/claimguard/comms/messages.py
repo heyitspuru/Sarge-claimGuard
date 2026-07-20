@@ -188,6 +188,80 @@ COMPASSIONATE_EVENTS = {
     },
 }
 
+# Advocacy narrative (see advocacy.py). Resolved-then-reported with a visible seam: an
+# immediate lead so the patient is never left in silence, then the full story — naming
+# the real clause — once the appeal is actually filed.
+ADVOCACY_EVENTS = {
+    # The lead. Sent the moment a decision lands, before we know how it will go.
+    "advocacy_reviewing": {
+        "en": (
+            "Your insurer has come back with a question about part of your claim. "
+            "Your hospital team is already checking it against your policy — this is a "
+            "normal step and it is being handled for you. Nothing is needed from you, "
+            "and we will tell you what we find."
+        ),
+        "hi": (
+            "आपके क्लेम के एक हिस्से को लेकर बीमा कंपनी ने सवाल उठाया है। अस्पताल की "
+            "टीम इसे आपकी पॉलिसी के साथ मिलाकर देख रही है — यह एक सामान्य प्रक्रिया है "
+            "और इसे आपके लिए संभाला जा रहा है। आपको कुछ नहीं करना है; जो पता चलेगा, "
+            "हम आपको बताएँगे।"
+        ),
+        "ta": (
+            "உங்கள் க்ளெய்மின் ஒரு பகுதி குறித்து காப்பீட்டு நிறுவனம் கேள்வி "
+            "எழுப்பியுள்ளது. மருத்துவமனைக் குழு அதை உங்கள் பாலிசியுடன் ஒப்பிட்டுப் "
+            "பார்த்து வருகிறது — இது வழக்கமான நடைமுறை, உங்களுக்காக இது "
+            "கவனிக்கப்படுகிறது. உங்களிடமிருந்து எதுவும் தேவையில்லை; தெரிந்தவுடன் "
+            "தெரிவிப்போம்."
+        ),
+    },
+    # The full story. Names the real clause the appeal rests on.
+    "advocacy_filed": {
+        "en": (
+            "We have written back to your insurer on your behalf. Their decision applied "
+            "a limit in your policy that we do not think applies to your treatment, and "
+            "we have asked them to look again — pointing to the part of your own policy "
+            "that provides cover. We will tell you as soon as they reply."
+        ),
+        "hi": (
+            "हमने आपकी ओर से बीमा कंपनी को जवाब भेज दिया है। उनके फैसले में पॉलिसी की "
+            "एक सीमा लगाई गई है, जो हमारे विचार से आपके इलाज पर लागू नहीं होती, इसलिए "
+            "हमने उन्हें दोबारा देखने के लिए कहा है — आपकी अपनी पॉलिसी के उस हिस्से का "
+            "हवाला देते हुए जो कवर देता है। उनका जवाब आते ही हम आपको बताएँगे।"
+        ),
+        "ta": (
+            "உங்கள் சார்பாக காப்பீட்டு நிறுவனத்திற்கு நாங்கள் பதில் அனுப்பியுள்ளோம். "
+            "அவர்களின் முடிவில் பாலிசியில் உள்ள ஒரு வரம்பு பயன்படுத்தப்பட்டுள்ளது; அது "
+            "உங்கள் சிகிச்சைக்குப் பொருந்தாது என்று நாங்கள் கருதுகிறோம். எனவே உங்கள் "
+            "பாலிசியில் பாதுகாப்பு அளிக்கும் பகுதியைச் சுட்டிக்காட்டி, மறுபரிசீலனை "
+            "செய்யக் கோரியுள்ளோம். அவர்கள் பதிலளித்தவுடன் தெரிவிப்போம்."
+        ),
+    },
+    # The honest no. Hardest to write, and the one that makes the others credible.
+    "advocacy_no_valid_appeal": {
+        "en": (
+            "We have gone through your policy carefully. On this point your insurer is "
+            "applying a term that genuinely is part of your policy, so challenging it "
+            "would not be honest and would not help you. Your hospital team will go "
+            "through what this means for you and what options are left — you will not "
+            "be left to work it out alone."
+        ),
+        "hi": (
+            "हमने आपकी पॉलिसी को ध्यान से देखा है। इस बिंदु पर बीमा कंपनी जो शर्त लगा "
+            "रही है, वह वास्तव में आपकी पॉलिसी का हिस्सा है, इसलिए उसे चुनौती देना न तो "
+            "सही होगा और न ही इससे आपको कोई लाभ होगा। अस्पताल की टीम आपको समझाएगी कि "
+            "इसका आपके लिए क्या मतलब है और आगे क्या विकल्प बचे हैं — यह सब आपको अकेले "
+            "नहीं सुलझाना पड़ेगा।"
+        ),
+        "ta": (
+            "உங்கள் பாலிசியை நாங்கள் கவனமாகப் பரிசீலித்தோம். இந்த விஷயத்தில் காப்பீட்டு "
+            "நிறுவனம் பயன்படுத்தும் விதி உண்மையிலேயே உங்கள் பாலிசியின் ஒரு பகுதி; "
+            "எனவே அதை எதிர்ப்பது நேர்மையாகவும் இருக்காது, உங்களுக்கு உதவவும் செய்யாது. "
+            "இதன் பொருள் என்ன, இன்னும் என்ன வழிகள் உள்ளன என்பதை மருத்துவமனைக் குழு "
+            "உங்களுடன் பேசும் — இதை நீங்கள் தனியாகச் சமாளிக்க வேண்டியதில்லை."
+        ),
+    },
+}
+
 OUTCOME_EVENT = {
     "approved": "claim_approved",
     "queried": "claim_queried",
@@ -236,10 +310,12 @@ def unsafe_terms(text: str, language: str = "en", context: str = "claim") -> lis
 
 def build_message(record_id: str, event: str, language: str, at_minutes: int) -> PatientMessage:
     """One templated message. Unknown language degrades to English rather than blank."""
-    catalog = EVENTS if event in EVENTS else COMPASSIONATE_EVENTS
-    if event not in catalog:
+    for candidate in (EVENTS, COMPASSIONATE_EVENTS, ADVOCACY_EVENTS):
+        if event in candidate:
+            by_lang = candidate[event]
+            break
+    else:
         raise KeyError(f"unknown patient comms event: {event}")
-    by_lang = catalog[event]
     text = by_lang.get(language) or by_lang["en"]
     return PatientMessage(
         record_id=record_id,
@@ -295,3 +371,21 @@ def plan_notifications(
         msgs.append(build_message(rid, event, language, at["decision"]))
 
     return sorted(msgs, key=lambda m: m.at_minutes)
+
+
+def advocacy_messages(record_id: str, decision_at: int, state: str, *,
+                      language: str = "en", filed_after_min: int = 90,
+                      ) -> list[PatientMessage]:
+    """The advocacy track: a lead when the decision lands, the full story once filed.
+
+    The gap between the two is the design, not an accident. It is the window in which
+    the patient holds "someone is on this" rather than either silence or bad news.
+    """
+    if state == "none":
+        return []
+
+    msgs = [build_message(record_id, "advocacy_reviewing", language, decision_at)]
+    if state in ("filed", "no_valid_appeal"):
+        msgs.append(build_message(record_id, f"advocacy_{state}", language,
+                                   decision_at + filed_after_min))
+    return msgs

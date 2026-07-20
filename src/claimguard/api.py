@@ -9,7 +9,8 @@ from pydantic import BaseModel
 from claimguard.auth import identity, otp, staff
 from claimguard.auth.deps import CONSENT, current_principal, require_patient, require_staff
 from claimguard.auth.sessions import COOKIE_NAME, SESSIONS, Principal
-from claimguard.comms import LANGUAGES, patient_status
+from claimguard import advocacy
+from claimguard.comms import LANGUAGES, advocacy_messages, patient_status
 from claimguard.compliance_radar import radar
 from claimguard.config import get_settings
 
@@ -214,5 +215,28 @@ def patient_view(lang: str = "en", outcome: str | None = None, at: int | None = 
 
     journey = radar.generate_journey(record_id, claim_type)
     report = radar.analyze(journey)
-    status = patient_status(journey, report, language=lang, now_minutes=at, outcome=outcome)
-    return {"synthetic": True, "languages": list(LANGUAGES), "status": status.model_dump()}
+
+    # The insurer's decision is deterministic, so the patient view and the pipeline can
+    # never disagree about what happened. `outcome` stays overridable for demos.
+    decided = outcome or advocacy.outcome_for(record_id)
+    status = patient_status(journey, report, language=lang, now_minutes=at, outcome=decided)
+
+    # Advocacy track: a lead when the decision lands, the full story once the appeal is
+    # filed. Resolved-then-reported — see advocacy.py for why.
+    state = advocacy.advocacy_state(record_id)
+    decision_at = next((s.at_minutes for s in journey.stages if s.stage == "decision"), 0)
+    track = advocacy_messages(record_id, decision_at, state["state"], language=lang,
+                               filed_after_min=state["filed_after_min"])
+
+    return {
+        "synthetic": True,
+        "languages": list(LANGUAGES),
+        "status": status.model_dump(),
+        "advocacy": {
+            **state,
+            "messages": [m.model_dump() for m in track],
+            # The insurer's reply to an appeal is NOT modelled — saying so beats
+            # letting a UI imply a resolution that never happened.
+            "outcome_of_appeal": None,
+        },
+    }
