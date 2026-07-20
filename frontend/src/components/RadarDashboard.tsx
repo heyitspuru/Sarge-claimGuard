@@ -92,9 +92,12 @@ export function RadarDashboard() {
     <div className="mx-auto max-w-6xl px-4 py-6 font-sans text-foreground">
       <header className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h1 className="flex items-center gap-2 font-mono text-2xl font-bold tracking-tight">
+          <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
             <Radar className="size-6 text-primary" />
-            ClaimGuard · <span className="text-primary">Compliance Radar</span>
+            ClaimGuard · Compliance{" "}
+            <em className="font-serif text-[1.2em] font-normal leading-none text-primary">
+              Radar
+            </em>
           </h1>
           <p className="mt-1 text-sm leading-relaxed text-foreground/70">
             Pre-submission delay vs. IRDAI SLA — where claim time is lost.
@@ -121,7 +124,10 @@ export function RadarDashboard() {
         <Card className={CARD_HOVER}>
           <CardHeader>
             <CardTitle className="text-sm font-semibold tracking-wide">
-              Journeys <span className="font-normal text-muted-foreground">· worst delay first</span>
+              Journeys{" "}
+              <em className="font-serif text-base font-normal text-muted-foreground">
+                worst delay first
+              </em>
             </CardTitle>
           </CardHeader>
           <CardContent className="overflow-x-auto">
@@ -218,7 +224,7 @@ function JourneyDetailPanel({ detail, baseline }: { detail: JourneyDetail; basel
           <span className="font-mono text-3xl font-bold tabular-nums">
             {report.pre_submission_delay_min}
           </span>
-          <span className="text-sm text-foreground/60">min to submit</span>
+          <em className="font-serif text-base text-foreground/60">min to submit</em>
         </div>
 
         {/* SLA comparison bar: 0 -> discharge SLA, with pre-breach marker */}
@@ -248,7 +254,9 @@ function JourneyDetailPanel({ detail, baseline }: { detail: JourneyDetail; basel
         </div>
 
         {/* Where time was lost: per-stage gap bars, slowest highlighted */}
-        <div className={`mb-2 ${MICRO_LABEL}`}>Where time was lost</div>
+        <div className="mb-2 text-sm">
+          <em className="font-serif text-base text-foreground/70">Where time was lost</em>
+        </div>
         <div className="space-y-1.5">
           {Object.entries(gaps).map(([stage, mins]) => (
             <div key={stage} className="flex items-center gap-2">

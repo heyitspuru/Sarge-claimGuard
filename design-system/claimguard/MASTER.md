@@ -34,14 +34,16 @@
 
 ### Typography
 
-- **Heading Font:** Fira Code
-- **Body Font:** Fira Sans
-- **Mood:** dashboard, data, analytics, code, technical, precise
-- **Google Fonts:** [Fira Code + Fira Sans](https://fonts.google.com/share?selection.family=Fira+Code:wght@400;500;600;700|Fira+Sans:wght@300;400;500;600;700)
+- **UI Font:** DM Sans (headings, body, labels)
+- **Accent Font:** Instrument Serif *italic* — accent words inside headings only (h-plain/h-accent pattern: "Compliance *Radar*", "*3 breaches* found"). Never for body text.
+- **Data Font:** Fira Code (record ids, numbers, timelines, tabular data)
+- **Micro-labels:** uppercase, wide-tracked (11px, tracking-wider, muted), DM Sans medium
+- **Mood:** dashboard, data, analytics, precise — with an editorial accent
+- **Google Fonts:** DM Sans + Instrument Serif + Fira Code
 
 **CSS Import:**
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&family=Fira+Code:wght@400;500;600;700&display=swap');
 ```
 
 ### Spacing Variables
