@@ -1,327 +1,129 @@
 # ClaimGuard
 
-A discharge-intelligence + insurance-**advocacy** system, built solo, on synthetic data only.
-The thin discharge→claim pipeline (this repo, Phase 0+1) exists to feed the actual point of
-the project: a **Negotiation/Appeal Agent** that drafts clause-grounded appeals for denied or
-partially-approved claims (Phase 2, not yet built). Everything in this README describes what
-is actually done, not the eventual vision — see `PROJECT_SPEC.md` for the full plan and
-`CLAUDE.md` for the operating rules this repo was built under.
+**Drafts insurance appeals grounded in the patient's actual policy clauses — and refuses to invent one when the policy doesn't support it.**
 
-## The honesty contract
+In India, a hospital discharge becomes an insurance claim. When that claim is denied, most patients accept it — not because the denial is right, but because reading a policy document is a specialist skill they don't have. ClaimGuard reads it for them.
 
-Quoted from `PROJECT_SPEC.md §1`, and binding on everything in this repo:
+Solo project, **synthetic data only**, built phase-by-phase against `PROJECT_SPEC.md` under the rules in `CLAUDE.md`.
 
-> - Every AI output is labeled synthetic-validated, not clinically validated, until a
->   clinician reviews it.
-> - The Negotiation Agent **must refuse to cite a clause it cannot ground** in the policy
->   corpus. A persuasive-but-ungrounded appeal is a *test failure*.
-> - The Compliance Radar clearly states it measures a *synthetic* journey until real
->   timestamps exist.
+---
 
-The Negotiation Agent (the clause-grounding hard gate above) is **Phase 2 — not built yet**.
-Nothing in this repo submits a real insurance claim anywhere; there is no real patient data
-anywhere; see [Known limitations](#known-limitations) for what "done" does and doesn't mean
-right now.
+## How it works
 
-## What this is
+```mermaid
+flowchart TD
+    R["Discharge record<br/><i>synthetic</i>"] --> S["<b>Summarizer</b><br/>LLM · facts only"]
+    S --> C["<b>Coder</b><br/>RAG over ICD-10<br/>+ confidence score"]
+    C --> P["<b>Packager</b><br/>rules · no LLM<br/>FHIR R4"]
 
-- A synthetic discharge-record generator (12 clinical templates, cashless + reimbursement,
-  three scenarios: complete/ready, missing-document, vague-diagnosis).
-- A 4-step claim pipeline — **Summarizer → Coder → Packager → Submitter** — orchestrated with
-  retries and a full, replayable audit log (`src/claimguard/orchestrator.py`).
-- An ICD-10 RAG coder over a small reference subset, with confidence-based human-review
-  flagging that a low-confidence code can never bypass.
-- A deterministic NHCX **simulator** for the Submitter (real NHCX access requires
-  organization-level onboarding — see `docs/NHCX_ACCESS.md`).
-- An eval harness (hierarchical coding F1, packaging validity, a grounding-rate slot reserved
-  for Phase 2) runnable against a 200-record hand-checked golden set.
+    P -->|missing document| REJ["rejected<br/><i>caught pre-submission</i>"]
+    P -->|low confidence| REV["needs_review<br/><i>never auto-submitted</i>"]
+    P -->|ready| SUB["<b>Submitter</b><br/>no LLM · deterministic<br/>idempotent"]
 
-## What this is NOT
+    SUB -->|approved| DONE["settled"]
+    SUB -->|partial / rejected| NEG["<b>Negotiator</b><br/>retrieves the patient's<br/>own policy clauses"]
 
-- Not a clinical decision support tool, not clinically validated, not for real patients.
-- Not connected to real NHCX — the Submitter is a labeled simulator.
-- Not the Negotiation Agent yet — Phase 2. This repo is the plumbing it will sit on top of.
-- Not a full ICD-10 coder — a 60-code subset sized to the synthetic template universe.
-- Not production-grade FHIR — base R4 validation only, no NHCX-specific profile constraints.
+    NEG --> GATE{"does every citation<br/>resolve to a clause<br/>actually retrieved?"}
+    GATE -->|yes| AP["grounded appeal<br/><i>quotes the real clause text</i>"]
+    GATE -->|no| NO["<b>no_valid_appeal</b><br/><i>honest refusal</i>"]
+
+    style NEG fill:#F0225F,color:#fff
+    style GATE fill:#F0225F,color:#fff
+    style NO fill:#B45309,color:#fff
+    style AP fill:#15803D,color:#fff
+```
+
+**The Negotiator is the point; everything else is the plumbing it stands on.**
+
+1. **Summarizer** turns a messy discharge record into a structured summary. Every field traces back to a source field — it may not invent clinical facts.
+2. **Coder** retrieves ICD-10 candidates by embedding similarity and assigns codes *with a confidence score*. Low confidence sets `needs_review`.
+3. **Packager** applies rules and builds a FHIR R4 claim. **No LLM.** A missing document or a low-confidence code stops here — neither can reach submission.
+4. **Submitter** is deterministic, idempotent and has no LLM, so a retry after a dropped connection re-attaches to the original submission instead of filing a second claim. It's a labelled simulator, not real NHCX.
+5. **Negotiator** fires automatically on a denial. It retrieves clauses from the patient's own policy, drafts an appeal — and then every citation the model produced is **filtered against the clauses actually retrieved**. Anything hallucinated is dropped, and the quoted text is replaced with the clause's *real* text rather than the model's rendering of it. An appeal left with no surviving citation is downgraded to `no_valid_appeal`.
+
+That last step is enforced **structurally, not by prompting**. The model cannot emit a citation that doesn't resolve, because the gate runs after it and discards what doesn't. `grounding_rate` is a CI gate at ≥ 0.98.
+
+**An advocate that argues every case is worthless. The refusals are what make the appeals credible.**
+
+### Running alongside
+
+- **Compliance Radar** — where the time actually goes between discharge and submission, against the IRDAI baseline (1h pre-auth / 3h discharge), with a pre-breach alert at the 2-hour mark. Journeys are a *synthetic* timeline: the pipeline runs in milliseconds, so real handoff timestamps don't exist yet, and every report says so.
+- **Patient comms** — plain-language status in English, Hindi or Tamil. Copy is **template-based, never model-generated**: "bad news phrased alarmingly" is a test failure under `CLAUDE.md`, and a reviewed template stays auditable where a prompt doesn't. Pharmacy readiness fires at *order* time, never gated on the insurer.
+- **Cross-cutting** — consent is re-checked *between* steps (a withdrawal arriving mid-claim still halts it), duplicate ABHA admissions are flagged but never blocked, and every step writes a replayable audit entry.
+
+---
 
 ## Quickstart
 
 ```bash
-git clone <this repo> && cd claimGuard
 python -m venv .venv
 .venv/Scripts/pip install -e ".[dev]"
-docker compose up -d          # postgres+pgvector; not required for eval/pytest below
 python -m claimguard gen-data --n 500 --golden 200 --seed 7
-python -m claimguard eval --pipeline
+python -m claimguard eval --negotiation    # the grounding gate
 pytest
 ```
 
-`LLM_PROVIDER` defaults to `mock` (see `.env.example`) — everything above runs fully offline,
-deterministically, with no API key. Set `LLM_PROVIDER=gemini` and `GEMINI_API_KEY=...` to run
-the same `eval --pipeline` command against the real Gemini provider instead.
+`LLM_PROVIDER` defaults to `mock`, so all of the above runs offline, deterministically, with **no API key and no spend**. Set `LLM_PROVIDER=gemini` + `GEMINI_API_KEY` for real-provider runs.
 
-**Compliance Radar dashboard** (Phase 3): with the API up (`docker compose up -d` or
-`uvicorn claimguard.api:app`), run
+Dashboard (Compliance Radar + patient view):
 
 ```bash
+docker compose up -d                        # postgres + api
 cd frontend && npm install && npm run dev   # http://localhost:5173
 ```
 
-The dashboard is labeled **SYNTHETIC DATA** — journeys are a deterministic synthetic timeline
-per record (the pipeline itself runs in milliseconds); real timestamps arrive only with a real
-deployment. If the API is down, the dashboard renders bundled sample data so the UI is always
-demoable.
+The UI is labelled **SYNTHETIC DATA** throughout, and falls back to bundled sample data if the API is down.
 
-**Patient view** (Phase 4): the second tab of the same app, or directly via
-`GET /patient/{record_id}?lang=en|hi|ta`. It shows what the patient is told — plain-language
-status, ETA to the next update, and the message timeline in their chosen language.
+---
 
-Patient copy is **template-based, never model-generated**. `CLAUDE.md` makes "bad news phrased
-alarmingly" a test failure rather than a judgment call, and a reviewed template is auditable
-forever where a prompt is not. `comms/messages.py` holds the catalog (7 events × 3 languages) and
-`unsafe_terms()` holds the copy contract — the same function the tests assert every template
-against. Trigger timing is the other half of the tested behaviour: pharmacy readiness fires at
-**order** time (never gated on the insurer's approval), and the SLA alert fires **at** the 120-minute
-pre-breach mark, because an early warning delivered late is not a warning.
+## Status
 
-## Architecture sketch
-
-```
-data/golden/*.json ──┐
-                      ▼
-              make_pipeline(retrieve, llm)          <- src/claimguard/eval/runner.py
-                      │
-                      ▼
-     DischargeRecord.model_validate(record_dict)
-                      │
-                      ▼
-  ┌───────────────────────────────────────────────────────────────┐
-  │                    orchestrator.run_claim                     │
-  │   Summarizer ──▶ Coder ──▶ Packager ──▶ Submitter              │
-  │   (LLM, facts   (RAG over   (rules:      (deterministic,      │
-  │    only)         ICD-10,     required     idempotent,         │
-  │                   confidence)  docs,       NHCX simulator)     │
-  │                                confidence)                     │
-  │   every step: audit({record_id, step, status, detail}),        │
-  │   one retry on exception, terminal ok/error always recorded    │
-  └───────────────────────────────────────────────────────────────┘
-                      │
-                      ▼
-     {"icd_codes": [...], "packaging": "ready"|"rejected"|"needs_review"}
-```
-
-- **Provider interface** (`src/claimguard/llm.py`): `complete()` / `embed()` switch on
-  `LLM_PROVIDER` between a deterministic offline mock (used by every test and by default) and
-  Gemini. Agents only ever see this interface, never a concrete SDK — that's what makes every
-  agent mockable in isolation (`tests/test_summarizer.py`, `tests/test_coder.py`, etc.) as well
-  as testable end-to-end with a scripted fake (`tests/integration/test_pipeline.py`).
-- **Plain-Python orchestrator, not LangGraph** — `src/claimguard/orchestrator.py` is a linear
-  step list with a `PipelineDeps` dataclass (`llm`, `retrieve`, `store`, `audit`) threaded
-  through. Deliberately simple for a 4-step chain; LangGraph is reserved for when the Phase 2
-  negotiation loop (retry-with-different-strategy, human-in-the-loop) actually needs a graph.
-- **`make_pipeline(retrieve, llm)`** (`src/claimguard/eval/runner.py`) adapts `run_claim` to
-  the eval contract: golden record dict in, `{"icd_codes", "packaging"}` out. This is the only
-  new piece of glue Task 15 adds — everything else already existed.
-
-## Phase status
-
-| Phase | Scope | Status |
+| Phase | Scope | |
 |---|---|---|
-| 0 | Scaffold, synthetic data engine, ICD/policy reference data, eval harness skeleton, NHCX reality check | ✅ done |
-| 1 | Thin pipeline (Summarizer→Coder→Packager→Submitter), orchestrator + audit log, integration + edge-case tests, real pipeline wired into eval, this README | ✅ done |
-| 2 | Negotiation/Appeal Agent — clause-grounded appeals, deterministic citation gate (grounding rate ≥ 0.98), "honest no valid appeal" path, denials corpus + grounding eval | ✅ done |
-| 3 | Compliance Radar — synthetic journey timeline, pre-submission delay vs. IRDAI baseline (1h pre-auth / 3h discharge), pre-breach alert at 2h, React/shadcn dashboard | ✅ done |
-| 4 | Patient communication layer — plain-language multilingual status/SLA alerts, template-based safe copy, patient view | ✅ done |
-| 5 | Hardening — all 12 §9 edge cases green, resumable real-provider eval, translation back-check, auto-appeal wiring, production-readiness audit | 🔄 in progress |
+| 0–1 | Synthetic data engine, ICD/policy corpus, thin pipeline, orchestrator + audit log | ✅ |
+| 2 | **Negotiation/Appeal Agent** — clause-grounded appeals, deterministic citation gate, honest-no path | ✅ |
+| 3 | Compliance Radar — journey timing vs. IRDAI baseline, React dashboard | ✅ |
+| 4 | Patient comms — multilingual template-based status, patient view | ✅ |
+| 5 | Hardening — all 12 §9 edge cases, resumable real eval, auto-appeal, readiness audit | 🔄 |
 
-Phase 5 remaining: `docs/EVALUATION.md` (waiting on sample accumulation — see
-[`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md)), the one-shot translation back-check run,
-and the demo recording ([`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md)).
+`204 passed, 4 skipped`, ruff clean. The 4 skips are the translation-artifact tests, which skip with an actionable reason until the one-shot back-check has run.
 
-## Demonstrating the packaging-validity DoD gate offline
+## Eval
 
-`CLAUDE.md` requires "packaging validity = 100% on golden set." `python -m claimguard eval
---packaging-check` proves exactly that, with no API key and no LLM in the loop at all:
-
-```
-python -m claimguard eval --packaging-check
-packaging_validity (packager isolation, ready+rejected subset): 1.000  over 170 records
-```
-
-This isolates the Packager (`src/claimguard/agents/packager.py`) from the Coder: it builds a
-`DischargeSummary` straight from each golden record's fields and feeds the Packager the golden
-answer key's ICD codes as if the Coder had assigned them with full confidence, then checks
-`package()`'s status against `expected_packaging`. The 30 golden records whose
-`expected_packaging` is `"needs_review"` are excluded on purpose — that outcome is a property of
-the Coder's *confidence* on a vague-diagnosis scenario, not of the Packager, and confident codes
-were just fed in. On the remaining 170 records (`"ready"`/`"rejected"`, fully decidable from
-documents + codes alone) the Packager must be — and is — perfect. See
-`run_packaging_check` in `src/claimguard/eval/runner.py` and `tests/test_packaging_check.py`
-for the enforced version of this gate.
-
-This is a **different, narrower** number than the `packaging_validity=0.300` reported by
-`eval --pipeline` below — that one is an end-to-end **mechanism** check that deliberately lets
-the mock Coder's confidence flow into the packaging decision (see below for why it's near-zero
-by design), not a measure of whether the Packager itself is correct. Don't conflate the two.
-
-## Eval numbers (mock provider)
-
-Below is the actual, unedited output of `python -m claimguard eval --pipeline` on this branch,
-against the 200-record golden set generated by `gen-data --n 500 --golden 200 --seed 7`, run
-with the **mock** LLM provider (no API key, fully deterministic):
+| Metric | Value | What it means |
+|---|---|---|
+| `grounding_rate` | **1.000** / 48 | No citation ever failed to resolve. CI gate ≥ 0.98. |
+| `packaging_validity` | **1.000** / 170 | Packager isolation gate — runs offline, no key. |
+| `coding_f1` | 0.500 | Real Gemini, **n=10 of 200** — underpowered, accumulating. |
 
 ```
-ClaimGuard eval report
------------------------
-n records            200
-coding_f1            0.062
-packaging_validity   0.300
-grounding_rate       n/a (Phase 2)
+where coding lands:          where packaging lands:
+  exact      3                 match                7
+  sibling    4                 needs_review->ready  2
+  miss       3                 ready->needs_review  1
 ```
 
-This is honestly near-zero and **expected**, not a bug: the mock provider's `embed()` is a
-deterministic SHA-256 hash of the input text, not a real semantic embedding, so the ICD
-retriever cannot reliably surface the correct code for a given diagnosis, and the mock
-`complete()` for the coder/summarizer returns schema-shaped placeholder values rather than a
-real judgment. What Task 15 gates on is the **mechanism** — that `run_claim` executes
-end-to-end against real golden records with a real retriever, produces a well-formed
-`{"icd_codes", "packaging"}` prediction for every record, and that the packaging-validity gate
-(missing-doc rejection, low-confidence needs-review) fires correctly — not the mock's
-accuracy. Set `LLM_PROVIDER=gemini` with a real key and re-run `python -m claimguard eval
---pipeline` to get real numbers; whatever they are, they belong in a future update to this
-section, labeled `gemini`, not silently overwriting the mock baseline above.
+`sibling` = right ICD family, wrong leaf. The coder is mostly **oriented but imprecise** rather than lost — a different problem with a different fix, which a collapsed exact/miss split would hide.
 
-For comparison, the null baseline (`python -m claimguard eval`, no `--pipeline`, always
-predicts `packaging="ready"` and no codes) scores `coding_f1=0.000`,
-`packaging_validity=0.700` — higher packaging validity than the real mock pipeline, because
-70% of the golden set's expected packaging actually is `"ready"`. This is exactly why
-`packaging_validity` alone is not a sufficient gate and `coding_f1` matters too.
+The free tier allows exactly **20 generate requests/day** (confirmed from the provider's quota error), i.e. 10 records/day, so the full corpus is a ~20-day accumulation. `eval --real-run` is resumable and quota-safe: records cut off by a 429 are left unrecorded for retry, and a provider limit never enters the accuracy denominator. Procedure in [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md).
 
-## Eval numbers (real Gemini provider, subset)
+## What this is not
 
-With `LLM_PROVIDER=gemini` (`gemini-2.5-flash` for completion, `gemini-embedding-001`
-truncated to 768 dims for retrieval). **This is an accumulating sample, not the full
-corpus** — the Gemini free tier allows exactly **20 generate requests/day**, confirmed
-from the provider's own quota error (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`,
-`quotaValue: 20`). At 2 calls per record that is 10 records/day, so the full 200 is a
-~20-day accumulation. Procedure: [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md).
+- **Not clinically validated.** Coding F1 is agreement with an *unadjudicated* synthetic answer key — no certified coder has reviewed it.
+- **Not connected to real NHCX.** The Submitter is a labelled simulator; sandbox access needs organisation-level NHA onboarding ([`docs/NHCX_ACCESS.md`](docs/NHCX_ACCESS.md)).
+- **Not delivering patient messages anywhere.** `channel` is a label, not a send.
+- **Not native-speaker reviewed.** Hindi/Tamil copy is model-written. Automated checks prove only the *absence of alarming terms* — never warmth, register or reading level ([`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md)).
+- **Never touching real patient data.** Synthetic only, by design.
 
-```
-n records                10 / 200
-coding_f1                0.500
-packaging_validity       0.700
+A full audit of what separates this from a deployable system — legal, clinical and human gates, tagged by who can actually close them — is in [**`docs/PRODUCTION_READINESS.md`**](docs/PRODUCTION_READINESS.md). Most of it isn't code.
 
-where coding lands:            where packaging lands:
-  exact      3                   match                7
-  sibling    4                   needs_review->ready  2
-  miss       3                   ready->needs_review  1
-```
+## Docs
 
-`sibling` is the load-bearing distinction: hierarchical F1 gives partial credit for codes
-sharing an ICD family, so "right family, wrong leaf" scores above zero while sharing no
-exact code with the key. The coder is mostly **oriented but imprecise** rather than lost —
-a different problem with a different fix, and one a collapsed miss/exact split would hide.
-
-Against the mock (`0.062` / `0.300`) and null baseline (`0.000` / `0.700`), the real
-provider is a genuine signal that the retrieve→assign→package chain produces real coding
-accuracy. Two caveats that must travel with these numbers: **n=10 is underpowered**, and
-coding F1 is measured against **unadjudicated** answer keys — it is agreement with a
-synthetic key, not clinical accuracy (see
-[`docs/PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md) §3).
-
-`eval --real-run` is resumable and quota-safe: records cut off by a 429 are left
-unrecorded so the next day retries them, and a provider limit never enters the accuracy
-denominator.
-
-## Eval numbers (Negotiation Agent — Phase 2)
-
-The clause-grounding hard rule is enforced **deterministically**, not by trusting the LLM:
-`draft_appeal` filters every citation the model emits against the clauses actually retrieved
-from the patient's own policy, drops any `clause_id` outside that set, and downgrades an
-"appeal" left with no grounded citation to `no_valid_appeal`. Citing a clause that isn't in the
-corpus is therefore structurally impossible.
-
-The CI grounding gate proves it offline (no API key):
-
-```
-python -m claimguard eval --negotiation      # requires LLM_PROVIDER=gemini for real appeals
-```
-
-and the test `tests/edge_cases/test_case_12_ungroundable_clause.py` runs the real
-`draft_appeal` over the whole 48-scenario denials corpus with the mock provider and asserts
-`grounding_rate >= 0.98` (it is 1.0 by construction). The denials corpus
-(`data/denials/`, `python -m claimguard gen-denials`) has 48 scenarios balanced across four
-categories — over-applied sub-limit and mis-cited rejection (appeal viable), genuine exclusion
-and ungroundable (honest "no") — constructed deterministically from the real policy clauses so
-their answer keys are correct by construction.
-
-Real-provider appeal quality (does Gemini draft a *correct* grounded appeal, and refuse the
-genuine exclusions) needs a full run of `eval --negotiation`, which is **not gettable on the
-free tier in one pass**: `gemini-2.5-flash` free tier allows only ~20 generate requests/day, so
-48 reasoning-tier calls exhaust it. The deterministic gate and the mock run (`grounding_rate=1.0`,
-`honest_no_accuracy=0.5` for the refuse-all mock baseline over all 48) establish the safety
-property; the real appeal-quality number belongs in a future update from a paid tier or a
-multi-day free-tier run, labeled `gemini`.
-
-## Known limitations
-
-- **Mock-provider eval numbers are near-zero by design** (see above) — they gate the pipeline
-  mechanism, not coding accuracy. Real numbers require `LLM_PROVIDER=gemini` + a Gemini API key.
-- **Gemini free tier is exactly 20 generate requests/day** on `gemini-2.5-flash`
-  (confirmed from the provider quota error, not inferred), so neither the 200-record
-  pipeline eval nor the 48-scenario negotiation eval completes in one free-tier pass.
-  `llm.py` has 429 backoff, but the daily cap is a hard limit — full-corpus numbers need
-  a paid tier or ~20 days of accumulation. `eval --real-run` is built for exactly this.
-- **Coding F1 is measured against unadjudicated answer keys** — agreement with a
-  synthetic key, not clinical accuracy. No certified coder has reviewed the golden set.
-- **60-code ICD-10 subset** (`data/icd/icd10.csv`), sized to the synthetic template universe
-  (12 templates), not the full WHO ICD-10 table. Swap in the full table before generalizing
-  beyond the synthetic corpus.
-- **The NHCX Submitter is a labeled simulator**, not a real integration. Individual developers
-  cannot get end-to-end NHCX sandbox submission access without organization-level onboarding
-  with NHA — see `docs/NHCX_ACCESS.md`. Nothing here has ever touched a real claims exchange.
-- **6 of 200 golden records have a discharge date after today.** The generator draws
-  `admission_date = today - rand(1,90)d`, `discharge_date = admission + rand(1,8)d` at
-  generation time; regenerating on a later date will shift or shrink this, and it does not
-  affect scoring (no test depends on date ordering), but it's a known artifact of when the
-  fixed-seed golden set was generated versus when it's read.
-- **Insurer/plan names are synthetic placeholders** (`STAR`/`MEDI`/`AROG` fictional codes with
-  invented policy numbers, `data/policies/`) — plausible-looking but not modeled on any real
-  insurer's actual product terms. Rename/regenerate before any public posting if there is a
-  risk of a real insurer's name or product colliding with these.
-- **FHIR validation is base R4 only** (`fhir.resources`), no NHCX-specific profile
-  constraints layered on top yet (`src/claimguard/agents/packager.py`).
-- In the *pipeline* eval reports (`eval --pipeline`), `grounding_rate` is `"n/a (Phase 2)"` on
-  purpose — grounding is measured by the separate `eval --negotiation` report, not the pipeline one.
-- **Patient comms are not actually delivered anywhere.** The message catalog, trigger timing and
-  patient view are real and tested, but there is no WhatsApp/Twilio integration — `channel` is a
-  label (`whatsapp_sandbox`), not a send. Sandbox credentials plug in at the send boundary; nothing
-  in the tested logic changes when they do.
-- **Translations are model-written for three languages** (English, Hindi, Tamil) and have not
-  been reviewed by a native speaker or a clinical-communication specialist. They are deliberately
-  template-based rather than model-translated at runtime, which makes them safe-by-construction
-  but also means adding a language is a pull request, not a config flag. Automated checks prove
-  only the *absence of alarming terms* — they cannot establish warmth, register or reading level.
-  Real-world use requires WHO-style forward/back-translation validation and patient cognitive
-  testing; see [`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md).
-- **Negotiator real appeal-quality numbers are pending** a full `eval --negotiation` run (free-tier
-  daily quota; see above). The deterministic grounding gate is proven; the LLM's appeal *quality*
-  is not yet measured against real Gemini over the full corpus.
-
-**A fuller audit of what separates this from a deployable system — legal, clinical and
-human gates, tagged by who can close them — is in
-[`docs/PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md).**
-
-## Running the tests
-
-```bash
-pytest -v                       # full suite; tests marked `db` skip without a reachable postgres
-ruff check src tests            # lint gate
-```
-
-`tests/integration/test_pipeline.py` runs `run_claim` end-to-end against three real golden
-records (one each for `ready`/`rejected`/`needs_review`) with a real ICD retriever and a
-scripted fake LLM, and asserts the audit trail is replayable. `tests/edge_cases/` covers §9
-cases 1 (cashless vs. reimbursement), 5 (misnamed document caught pre-submission), and 6
-(low-confidence code never reaches the submitter) — the remaining §9 cases land with their
-respective phases (2/3/4).
+| | |
+|---|---|
+| [`PROJECT_SPEC.md`](PROJECT_SPEC.md) | The full plan and phase gates |
+| [`CLAUDE.md`](CLAUDE.md) | Operating rules this repo was built under |
+| [`docs/PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md) | What it would take to be real |
+| [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md) | Reproducing the eval numbers |
+| [`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md) | Why patient copy isn't model-generated |
+| [`docs/NHCX_ACCESS.md`](docs/NHCX_ACCESS.md) | Phase-0 reality check on submission access |
