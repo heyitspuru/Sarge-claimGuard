@@ -163,12 +163,12 @@
 
 Page background: flat `#DBD7D8` with the ReactBits DotField layer on top.
 
-Install (Phase 3, after frontend scaffold): `npx shadcn@latest add @react-bits/DotField-JS-CSS`
+Install (Phase 3, after frontend scaffold): `npx shadcn@latest add @react-bits/DotField-TS-CSS` (TS variant — `allowJs` is off in the Vite app)
 
 ```jsx
 <div style={{ width: '1080px', height: '1080px', position: 'relative' }}>
   <DotField
-    dotRadius={2}
+    dotRadius={2.5}
     dotSpacing={20}
     cursorRadius={100}
     cursorForce={0}
