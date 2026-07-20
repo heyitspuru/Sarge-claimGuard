@@ -3,6 +3,7 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from claimguard import fraud
 from claimguard.agents.coder import assign_codes
 from claimguard.agents.packager import package
 from claimguard.agents.submitter import submit
@@ -18,6 +19,11 @@ class PipelineDeps:
     retrieve: Callable
     store: dict
     audit: Callable[[dict], None]
+    # §9-7: consent(record_id) -> True if withdrawn. Checked BETWEEN steps, not once at
+    # entry, so a withdrawal arriving mid-pipeline still halts the claim.
+    consent: Callable[[str], bool] | None = None
+    # §9-10: (abha_id, admission_date) -> record_id, for duplicate flagging.
+    admission_index: dict | None = None
 
 
 def _run_step(record_id: str, step: str, audit: Callable[[dict], None],
@@ -45,6 +51,18 @@ def run_claim(record: DischargeRecord, deps: PipelineDeps) -> dict:
         return {"record_id": record_id, "final_status": "error", "icd_codes": icd_codes or [],
                 "packaging": packaging, "outcome": None}
 
+    def _halted(step: str, icd_codes=None):
+        deps.audit({"record_id": record_id, "step": step, "status": "halted",
+                    "detail": {"reason": "consent_withdrawn"}})
+        return {"record_id": record_id, "final_status": "consent_withdrawn",
+                "icd_codes": icd_codes or [], "packaging": None, "outcome": None}
+
+    def _withdrawn() -> bool:
+        return deps.consent is not None and deps.consent(record_id)
+
+    if _withdrawn():
+        return _halted("intake")
+
     try:
         summary = _run_step(record_id, "summarize", deps.audit,
                              lambda: summarize(record, llm=deps.llm),
@@ -61,6 +79,9 @@ def run_claim(record: DischargeRecord, deps: PipelineDeps) -> dict:
 
     icd_codes = [c.icd_code for c in codes]
 
+    if _withdrawn():
+        return _halted("package", icd_codes)
+
     try:
         pkg = _run_step(record_id, "package", deps.audit,
                          lambda: package(record, summary, codes),
@@ -68,9 +89,20 @@ def run_claim(record: DischargeRecord, deps: PipelineDeps) -> dict:
     except Exception:
         return _error(icd_codes)
 
+    # §9-10: advisory only — a flagged claim still proceeds, it just carries the flag
+    # so a human can look. Blocking here would deny legitimate resubmissions.
+    if deps.admission_index is not None:
+        pkg.flags = fraud.check(record, deps.admission_index)
+        if pkg.flags:
+            deps.audit({"record_id": record_id, "step": "fraud_check",
+                        "status": "flagged", "detail": {"flags": pkg.flags}})
+
     if pkg.status != "ready":
-        return {"record_id": record_id, "final_status": pkg.status,
-                "icd_codes": icd_codes, "packaging": pkg.status, "outcome": None}
+        return {"record_id": record_id, "final_status": pkg.status, "icd_codes": icd_codes,
+                "packaging": pkg.status, "outcome": None, "flags": pkg.flags}
+
+    if _withdrawn():
+        return _halted("submit", icd_codes)
 
     try:
         result = _run_step(record_id, "submit", deps.audit,
@@ -79,5 +111,5 @@ def run_claim(record: DischargeRecord, deps: PipelineDeps) -> dict:
     except Exception:
         return _error(icd_codes, pkg.status)
 
-    return {"record_id": record_id, "final_status": "adjudicated",
-            "icd_codes": icd_codes, "packaging": pkg.status, "outcome": result.outcome}
+    return {"record_id": record_id, "final_status": "adjudicated", "icd_codes": icd_codes,
+            "packaging": pkg.status, "outcome": result.outcome, "flags": pkg.flags}

@@ -30,6 +30,9 @@ class DischargeRecord(BaseModel):
     clinical_notes: str
     documents: list[str]
     insurance: Insurance
+    # §9-4: "deceased" routes to the expedited/compassionate path and suppresses every
+    # patient-addressed message. Defaults so existing records and fixtures stay valid.
+    disposition: Literal["discharged", "deceased"] = "discharged"
 
 
 class AnswerKey(BaseModel):
@@ -60,6 +63,9 @@ class ClaimPackage(BaseModel):
     status: Literal["ready", "rejected", "needs_review"]
     fhir_claim: dict | None = None
     rejection_reasons: list[str] = Field(default_factory=list)
+    # §9-10: advisory flags (duplicate admission, identity mismatch). Never block on
+    # these — they route a claim to a human, they don't decide it.
+    flags: list[str] = Field(default_factory=list)
 
 
 class SubmissionResult(BaseModel):

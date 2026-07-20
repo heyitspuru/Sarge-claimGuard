@@ -146,6 +146,48 @@ EVENTS = {
     },
 }
 
+# §9-4: when the patient has died, every template above is wrong — they address the
+# patient directly and talk about their discharge and medicines. These replace them
+# wholesale for the compassionate path. The recipient is the family, the register is
+# quieter, and the claim is never the first thing said.
+COMPASSIONATE_EVENTS = {
+    "condolence_hold": {
+        "en": (
+            "We are so sorry for your loss. The hospital team will take care of the "
+            "insurance paperwork for you. Nothing is needed from you right now, and "
+            "someone will contact you when you are ready."
+        ),
+        "hi": (
+            "आपकी क्षति के लिए हमें गहरा दुःख है। बीमा से जुड़े कागज़ात का काम अस्पताल "
+            "की टीम संभाल लेगी। अभी आपको कुछ नहीं करना है; जब आप तैयार होंगे, कोई आपसे "
+            "संपर्क करेगा।"
+        ),
+        "ta": (
+            "உங்கள் இழப்பிற்கு நாங்கள் ஆழ்ந்த வருத்தம் தெரிவித்துக் கொள்கிறோம். "
+            "காப்பீட்டு ஆவணப் பணிகளை மருத்துவமனைக் குழு கவனித்துக் கொள்ளும். "
+            "இப்போது உங்களிடமிருந்து எதுவும் தேவையில்லை; நீங்கள் தயாராகும்போது "
+            "எங்களில் ஒருவர் தொடர்பு கொள்வார்."
+        ),
+    },
+    "claim_settled_family": {
+        "en": (
+            "The hospital team has completed the insurance paperwork on your behalf. "
+            "If anything is still outstanding, they will explain it to you directly and "
+            "help you through it. Please take the time you need."
+        ),
+        "hi": (
+            "अस्पताल की टीम ने आपकी ओर से बीमा के कागज़ात पूरे कर दिए हैं। यदि कुछ बाकी "
+            "रह गया है, तो वे आपको स्वयं समझाएँगे और आपकी मदद करेंगे। आप जितना समय "
+            "चाहें, ले सकते हैं।"
+        ),
+        "ta": (
+            "உங்கள் சார்பாக காப்பீட்டு ஆவணப் பணிகளை மருத்துவமனைக் குழு முடித்துள்ளது. "
+            "ஏதேனும் நிலுவையில் இருந்தால், அவர்களே உங்களுக்கு விளக்கி உதவுவார்கள். "
+            "உங்களுக்குத் தேவையான நேரத்தை எடுத்துக் கொள்ளுங்கள்."
+        ),
+    },
+}
+
 OUTCOME_EVENT = {
     "approved": "claim_approved",
     "queried": "claim_queried",
@@ -168,21 +210,36 @@ _UNSAFE = {
 }
 
 
-def unsafe_terms(text: str, language: str = "en") -> list[str]:
+# Register is context-dependent, and a single blocklist gets this wrong. "Sorry" in
+# claim copy is corporate deflection ("Sorry, your claim was denied"); in condolence
+# copy it is basic decency and its ABSENCE would be the defect. These terms are
+# therefore permitted only on the compassionate path.
+_CONDOLENCE_ALLOWED = {
+    "en": {"sorry"},
+    "hi": set(),
+    "ta": set(),
+}
+
+
+def unsafe_terms(text: str, language: str = "en", context: str = "claim") -> list[str]:
     """Alarming terms found in `text`. Empty list == safe to send.
 
     The copy contract in one callable so the templates, the tests, and anything
-    that ever extends the catalog all check the same rule.
+    that ever extends the catalog all check the same rule. `context="condolence"`
+    switches to the bereavement register — see `_CONDOLENCE_ALLOWED`.
     """
     low = text.lower()
-    return [t for t in _UNSAFE.get(language, ()) if t.lower() in low]
+    allowed = _CONDOLENCE_ALLOWED.get(language, set()) if context == "condolence" else set()
+    return [t for t in _UNSAFE.get(language, ())
+            if t.lower() in low and t.lower() not in allowed]
 
 
 def build_message(record_id: str, event: str, language: str, at_minutes: int) -> PatientMessage:
     """One templated message. Unknown language degrades to English rather than blank."""
-    if event not in EVENTS:
+    catalog = EVENTS if event in EVENTS else COMPASSIONATE_EVENTS
+    if event not in catalog:
         raise KeyError(f"unknown patient comms event: {event}")
-    by_lang = EVENTS[event]
+    by_lang = catalog[event]
     text = by_lang.get(language) or by_lang["en"]
     return PatientMessage(
         record_id=record_id,
@@ -199,6 +256,7 @@ def plan_notifications(
     *,
     language: str = "en",
     outcome: str | None = None,
+    disposition: str = "discharged",
 ) -> list[PatientMessage]:
     """The messages a patient receives across one claim journey, in send order.
 
@@ -210,6 +268,16 @@ def plan_notifications(
     """
     at = {s.stage: s.at_minutes for s in journey.stages}
     rid = journey.record_id
+
+    # §9-4: the standard sequence is addressed to the patient and talks about their
+    # discharge medicines. Sending any of it after a death would be a serious harm, so
+    # the compassionate path replaces the schedule entirely rather than filtering it.
+    if disposition == "deceased":
+        msgs = [build_message(rid, "condolence_hold", language, at.get("order", 0))]
+        if "decision" in at:
+            msgs.append(build_message(rid, "claim_settled_family", language, at["decision"]))
+        return msgs
+
     msgs = [build_message(rid, "pharmacy_ready", language, at.get("order", 0))]
 
     submit_at = at.get("submit")

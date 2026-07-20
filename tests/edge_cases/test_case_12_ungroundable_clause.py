@@ -4,8 +4,6 @@ The single most important negative test in the system (CLAUDE.md prime
 directive 2). Even when the LLM tries to cite a clause that does not exist in
 the corpus, the deterministic gate drops it, and an appeal with no grounded
 citation is downgraded to an honest refusal.
-
-# ponytail: remaining §9 cases (4,7,8,9,10,11) land with their phases (3/4).
 """
 import json
 from pathlib import Path
