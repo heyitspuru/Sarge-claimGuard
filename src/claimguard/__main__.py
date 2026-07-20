@@ -34,8 +34,21 @@ def _add_gen_denials_subparser(sub: argparse._SubParsersAction) -> None:
 
 def _cmd_validate_translations(args: argparse.Namespace) -> None:
     from claimguard.comms import backcheck
-    summary = backcheck.run_backcheck(llm.complete, artifact=Path(args.artifact),
-                                       sidecar=Path(args.sidecar))
+    try:
+        summary = backcheck.run_backcheck(llm.complete, artifact=Path(args.artifact),
+                                           sidecar=Path(args.sidecar))
+    except Exception as exc:
+        # Running out of daily quota is an expected outcome on a free tier, not a bug.
+        # Nothing partial is written (run_backcheck only writes once every language
+        # has come back), so a retry tomorrow starts clean.
+        if not llm.is_quota_error(exc):
+            raise
+        print(f"Stopped on provider quota ({llm.FREE_TIER_DAILY_GENERATE} generate "
+              f"requests/day on the free tier).")
+        print("Nothing was written, so no partial artifact needs cleaning up.")
+        print("This check needs ~4 requests — rerun tomorrow, ideally before the "
+              "day's eval batch.")
+        return
     print(f"checked   : {summary['checked']} strings")
     print(f"flagged   : {summary['flagged']} for human review")
     print(f"unchecked : {summary['unchecked']}")

@@ -8,6 +8,23 @@ from claimguard.config import get_settings
 
 EMBED_DIM = 768
 
+# Free-tier ceiling, confirmed from the provider's own quota error (2026-07-20):
+# GenerateRequestsPerDayPerProjectPerModel-FreeTier, quotaValue 20, gemini-2.5-flash.
+FREE_TIER_DAILY_GENERATE = 20
+
+# Markers distinguishing "the provider cut us off" from "the call was wrong".
+QUOTA_MARKERS = ("429", "RESOURCE_EXHAUSTED", "quota")
+
+
+def is_quota_error(err: object) -> bool:
+    """True when `err` (an exception or message) is provider throttling, not a real fault.
+
+    Callers use this to end cleanly rather than crash: on a free tier, running out of
+    daily quota is an expected outcome of a long job, not a bug.
+    """
+    msg = str(err)
+    return any(marker in msg for marker in QUOTA_MARKERS)
+
 
 def _with_backoff(call, *, tries: int = 4, base: float = 20.0):
     """Retry a Gemini call on 429 rate-limit, honoring the server's retry hint.

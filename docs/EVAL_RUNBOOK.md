@@ -1,9 +1,20 @@
 # Eval runbook — accumulating real-provider numbers across days
 
-The full golden set is 200 records × 2 generate calls. The Gemini free tier exhausts at
-**~10 records/day** (measured, 2026-07-20 — not an estimate), so the real-provider eval
-is a multi-day accumulation rather than a single run. This file is the procedure, written
-so it can be picked up cold after a long gap.
+The full golden set is 200 records × 2 generate calls. The Gemini free tier allows
+**exactly 20 generate requests/day** — confirmed from the provider's own quota error,
+not inferred:
+
+```
+quotaId:    GenerateRequestsPerDayPerProjectPerModel-FreeTier
+quotaValue: 20        model: gemini-2.5-flash
+```
+
+That is **10 records/day**, so the full 200 is a ~20-day accumulation on the free tier.
+This file is the procedure, written so it can be picked up cold after a long gap.
+
+> **Budget the day before you spend it.** The one-shot translation back-check costs ~4
+> requests (2 records' worth). Run it *before* the day's eval batch, not after, or it
+> will find the tank empty.
 
 ## Where the data lives
 
@@ -116,10 +127,10 @@ a throughput cost.
 2. **Ground truth is unadjudicated.** Answer keys are generated, not reviewed by
    certified coders, so coding F1 measures agreement with a synthetic key, **not
    clinical accuracy**. See `PRODUCTION_READINESS.md` §3.
-3. **Closing the gap costs money, not time.** Enabling billing on the Gemini key would
-   run all 200 records in a single pass for a few dollars. Everything above is a
-   consequence of the free tier, and that is worth saying plainly rather than
-   presenting a 30-record sample as if it were the whole corpus.
+3. **Closing the gap costs money, not time.** At 20 requests/day the full corpus takes
+   ~20 days; enabling billing on the Gemini key would run all 200 in a single pass for
+   a few dollars. Everything above is a consequence of the free tier, and that is worth
+   saying plainly rather than presenting a 30-record sample as if it were the corpus.
 
 ## Related one-shot: translation back-check
 

@@ -24,6 +24,9 @@ class PipelineDeps:
     consent: Callable[[str], bool] | None = None
     # §9-10: (abha_id, admission_date) -> record_id, for duplicate flagging.
     admission_index: dict | None = None
+    # Closes the loop: (record, submission_result) -> AppealResult | None. Supplied by
+    # appeal.make_appeal_handler so the orchestrator stays ignorant of clause shapes.
+    appeal: Callable | None = None
 
 
 def _run_step(record_id: str, step: str, audit: Callable[[dict], None],
@@ -111,5 +114,20 @@ def run_claim(record: DischargeRecord, deps: PipelineDeps) -> dict:
     except Exception:
         return _error(icd_codes, pkg.status)
 
-    return {"record_id": record_id, "final_status": "adjudicated", "icd_codes": icd_codes,
-            "packaging": pkg.status, "outcome": result.outcome, "flags": pkg.flags}
+    out = {"record_id": record_id, "final_status": "adjudicated", "icd_codes": icd_codes,
+           "packaging": pkg.status, "outcome": result.outcome, "flags": pkg.flags,
+           "appeal": None}
+
+    # A denial nobody appeals is the failure mode this project exists to fix. An appeal
+    # failing must not fail the claim, though — the adjudication already happened.
+    if deps.appeal is not None and result.outcome in ("partial", "rejected"):
+        try:
+            appeal = _run_step(record_id, "appeal", deps.audit,
+                                lambda: deps.appeal(record, result),
+                                detail=lambda a: {"status": a.status if a else "not_applicable",
+                                                  "citations": len(a.citations) if a else 0})
+        except Exception:
+            appeal = None
+        out["appeal"] = appeal.model_dump() if appeal else None
+
+    return out

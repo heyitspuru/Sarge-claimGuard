@@ -23,15 +23,14 @@ from collections.abc import Callable
 from pathlib import Path
 
 from claimguard.eval.metrics import hierarchical_f1
+from claimguard.llm import is_quota_error
 from claimguard.models import DischargeRecord
 from claimguard.orchestrator import PipelineDeps, run_claim
 
-# Markers for "the provider cut us off", as opposed to "the model got it wrong".
-QUOTA_MARKERS = ("429", "RESOURCE_EXHAUSTED", "quota")
-
 
 def _is_quota_error(messages: list[str]) -> bool:
-    return any(marker in m for m in messages for marker in QUOTA_MARKERS)
+    """Any of these audit-log error strings the provider cutting us off?"""
+    return any(is_quota_error(m) for m in messages)
 
 
 def load_checkpoint(path: Path) -> dict[str, dict]:
