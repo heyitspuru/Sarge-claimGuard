@@ -7,14 +7,18 @@ import json
 from pathlib import Path
 
 from claimguard.icd import InMemoryRetriever, load_csv
-from claimguard.llm import embed
+from claimguard.llm import _mock_embed
 from claimguard.models import DischargeRecord
 from claimguard.orchestrator import PipelineDeps, run_claim
 
 GOLDEN_DIR = Path(__file__).resolve().parents[2] / "data" / "golden"
 ICD_CSV = Path(__file__).resolve().parents[2] / "data" / "icd" / "icd10.csv"
 
-RETRIEVER = InMemoryRetriever(load_csv(ICD_CSV), embed)
+# Explicitly the mock embedder, not the provider-switching `embed`. This runs at
+# module import — i.e. during collection, before any fixture exists — so the
+# provider pin in conftest cannot be relied on from here. Using `embed` made this
+# file fire a real API call on every suite run, contradicting the docstring above.
+RETRIEVER = InMemoryRetriever(load_csv(ICD_CSV), _mock_embed)
 
 
 def _load_golden_by_packaging() -> dict[str, dict]:
