@@ -12,6 +12,16 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://claimguard:claimguard@localhost:5432/claimguard"
     data_dir: str = "data"
 
+    # --- auth (see docs/AUTH.md; the login flow is a labelled simulator) ---
+    session_ttl_min: int = 60
+    otp_ttl_sec: int = 300
+    otp_max_attempts: int = 5
+    # Demo staff account. Seeded, not registerable. Override in .env for anything
+    # that is not a local demo.
+    staff_email: str = "claims@demo-hospital.test"
+    staff_password: str = "demo-claims-officer"
+    cookie_secure: bool = False  # True behind HTTPS; False so local http:// dev works
+
     model_config = {"env_file": ".env"}
 
 

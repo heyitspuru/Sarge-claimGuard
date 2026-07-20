@@ -1,20 +1,28 @@
 import json
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Cookie, Depends, FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
 
+from claimguard.auth import identity, otp, staff
+from claimguard.auth.deps import CONSENT, current_principal, require_patient, require_staff
+from claimguard.auth.sessions import COOKIE_NAME, SESSIONS, Principal
 from claimguard.comms import LANGUAGES, patient_status
 from claimguard.compliance_radar import radar
+from claimguard.config import get_settings
 
 app = FastAPI(title="ClaimGuard")
 
-# CORS for the Vite dev server (frontend/).
+# The Vite dev server proxies /api -> here, so the browser sees one origin and the
+# session cookie is same-site. These origins remain for direct access during dev.
+# allow_credentials requires explicit origins — a wildcard is rejected by browsers.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-    allow_methods=["GET"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -40,6 +48,108 @@ def _record_index() -> dict[str, str]:
     return idx
 
 
+def _set_session_cookie(response: Response, token: str) -> None:
+    settings = get_settings()
+    response.set_cookie(
+        COOKIE_NAME,
+        token,
+        httponly=True,  # unreadable from JS, so XSS cannot exfiltrate it
+        samesite="lax",  # blocks cross-site form CSRF on the POST routes
+        secure=settings.cookie_secure,
+        max_age=settings.session_ttl_min * 60,
+        path="/",
+    )
+
+
+# --- auth ---------------------------------------------------------------------
+
+
+class OtpRequest(BaseModel):
+    identifier: str  # ABHA id or policy number
+
+
+class OtpVerify(BaseModel):
+    challenge_id: str
+    otp: str
+
+
+class StaffLogin(BaseModel):
+    email: str
+    password: str
+
+
+@app.post("/auth/patient/request-otp")
+def request_otp(body: OtpRequest):
+    """Start a patient login. SIMULATED — nothing is sent anywhere.
+
+    An identifier that is not in the synthetic corpus is refused. A demo that accepted a
+    real ABHA number would ingest real personal data from the first curious visitor.
+    The identifier is never logged, including on rejection.
+    """
+    record_id = identity.resolve(body.identifier)
+    if record_id is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Unknown identifier. This build only accepts synthetic identifiers "
+                   "from its own demo corpus — never enter a real ABHA id or policy number.",
+        )
+    challenge_id, code = otp.OTPS.issue(record_id)
+    return {
+        "challenge_id": challenge_id,
+        "simulated": True,
+        "simulated_otp": code,
+        "note": "Simulated OTP — shown here because nothing is sent. Real ABHA delivery "
+                "requires ABDM registration as a Health Information User (docs/AUTH.md).",
+    }
+
+
+@app.post("/auth/patient/verify-otp")
+def verify_otp(body: OtpVerify, response: Response):
+    record_id, _reason = otp.OTPS.verify(body.challenge_id, body.otp)
+    if record_id is None:
+        # One message for every failure mode, so this cannot be used to probe which
+        # challenge ids or codes are valid.
+        raise HTTPException(status_code=401, detail="invalid or expired code")
+    if CONSENT.is_withdrawn(record_id):
+        raise HTTPException(status_code=403, detail="consent withdrawn for this record")
+
+    token = SESSIONS.create(Principal(kind="patient", subject=record_id, record_id=record_id))
+    _set_session_cookie(response, token)
+    return {"kind": "patient", "record_id": record_id}
+
+
+@app.post("/auth/staff/login")
+def staff_login(body: StaffLogin, response: Response):
+    email = staff.authenticate(body.email, body.password)
+    if email is None:
+        raise HTTPException(status_code=401, detail="invalid credentials")
+    token = SESSIONS.create(Principal(kind="staff", subject=email))
+    _set_session_cookie(response, token)
+    return {"kind": "staff", "email": email}
+
+
+@app.post("/auth/logout")
+def logout(response: Response, cg_session: str | None = Cookie(default=None)):
+    """Revoke server-side, then clear the cookie.
+
+    Clearing the cookie alone would leave the session valid for anyone who captured the
+    token — the revocation is the part that matters, and is the reason these are
+    server-side sessions rather than self-contained tokens.
+    """
+    revoked = SESSIONS.revoke(cg_session)
+    response.delete_cookie(COOKIE_NAME, path="/")
+    return {"ok": True, "revoked": revoked}
+
+
+@app.get("/auth/me")
+def whoami(principal: Principal = Depends(current_principal)):
+    return {"kind": principal.kind, "subject": principal.subject,
+            "record_id": principal.record_id}
+
+
+# --- public -------------------------------------------------------------------
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -47,15 +157,18 @@ def health():
 
 @app.get("/", response_class=HTMLResponse)
 def index():
-    return ("<h1>ClaimGuard API</h1><p>Compliance Radar endpoints: "
-            "<code>/radar/journeys</code>, <code>/radar/journey/{record_id}</code>. "
-            "Patient view: <code>/patient/{record_id}?lang=en|hi|ta</code>. "
-            "Dashboard: run the Vite app in <code>frontend/</code>.</p>")
+    return ("<h1>ClaimGuard API</h1><p>Authentication required. Staff: "
+            "<code>/radar/*</code>. Patients: <code>/patient/me</code>. "
+            "Login is a labelled simulator — see <code>docs/AUTH.md</code>.</p>")
+
+
+# --- hospital staff only ------------------------------------------------------
 
 
 @app.get("/radar/journeys")
-def radar_journeys():
-    """Summary report per synthetic journey (labeled synthetic)."""
+def radar_journeys(_: Principal = Depends(require_staff)):
+    """Operational view over every record. Staff only — this list is precisely the
+    enumeration a patient would need to read other patients' claims."""
     reports = [
         radar.analyze(radar.generate_journey(rid, ctype)).model_dump()
         for rid, ctype in _record_index().items()
@@ -65,7 +178,7 @@ def radar_journeys():
 
 
 @app.get("/radar/journey/{record_id}")
-def radar_journey(record_id: str):
+def radar_journey(record_id: str, _: Principal = Depends(require_staff)):
     claim_type = _record_index().get(record_id)
     if claim_type is None:
         raise HTTPException(status_code=404, detail=f"unknown record_id {record_id}")
@@ -78,16 +191,27 @@ def radar_journey(record_id: str):
     }
 
 
-@app.get("/patient/{record_id}")
-def patient_view(record_id: str, lang: str = "en", outcome: str | None = None,
-                 at: int | None = None):
-    """What the patient sees: plain-language status, ETA, and the messages sent."""
-    claim_type = _record_index().get(record_id)
-    if claim_type is None:
-        raise HTTPException(status_code=404, detail=f"unknown record_id {record_id}")
+# --- patient ------------------------------------------------------------------
+
+
+@app.get("/patient/me")
+def patient_view(lang: str = "en", outcome: str | None = None, at: int | None = None,
+                 principal: Principal = Depends(require_patient)):
+    """The authenticated patient's own claim.
+
+    The record comes from the SESSION, never from the URL. There is deliberately no
+    `/patient/{record_id}` route: an endpoint that takes no object identifier cannot
+    have an insecure-direct-object-reference bug, which is a stronger guarantee than
+    remembering to check ownership on one that does.
+    """
     if lang not in LANGUAGES:
         raise HTTPException(status_code=400,
                             detail=f"unsupported lang {lang}; supported: {list(LANGUAGES)}")
+    record_id = principal.record_id
+    claim_type = _record_index().get(record_id)
+    if claim_type is None:
+        raise HTTPException(status_code=404, detail="record not available")
+
     journey = radar.generate_journey(record_id, claim_type)
     report = radar.analyze(journey)
     status = patient_status(journey, report, language=lang, now_minutes=at, outcome=outcome)

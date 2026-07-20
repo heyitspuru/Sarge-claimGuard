@@ -34,3 +34,63 @@ def _force_mock_provider(monkeypatch):
     get_settings.cache_clear()
     yield
     get_settings.cache_clear()
+
+
+@pytest.fixture(autouse=True)
+def _clean_auth_state():
+    """Sessions and OTP challenges are process-global, so leaking them between tests
+    would let one test authenticate another."""
+    from claimguard.auth.deps import CONSENT
+    from claimguard.auth.otp import OTPS
+    from claimguard.auth.sessions import SESSIONS
+
+    SESSIONS.clear()
+    OTPS.clear()
+    CONSENT._withdrawn.clear()
+    yield
+    SESSIONS.clear()
+    OTPS.clear()
+    CONSENT._withdrawn.clear()
+
+
+def _first_golden_identity() -> tuple[str, str]:
+    """(record_id, abha_id) of the first golden record — a valid synthetic login."""
+    import json
+    from pathlib import Path
+
+    path = sorted(Path("data/golden").glob("*.json"))[0]
+    rec = json.loads(path.read_text(encoding="utf-8"))["record"]
+    return rec["record_id"], rec["patient"]["abha_id"]
+
+
+@pytest.fixture
+def staff_client():
+    """TestClient with a logged-in hospital staff session."""
+    from fastapi.testclient import TestClient
+
+    from claimguard.api import app
+
+    with TestClient(app) as client:
+        s = get_settings()
+        r = client.post("/auth/staff/login",
+                        json={"email": s.staff_email, "password": s.staff_password})
+        assert r.status_code == 200, r.text
+        yield client
+
+
+@pytest.fixture
+def patient_client():
+    """(TestClient, record_id) with a logged-in patient session for that record."""
+    from fastapi.testclient import TestClient
+
+    from claimguard.api import app
+
+    record_id, abha = _first_golden_identity()
+    with TestClient(app) as client:
+        challenge = client.post("/auth/patient/request-otp",
+                                json={"identifier": abha}).json()
+        r = client.post("/auth/patient/verify-otp", json={
+            "challenge_id": challenge["challenge_id"],
+            "otp": challenge["simulated_otp"]})
+        assert r.status_code == 200, r.text
+        yield client, record_id
