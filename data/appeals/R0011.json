@@ -1,0 +1,16 @@
+{
+  "record_id": "R0011",
+  "appeal": {
+    "scenario_id": "AUTO-R0011",
+    "status": "no_valid_appeal",
+    "appeal_text": "",
+    "citations": [],
+    "reasoning": "The insurer's decision to partially approve the claim for cataract surgery, citing clause STAR-SEC1-C03, appears to be consistent with the policy wording. Clause STAR-SEC1-C03 explicitly states: 'Expenses for Cataract surgery (per eye) shall be limited to 25% of the Sum Insured or Rs. 40,000, whichever is lower, per eye, per Policy Year.' The approved amount of Rs. 20789 is lower than Rs. 40,000, indicating that the '25% of the Sum Insured' limit was likely the lower applicable amount, or another valid calculation within the clause was applied. No other provided candidate clause contradicts or overrides this specific sub-limit for cataract surgery, nor do they provide a basis for an appeal to increase the approved amount. Other clauses relate to waiting periods, co-payment, room rent, or unrelated conditions, none of which support an appeal against the application of the cataract sub-limit in this context."
+  },
+  "review_state": "drafted",
+  "drafted_by": "claims@demo-hospital.test",
+  "drafted_at": "2026-07-20T21:53:30Z",
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "review_note": ""
+}

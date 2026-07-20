@@ -129,6 +129,53 @@ def test_cannot_draft_an_appeal_for_an_approved_claim(staff_client):
     assert "nothing to appeal" in r.json()["detail"].lower()
 
 
+def test_drafting_on_the_mock_provider_is_refused_not_faked(staff_client):
+    """The mock returns an empty completion, which the grounding gate downgrades to
+    `no_valid_appeal` — visually identical to the Negotiator examining a case and
+    genuinely declining. Serving that as a refusal would undermine the one property
+    this agent exists for, so it is refused outright instead."""
+    rid = _a_denied_record()
+    r = staff_client.post(f"/claims/{rid}/appeal")  # conftest pins LLM_PROVIDER=mock
+
+    assert r.status_code == 400
+    detail = r.json()["detail"].lower()
+    assert "mock" in detail
+    assert "honest refusal" in detail, "the message must explain WHY a fake refusal is bad"
+    assert appeals_store.get(rid) is None, "a refused draft must not be stored"
+
+
+def test_quota_exhaustion_reports_the_real_limit(staff_client, monkeypatch):
+    """A 503 naming the actual ceiling beats a generic failure the user cannot act on."""
+    from claimguard import appeal as appeal_module
+    from claimguard.config import get_settings
+
+    from claimguard import api as api_module
+    from claimguard.llm import _mock_embed
+
+    monkeypatch.setenv("LLM_PROVIDER", "gemini")
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
+    get_settings.cache_clear()
+
+    # The endpoint builds a PolicyRetriever (which embeds every clause) before it ever
+    # reaches the handler. Left alone with provider=gemini that is a REAL network call —
+    # the same trap that made tests/integration/test_pipeline.py hit the API at
+    # collection time. Pin the embedder so this test stays offline.
+    monkeypatch.setattr(api_module.llm, "embed", _mock_embed)
+
+    def exhausted(*_args, **_kwargs):
+        def handler(*_a, **_k):
+            raise RuntimeError("429 RESOURCE_EXHAUSTED: quota exceeded")
+        return handler
+
+    monkeypatch.setattr(appeal_module, "make_appeal_handler", exhausted)
+    try:
+        r = staff_client.post(f"/claims/{_a_denied_record()}/appeal")
+        assert r.status_code == 503
+        assert "20" in r.json()["detail"], "the actual daily limit should be named"
+    finally:
+        get_settings.cache_clear()
+
+
 def test_draft_lands_in_drafted_never_pre_approved(staff_client):
     """The whole point of the review gate is that drafting is not sending."""
     rid = _a_denied_record()

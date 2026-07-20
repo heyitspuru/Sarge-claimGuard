@@ -16,14 +16,22 @@ services:
     build: .
     environment:
       DATABASE_URL: postgresql://claimguard:claimguard@db:5432/claimguard
-      LLM_PROVIDER: mock
+      # Defaults to the free, offline, deterministic mock. Drafting an appeal needs a
+      # real provider, so set LLM_PROVIDER=gemini in your .env (compose interpolates it)
+      # and restart. Everything else works fine on mock.
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     # The corpus is generated (`gen-data`), not baked into the image — mounting it means
     # regenerating does not need a rebuild. Read-only: the API reads the corpus and must
     # never write to it. Without this the container has NO golden records, and
     # `_record_index()` silently falls back to invented ids while patient login, which
     # correctly refuses to invent an identity, fails outright.
     volumes:
+      # The corpus is read-only: the API must never mutate golden records or policies.
       - ./data:/app/data:ro
+      # ...but drafted appeals are a legitimate write, so that one directory is mounted
+      # read-write on top. Keeping the rest ro means a bug cannot damage the corpus.
+      - ./data/appeals:/app/data/appeals
     ports: ["8000:8000"]
     depends_on:
       db:

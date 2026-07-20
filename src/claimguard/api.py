@@ -294,6 +294,19 @@ def draft_claim_appeal(record_id: str, principal: Principal = Depends(require_st
         raise HTTPException(status_code=400,
                             detail=f"claim outcome is {result.outcome}; nothing to appeal")
 
+    # The mock provider returns an empty completion, which the grounding gate correctly
+    # downgrades to `no_valid_appeal` — indistinguishable in the UI from the Negotiator
+    # examining a case and genuinely declining it. Refusing outright is the honest
+    # behaviour: a fake refusal would undermine the one property this agent exists for.
+    if get_settings().llm_provider == "mock":
+        raise HTTPException(
+            status_code=400,
+            detail="Drafting needs a real provider. This API is running on the mock "
+                   "provider, which would return an empty completion and look like an "
+                   "honest refusal. Set LLM_PROVIDER=gemini (and GEMINI_API_KEY) and "
+                   "restart the api container.",
+        )
+
     policies = load_policies(Path(get_settings().data_dir) / "policies")
     retriever = PolicyRetriever(policies, llm.embed)
     handler = appeal_mod.make_appeal_handler(policies, retriever, llm.complete)
@@ -312,7 +325,17 @@ def draft_claim_appeal(record_id: str, principal: Principal = Depends(require_st
     if appeal is None:
         raise HTTPException(status_code=400, detail="nothing to appeal for this claim")
 
-    return appeals_store.save(record_id, appeal, drafted_by=principal.subject)
+    try:
+        return appeals_store.save(record_id, appeal, drafted_by=principal.subject)
+    except OSError as exc:
+        # Losing a draft here means the provider call that produced it was spent for
+        # nothing, so say exactly what is wrong rather than returning a bare 500.
+        raise HTTPException(
+            status_code=500,
+            detail=f"Drafted the appeal but could not store it: {exc.strerror}. "
+                   f"The appeals directory must be writable (see docker-compose.yml — "
+                   f"data/ is mounted read-only with data/appeals writable on top).",
+        ) from exc
 
 
 @app.post("/claims/{record_id}/appeal/review")
