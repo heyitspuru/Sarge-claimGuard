@@ -84,7 +84,11 @@ is whether real-world clause extraction feeds it a *good* corpus.
 | Gate | Status | What it takes |
 |---|---|---|
 | 💻 Secrets management | **`.env` only** | A real secret store; the current key handling is developer-grade |
-| 💻 Access control / authn | **Absent** | There is no auth on the API at all. It is a localhost demo surface |
+| 💻 Access control / authn | **Simulated** | Two surfaces behind logins, authorization enforced server-side, patient scoped to their own record ([`AUTH.md`](AUTH.md)). The *mechanism* is real; the identity source is not |
+| 🏛️ Real ABHA authentication | **Blocked** | ABDM integration as a registered Health Information User — the same gate as NHCX. The OTP here sends nothing |
+| 💻 Durable sessions | **In-memory** | Sessions and OTP challenges die on restart and don't span replicas; both sit behind an interface so a Postgres table swaps in |
+| 💻 Multi-tenancy | **Single tenant** | Records carry no `hospital_id`, so staff see every record. Needs to exist before a second hospital does |
+| 🧑💻 Staff identity | **One seeded account** | Comes from the hospital's identity provider in reality; no MFA, no lockout, no rotation, no login rate limiting |
 | 💻 Audit-log retention | **In-memory / local** | Durable, tamper-evident storage with a retention policy |
 | 💻 Penetration testing | **Absent** | Required before exposing anything handling health data |
 | 💻 Availability / DR | **Absent** | Single Docker Compose stack, no backup or recovery story |

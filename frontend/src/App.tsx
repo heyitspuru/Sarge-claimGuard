@@ -1,5 +1,11 @@
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import DotField from "./components/DotField";
-import { RadarDashboard } from "./components/RadarDashboard";
+import { Landing } from "@/components/Landing";
+import { PatientLogin } from "@/components/PatientLogin";
+import { PatientView } from "@/components/PatientView";
+import { RadarDashboard } from "@/components/RadarDashboard";
+import { RequireAuth } from "@/components/RequireAuth";
+import { StaffLogin } from "@/components/StaffLogin";
 
 export default function App() {
   return (
@@ -21,8 +27,37 @@ export default function App() {
           glowColor="#F2B9C9"
         />
       </div>
+
+      {/* Two separate surfaces. The guards below are UX only — every rule they express
+          is enforced independently server-side in auth/deps.py. */}
       <div className="relative">
-        <RadarDashboard />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+
+            <Route path="/hospital/login" element={<StaffLogin />} />
+            <Route
+              path="/hospital"
+              element={
+                <RequireAuth kind="staff" loginPath="/hospital/login">
+                  <RadarDashboard />
+                </RequireAuth>
+              }
+            />
+
+            <Route path="/patient/login" element={<PatientLogin />} />
+            <Route
+              path="/patient"
+              element={
+                <RequireAuth kind="patient" loginPath="/patient/login">
+                  <PatientView />
+                </RequireAuth>
+              }
+            />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     </div>
   );

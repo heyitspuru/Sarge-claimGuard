@@ -38,7 +38,91 @@ export interface JourneysResponse {
   journeys: RadarReport[];
 }
 
-const API = "http://localhost:8000";
+// Same-origin via the Vite proxy (see vite.config.ts) so the session cookie is
+// same-site and needs no CORS credentials handling.
+const API = "/api";
+
+/** An HTTP response we understood — as opposed to never reaching the server at all. */
+export class ApiError extends Error {
+  // Declared explicitly rather than as a constructor parameter property —
+  // `erasableSyntaxOnly` is on, so TS-only syntax that emits runtime code is rejected.
+  status: number;
+
+  constructor(status: number, message?: string) {
+    super(message ?? `HTTP ${status}`);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
+export class AuthError extends ApiError {}
+
+/**
+ * fetch + credentials, with the distinction that actually matters for auth:
+ *
+ *   - the server answered with 401/403  -> AuthError, so the route guard can redirect
+ *   - the server answered with another error -> ApiError
+ *   - the request never reached a server -> the caller may fall back to sample data
+ *
+ * The old code caught everything identically, so once auth existed a 401 would have
+ * silently rendered bundled sample data and the app would have LOOKED signed in while
+ * being signed out. Never collapse these three cases back together.
+ */
+async function request<T>(path: string): Promise<T> {
+  const r = await fetch(`${API}${path}`, { credentials: "include" });
+  if (r.status === 401 || r.status === 403) {
+    throw new AuthError(r.status);
+  }
+  if (!r.ok) throw new ApiError(r.status);
+  return (await r.json()) as T;
+}
+
+async function post<T>(path: string, body: unknown): Promise<T> {
+  const r = await fetch(`${API}${path}`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const detail = await r.json().catch(() => ({}));
+    throw new ApiError(r.status, (detail as { detail?: string }).detail);
+  }
+  return (await r.json()) as T;
+}
+
+/** True only when the request never reached a server — the one case sample data is
+ *  an honest stand-in for. An HTTP status is an answer, and must not be masked. */
+function isOffline(err: unknown): boolean {
+  return !(err instanceof ApiError);
+}
+
+// --- auth ---------------------------------------------------------------------
+
+export interface Me {
+  kind: "patient" | "staff";
+  subject: string;
+  record_id: string | null;
+}
+
+export const fetchMe = () => request<Me>("/auth/me");
+
+export const requestOtp = (identifier: string) =>
+  post<{ challenge_id: string; simulated_otp: string; note: string }>(
+    "/auth/patient/request-otp",
+    { identifier },
+  );
+
+export const verifyOtp = (challenge_id: string, otp: string) =>
+  post<{ kind: string; record_id: string }>("/auth/patient/verify-otp", {
+    challenge_id,
+    otp,
+  });
+
+export const staffLogin = (email: string, password: string) =>
+  post<{ kind: string; email: string }>("/auth/staff/login", { email, password });
+
+export const logout = () => post<{ ok: boolean }>("/auth/logout", {});
 
 const SAMPLE_BASELINE: Baseline = { preauth_sla_min: 60, discharge_sla_min: 180, prebreach_min: 120 };
 
@@ -63,10 +147,11 @@ function mk(record_id: string, claim_type: string, gaps: Record<string, number>)
 
 export async function fetchJourneys(): Promise<JourneysResponse> {
   try {
-    const r = await fetch(`${API}/radar/journeys`);
-    if (!r.ok) throw new Error(String(r.status));
-    return await r.json();
-  } catch {
+    return await request<JourneysResponse>("/radar/journeys");
+  } catch (err) {
+    // Only stand in for a server we never reached. A 401 must propagate so the guard
+    // can send the user to log in rather than showing them fabricated journeys.
+    if (!isOffline(err)) throw err;
     const journeys = [...SAMPLE].sort(
       (a, b) => b.pre_submission_delay_min - a.pre_submission_delay_min
     );
@@ -127,16 +212,16 @@ const SAMPLE_COPY: Record<Language, { happening: string; next: string; pharmacy:
   },
 };
 
-export async function fetchPatientStatus(
-  recordId: string,
-  lang: Language = "en"
-): Promise<PatientStatus> {
+/**
+ * The authenticated patient's own claim. Takes no record id — the server derives it
+ * from the session, which is what makes it impossible to ask for someone else's.
+ */
+export async function fetchPatientStatus(lang: Language = "en"): Promise<PatientStatus> {
   try {
-    const r = await fetch(`${API}/patient/${recordId}?lang=${lang}`);
-    if (!r.ok) throw new Error(String(r.status));
-    return (await r.json()).status;
-  } catch {
-    const report = SAMPLE.find((s) => s.record_id === recordId) ?? SAMPLE[0];
+    return (await request<{ status: PatientStatus }>(`/patient/me?lang=${lang}`)).status;
+  } catch (err) {
+    if (!isOffline(err)) throw err;
+    const report = SAMPLE[0];
     const submitAt = report.pre_submission_delay_min;
     const copy = SAMPLE_COPY[lang];
     const messages: PatientMessage[] = [
@@ -166,10 +251,9 @@ export async function fetchPatientStatus(
 
 export async function fetchJourney(recordId: string): Promise<JourneyDetail> {
   try {
-    const r = await fetch(`${API}/radar/journey/${recordId}`);
-    if (!r.ok) throw new Error(String(r.status));
-    return await r.json();
-  } catch {
+    return await request<JourneyDetail>(`/radar/journey/${recordId}`);
+  } catch (err) {
+    if (!isOffline(err)) throw err;
     const report = SAMPLE.find((s) => s.record_id === recordId) ?? SAMPLE[0];
     let t = 0;
     const stages: Stage[] = [{ stage: "order", at_minutes: 0 }];

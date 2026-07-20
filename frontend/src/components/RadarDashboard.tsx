@@ -7,9 +7,8 @@ import {
   Loader2,
   Radar,
   TimerReset,
-  User,
 } from "lucide-react";
-import { PatientView } from "@/components/PatientView";
+import { SignOutButton } from "@/components/SignOutButton";
 import {
   fetchJourney,
   fetchJourneys,
@@ -63,7 +62,6 @@ export function RadarDashboard() {
   const [selected, setSelected] = useState<string | null>(null);
   const [detail, setDetail] = useState<JourneyDetail | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<"radar" | "patient">("radar");
 
   useEffect(() => {
     fetchJourneys()
@@ -106,36 +104,15 @@ export function RadarDashboard() {
             Pre-submission delay vs. IRDAI SLA — where claim time is lost.
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-xs font-semibold text-primary-text">
-          <FlaskConical className="size-3.5" />
-          SYNTHETIC DATA — not a live journey
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-xs font-semibold text-primary-text">
+            <FlaskConical className="size-3.5" />
+            SYNTHETIC DATA — not a live journey
+          </span>
+          <SignOutButton />
+        </div>
       </header>
 
-      <div className="mb-5 flex gap-1 border-b border-border">
-        {([
-          ["radar", "Compliance Radar", Radar],
-          ["patient", "Patient view", User],
-        ] as const).map(([key, label, Icon]) => (
-          <button
-            key={key}
-            onClick={() => setTab(key)}
-            className={`-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2 text-sm transition-colors ${
-              tab === key
-                ? "border-primary font-medium text-primary"
-                : "border-transparent text-foreground/60 hover:text-foreground"
-            }`}
-          >
-            <Icon className="size-4" />
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {tab === "patient" ? (
-        <PatientView journeys={journeys} />
-      ) : (
-      <>
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Journeys" value={journeys.length} icon={Activity} />
         <Stat label="Breaches (>3h)" value={breaches} tone="breach" icon={AlertTriangle} />
@@ -195,8 +172,6 @@ export function RadarDashboard() {
 
         {detail && baseline && <JourneyDetailPanel detail={detail} baseline={baseline} />}
       </div>
-      </>
-      )}
 
       <p className="mt-4 text-center text-xs text-foreground/50">
         Synthetic timeline (deterministic per record). Real timestamps arrive with deployment;

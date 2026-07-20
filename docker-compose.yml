@@ -17,6 +17,13 @@ services:
     environment:
       DATABASE_URL: postgresql://claimguard:claimguard@db:5432/claimguard
       LLM_PROVIDER: mock
+    # The corpus is generated (`gen-data`), not baked into the image — mounting it means
+    # regenerating does not need a rebuild. Read-only: the API reads the corpus and must
+    # never write to it. Without this the container has NO golden records, and
+    # `_record_index()` silently falls back to invented ids while patient login, which
+    # correctly refuses to invent an identity, fails outright.
+    volumes:
+      - ./data:/app/data:ro
     ports: ["8000:8000"]
     depends_on:
       db:

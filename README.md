@@ -65,14 +65,24 @@ pytest
 
 `LLM_PROVIDER` defaults to `mock`, so all of the above runs offline, deterministically, with **no API key and no spend**. Set `LLM_PROVIDER=gemini` + `GEMINI_API_KEY` for real-provider runs.
 
-Dashboard (Compliance Radar + patient view):
+Dashboard:
 
 ```bash
 docker compose up -d                        # postgres + api
 cd frontend && npm install && npm run dev   # http://localhost:5173
 ```
 
-The UI is labelled **SYNTHETIC DATA** throughout, and falls back to bundled sample data if the API is down.
+Two separate surfaces, each behind its own login ([`docs/AUTH.md`](docs/AUTH.md)):
+
+- **`/hospital`** — Compliance Radar over every record. Demo staff login:
+  `claims@demo-hospital.test` / `demo-claims-officer`.
+- **`/patient`** — one patient's own claim, and nothing else. Sign in with any ABHA id
+  or policy number **from the demo corpus** (`data/golden/*.json`), then the simulated
+  OTP shown on screen.
+
+Login is a **labelled simulator** — the OTP sends nothing, and an identifier outside the
+synthetic corpus is refused by design. Never enter a real ABHA id. The UI is labelled
+**SYNTHETIC DATA** throughout.
 
 ---
 
