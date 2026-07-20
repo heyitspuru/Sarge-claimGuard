@@ -132,7 +132,11 @@ data/golden/*.json ──┐
 | 2 | Negotiation/Appeal Agent — clause-grounded appeals, deterministic citation gate (grounding rate ≥ 0.98), "honest no valid appeal" path, denials corpus + grounding eval | ✅ done |
 | 3 | Compliance Radar — synthetic journey timeline, pre-submission delay vs. IRDAI baseline (1h pre-auth / 3h discharge), pre-breach alert at 2h, React/shadcn dashboard | ✅ done |
 | 4 | Patient communication layer — plain-language multilingual status/SLA alerts, template-based safe copy, patient view | ✅ done |
-| 5 | Hardening, full `docs/EVALUATION.md`, all §9 edge cases, demo recording | ⏳ pending |
+| 5 | Hardening — all 12 §9 edge cases green, resumable real-provider eval, translation back-check, auto-appeal wiring, production-readiness audit | 🔄 in progress |
+
+Phase 5 remaining: `docs/EVALUATION.md` (waiting on sample accumulation — see
+[`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md)), the one-shot translation back-check run,
+and the demo recording ([`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md)).
 
 ## Demonstrating the packaging-validity DoD gate offline
 
@@ -195,25 +199,39 @@ predicts `packaging="ready"` and no codes) scores `coding_f1=0.000`,
 
 ## Eval numbers (real Gemini provider, subset)
 
-With `LLM_PROVIDER=gemini` (models `gemini-2.5-flash` for completion,
-`gemini-embedding-001` truncated to 768 dims for retrieval), the pipeline was run over a
-**6-record balanced subset** (2 ready / 2 rejected / 2 needs_review) of the golden set — the
-Gemini free tier's ~10 requests/minute and ~250/day ceilings make the full 200-record run
-(~600 requests) impractical in a single pass:
+With `LLM_PROVIDER=gemini` (`gemini-2.5-flash` for completion, `gemini-embedding-001`
+truncated to 768 dims for retrieval). **This is an accumulating sample, not the full
+corpus** — the Gemini free tier allows exactly **20 generate requests/day**, confirmed
+from the provider's own quota error (`GenerateRequestsPerDayPerProjectPerModel-FreeTier`,
+`quotaValue: 20`). At 2 calls per record that is 10 records/day, so the full 200 is a
+~20-day accumulation. Procedure: [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md).
 
 ```
-n records            6
-coding_f1            0.500
-packaging_validity   0.667
+n records                10 / 200
+coding_f1                0.500
+packaging_validity       0.700
+
+where coding lands:            where packaging lands:
+  exact      3                   match                7
+  sibling    4                   needs_review->ready  2
+  miss       3                   ready->needs_review  1
 ```
 
-Against the mock (`0.062` / `0.300`) and null baseline (`0.000` / `0.700`), the real provider
-is a clear, honest signal that the retrieve→assign→package chain produces genuine coding
-accuracy — `coding_f1=0.500` under hierarchical credit means Gemini is landing exact or
-same-category ICD-10 codes. This is a **subset** number, not the full-golden-set eval the DoD
-ultimately wants; that needs paid-tier quota (or several free-tier days). The `llm.py` Gemini
-path has 429 backoff so a burst eval paces itself through the rate limit rather than dying on
-the first throttle.
+`sibling` is the load-bearing distinction: hierarchical F1 gives partial credit for codes
+sharing an ICD family, so "right family, wrong leaf" scores above zero while sharing no
+exact code with the key. The coder is mostly **oriented but imprecise** rather than lost —
+a different problem with a different fix, and one a collapsed miss/exact split would hide.
+
+Against the mock (`0.062` / `0.300`) and null baseline (`0.000` / `0.700`), the real
+provider is a genuine signal that the retrieve→assign→package chain produces real coding
+accuracy. Two caveats that must travel with these numbers: **n=10 is underpowered**, and
+coding F1 is measured against **unadjudicated** answer keys — it is agreement with a
+synthetic key, not clinical accuracy (see
+[`docs/PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md) §3).
+
+`eval --real-run` is resumable and quota-safe: records cut off by a 429 are left
+unrecorded so the next day retries them, and a provider limit never enters the accuracy
+denominator.
 
 ## Eval numbers (Negotiation Agent — Phase 2)
 
@@ -249,10 +267,13 @@ multi-day free-tier run, labeled `gemini`.
 
 - **Mock-provider eval numbers are near-zero by design** (see above) — they gate the pipeline
   mechanism, not coding accuracy. Real numbers require `LLM_PROVIDER=gemini` + a Gemini API key.
-- **Gemini free tier is ~20 generate requests/day** on `gemini-2.5-flash`, so neither the
-  200-record pipeline eval nor the 48-scenario negotiation eval completes in one free-tier pass.
-  The `llm.py` path has 429 backoff, but the daily cap is the hard limit — real full-corpus
-  numbers need paid tier or several days.
+- **Gemini free tier is exactly 20 generate requests/day** on `gemini-2.5-flash`
+  (confirmed from the provider quota error, not inferred), so neither the 200-record
+  pipeline eval nor the 48-scenario negotiation eval completes in one free-tier pass.
+  `llm.py` has 429 backoff, but the daily cap is a hard limit — full-corpus numbers need
+  a paid tier or ~20 days of accumulation. `eval --real-run` is built for exactly this.
+- **Coding F1 is measured against unadjudicated answer keys** — agreement with a
+  synthetic key, not clinical accuracy. No certified coder has reviewed the golden set.
 - **60-code ICD-10 subset** (`data/icd/icd10.csv`), sized to the synthetic template universe
   (12 templates), not the full WHO ICD-10 table. Swap in the full table before generalizing
   beyond the synthetic corpus.
@@ -276,13 +297,20 @@ multi-day free-tier run, labeled `gemini`.
   patient view are real and tested, but there is no WhatsApp/Twilio integration — `channel` is a
   label (`whatsapp_sandbox`), not a send. Sandbox credentials plug in at the send boundary; nothing
   in the tested logic changes when they do.
-- **Translations are hand-written for three languages** (English, Hindi, Tamil) and have not been
-  reviewed by a native speaker or a clinical-communication specialist. They are deliberately
-  template-based rather than model-translated (see below), which makes them safe-by-construction
-  but also means adding a language is a pull request, not a config flag.
+- **Translations are model-written for three languages** (English, Hindi, Tamil) and have not
+  been reviewed by a native speaker or a clinical-communication specialist. They are deliberately
+  template-based rather than model-translated at runtime, which makes them safe-by-construction
+  but also means adding a language is a pull request, not a config flag. Automated checks prove
+  only the *absence of alarming terms* — they cannot establish warmth, register or reading level.
+  Real-world use requires WHO-style forward/back-translation validation and patient cognitive
+  testing; see [`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md).
 - **Negotiator real appeal-quality numbers are pending** a full `eval --negotiation` run (free-tier
   daily quota; see above). The deterministic grounding gate is proven; the LLM's appeal *quality*
   is not yet measured against real Gemini over the full corpus.
+
+**A fuller audit of what separates this from a deployable system — legal, clinical and
+human gates, tagged by who can close them — is in
+[`docs/PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md).**
 
 ## Running the tests
 
