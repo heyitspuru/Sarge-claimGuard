@@ -32,7 +32,52 @@ def _add_gen_denials_subparser(sub: argparse._SubParsersAction) -> None:
     p.set_defaults(func=_cmd_gen_denials)
 
 
+def _cmd_validate_translations(args: argparse.Namespace) -> None:
+    from claimguard.comms import backcheck
+    summary = backcheck.run_backcheck(llm.complete, artifact=Path(args.artifact),
+                                       sidecar=Path(args.sidecar))
+    print(f"checked   : {summary['checked']} strings")
+    print(f"flagged   : {summary['flagged']} for human review")
+    print(f"unchecked : {summary['unchecked']}")
+    print(f"artifact  : {summary['artifact']}")
+    print(f"sidecar   : {summary['sidecar']}")
+    if summary["flagged"]:
+        print("\nFlagged strings are meaning-drift candidates — read them before shipping.")
+    print("\nNOTE: this screens for meaning drift only. It cannot establish warmth,\n"
+          "register or reading level; those still need a native speaker.")
+
+
+def _add_validate_translations_subparser(sub: argparse._SubParsersAction) -> None:
+    p = sub.add_parser("validate-translations",
+                       help="Blind back-translation check of patient copy (~4 provider calls)")
+    p.add_argument("--artifact", type=str, default="docs/TRANSLATION_BACKCHECK.md")
+    p.add_argument("--sidecar", type=str, default="data/translation_checked.json")
+    p.set_defaults(func=_cmd_validate_translations)
+
+
 def _cmd_eval(args: argparse.Namespace) -> None:
+    if args.real_report:
+        from claimguard.eval import real_run
+        real_run.print_real_report(real_run.report_from_checkpoint(Path(args.checkpoint)))
+        return
+
+    if args.real_run:
+        from claimguard.eval import real_run
+        retriever = icd.InMemoryRetriever(icd.load_csv(Path(args.data_dir) / "icd" / "icd10.csv"),
+                                           llm.embed)
+        summary = real_run.run_incremental(
+            Path(args.golden), Path(args.checkpoint), limit=args.limit,
+            retrieve=retriever, llm=llm.complete, pause=args.pause,
+        )
+        print(f"completed this run : {summary['completed_this_run']}")
+        print(f"total accumulated  : {summary['total_done']} / {summary['total_available']}")
+        print(f"remaining          : {summary['remaining']}")
+        if summary["quota_stop"]:
+            print("\nStopped on provider quota — this is expected on a free tier and is not\n"
+                  "a failure. The unfinished records were left unrecorded; rerun the same\n"
+                  "command tomorrow to resume exactly where this left off.")
+        return
+
     if args.negotiation:
         from claimguard.agents.negotiator import draft_appeal
         from claimguard.coverage import PolicyRetriever, load_policies
@@ -76,6 +121,16 @@ def _add_eval_subparser(sub: argparse._SubParsersAction) -> None:
                     help="Run the Negotiator grounding eval over the denials corpus")
     p.add_argument("--denials", type=str, default="data/denials")
     p.add_argument("--policies", type=str, default="data/policies")
+    p.add_argument("--real-run", action="store_true",
+                    help="Resumable real-provider run: process --limit unprocessed golden "
+                         "records and append to the checkpoint. Safe to stop on quota.")
+    p.add_argument("--real-report", action="store_true",
+                    help="Aggregate metrics + failure taxonomy from the accumulated checkpoint")
+    p.add_argument("--checkpoint", type=str, default="data/eval_runs/pipeline_real.jsonl")
+    p.add_argument("--limit", type=int, default=10,
+                    help="Max records to process in this --real-run invocation")
+    p.add_argument("--pause", type=float, default=0.0,
+                    help="Seconds to sleep between records (pace under a per-minute limit)")
     p.set_defaults(func=_cmd_eval)
 
 
@@ -87,6 +142,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_load_refs_subparser(sub)
     _add_gen_denials_subparser(sub)
     _add_eval_subparser(sub)
+    _add_validate_translations_subparser(sub)
 
     return parser
 
