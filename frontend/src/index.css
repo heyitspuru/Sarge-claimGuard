@@ -4,15 +4,21 @@
 
 /* ClaimGuard design system (design-system/claimguard/MASTER.md) */
 @theme {
-  --color-background: #dbd7d8;
+  --color-background: #ffffff;
   --color-foreground: #2b2528;
   --color-primary: #f0225f;
   --color-primary-hover: #c11a4c;
   --color-primary-foreground: #ffffff;
-  --color-muted: #cfc9cb;
+  /* #f0225f on white is ~4.0:1 — fine for large text, icons and filled buttons, but
+     under AA for small text. Use this deeper shade (~6.4:1) wherever primary carries
+     small copy. */
+  --color-primary-text: #c11a4c;
+  /* Retuned for a white page: the old #cfc9cb / #c4bec0 were chosen against a grey
+     background and read as heavy smudges on white. */
+  --color-muted: #f0eef1;
   --color-muted-foreground: #6b6265;
-  --color-border: #c4bec0;
-  --color-input: #c4bec0;
+  --color-border: #e5e1e5;
+  --color-input: #e5e1e5;
   --color-ring: #f0225f;
   --color-card: #ffffff;
   --color-card-foreground: #2b2528;
@@ -41,9 +47,27 @@ body,
 
 body {
   margin: 0;
-  background: #dbd7d8;
   color: #2b2528;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+
+  /* Glossy white: a soft brand-tinted highlight at the top easing into a whisper of
+     grey at the bottom. Flat #fff would leave the white cards invisible — the sheen
+     gives them something to sit on without tinting the content. `fixed` keeps the
+     highlight anchored to the viewport so it reads as light rather than as an object
+     that scrolls away. */
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(1100px 520px at 50% -15%, rgba(240, 34, 95, 0.06), transparent 62%),
+    linear-gradient(180deg, #ffffff 0%, #fafafb 55%, #f4f3f5 100%);
+  background-attachment: fixed;
+}
+
+/* Cards are pure white on a near-white page, so separation has to come from elevation
+   rather than fill. */
+[data-slot="card"] {
+  box-shadow:
+    0 1px 2px rgba(43, 37, 40, 0.04),
+    0 4px 16px rgba(43, 37, 40, 0.06);
 }

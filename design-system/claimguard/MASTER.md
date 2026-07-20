@@ -30,7 +30,11 @@
 | Destructive | `#B91C1C` | `--color-destructive` |
 | Ring | `#F0225F` | `--color-ring` |
 
-**Color Notes:** Warm off-white base + vivid pink for every interactive element (buttons, links, active states, focus rings). Contrast: `#F0225F` on `#DBD7D8` ≈ 3:1 — fine for buttons/large UI, never for body text; body text is always `#2B2528` (≈11:1). White on `#F0225F` ≈ 4.1:1 — button labels must be ≥16px semibold. Hover states use `#C11A4C`.
+**Color Notes:** **Glossy white base** (`#FFFFFF` with a soft brand-tinted highlight at the top easing into `#F4F3F5` at the bottom, `background-attachment: fixed`) + vivid pink for every interactive element. Flat white would erase the white cards, so separation comes from **elevation**, not fill — cards carry a two-layer shadow.
+
+Contrast: `#F0225F` on white ≈ 4.0:1 — fine for large text, icons and filled buttons, but **under AA for small text**, so small primary copy uses `--color-primary-text` `#C11A4C` (≈6.4:1). Body text is always `#2B2528` (≈14:1 on white). White on `#F0225F` ≈ 4.1:1 — button labels must be ≥16px semibold. Hover states use `#C11A4C`.
+
+`muted` (`#F0EEF1`) and `border` (`#E5E1E5`) were retuned for the white page; the earlier `#CFC9CB`/`#C4BEC0` were chosen against the old grey background and read as heavy smudges on white.
 
 ### Typography
 

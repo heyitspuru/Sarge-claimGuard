@@ -106,7 +106,7 @@ export function RadarDashboard() {
             Pre-submission delay vs. IRDAI SLA — where claim time is lost.
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-xs font-semibold text-primary">
+        <span className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-xs font-semibold text-primary-text">
           <FlaskConical className="size-3.5" />
           SYNTHETIC DATA — not a live journey
         </span>
@@ -304,7 +304,7 @@ function JourneyDetailPanel({ detail, baseline }: { detail: JourneyDetail; basel
         </div>
         <div className="mt-3 text-xs text-foreground/60">
           Slowest handoff:{" "}
-          <Badge variant="outline" className="font-mono text-primary">
+          <Badge variant="outline" className="font-mono text-primary-text">
             {report.slowest_stage}
           </Badge>
         </div>
