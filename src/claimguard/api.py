@@ -9,10 +9,14 @@ from pydantic import BaseModel
 from claimguard.auth import identity, otp, staff
 from claimguard.auth.deps import CONSENT, current_principal, require_patient, require_staff
 from claimguard.auth.sessions import COOKIE_NAME, SESSIONS, Principal
-from claimguard import advocacy
+from claimguard import advocacy, appeals_store, llm
+from claimguard import appeal as appeal_mod
+from claimguard.agents.submitter import submit
 from claimguard.comms import LANGUAGES, advocacy_messages, patient_status
 from claimguard.compliance_radar import radar
 from claimguard.config import get_settings
+from claimguard.coverage import PolicyRetriever, load_policies
+from claimguard.models import ClaimPackage
 
 app = FastAPI(title="ClaimGuard")
 
@@ -190,6 +194,138 @@ def radar_journey(record_id: str, _: Principal = Depends(require_staff)):
         "report": radar.analyze(journey).model_dump(),
         "baseline": _BASELINE,
     }
+
+
+# --- hospital console ---------------------------------------------------------
+
+
+class AppealReview(BaseModel):
+    state: str  # approved | declined
+    note: str = ""
+
+
+def _queue_row(record_id: str, claim_type: str) -> dict | None:
+    """One claim's console summary, or None when nothing needs a human.
+
+    "Needs a human" is deliberately narrow and derived from facts we actually have: the
+    insurer declined or part-paid, or the claim breached its SLA. Inventing softer
+    signals would fill the queue with noise and teach staff to ignore it.
+    """
+    outcome = advocacy.outcome_for(record_id)
+    report = radar.analyze(radar.generate_journey(record_id, claim_type))
+    draft = appeals_store.get(record_id)
+
+    denied = outcome in ("partial", "rejected")
+    if not denied and report.breach_status != "breach":
+        return None
+
+    state = advocacy.advocacy_state(record_id)
+    if not denied:
+        action = "sla_breach"
+    elif state["state"] == "no_valid_appeal":
+        action = "no_appeal_available"
+    elif draft is None:
+        action = "needs_draft"
+    elif draft["review_state"] == "drafted":
+        action = "needs_review"
+    else:
+        action = draft["review_state"]
+
+    return {
+        "record_id": record_id,
+        "claim_type": claim_type,
+        "outcome": outcome,
+        "breach_status": report.breach_status,
+        "pre_submission_delay_min": report.pre_submission_delay_min,
+        "advocacy_state": state["state"],
+        "review_state": draft["review_state"] if draft else None,
+        "action": action,
+    }
+
+
+@app.get("/claims/queue")
+def claims_queue(_: Principal = Depends(require_staff)):
+    """What actually needs a person, most urgent first."""
+    rows = [r for rid, ctype in _record_index().items()
+            if (r := _queue_row(rid, ctype)) is not None]
+    priority = {"needs_review": 0, "needs_draft": 1, "sla_breach": 2,
+                "no_appeal_available": 3, "approved": 4, "declined": 5}
+    rows.sort(key=lambda r: (priority.get(r["action"], 9),
+                             -r["pre_submission_delay_min"]))
+    return {"synthetic": True, "queue": rows}
+
+
+@app.get("/claims/{record_id}")
+def claim_detail(record_id: str, _: Principal = Depends(require_staff)):
+    claim_type = _record_index().get(record_id)
+    if claim_type is None:
+        raise HTTPException(status_code=404, detail=f"unknown record_id {record_id}")
+
+    journey = radar.generate_journey(record_id, claim_type)
+    return {
+        "synthetic": True,
+        "record_id": record_id,
+        "claim_type": claim_type,
+        "outcome": advocacy.outcome_for(record_id),
+        "report": radar.analyze(journey).model_dump(),
+        "advocacy": advocacy.advocacy_state(record_id),
+        "appeal": appeals_store.get(record_id),
+        "consent_withdrawn": CONSENT.is_withdrawn(record_id),
+    }
+
+
+@app.post("/claims/{record_id}/appeal")
+def draft_claim_appeal(record_id: str, principal: Principal = Depends(require_staff)):
+    """Run the Negotiator for this claim and store the draft for review.
+
+    Costs real provider quota, so it is an explicit staff action rather than something
+    that happens on page load. The result is stored, so re-opening the claim is free.
+    """
+    claim_type = _record_index().get(record_id)
+    if claim_type is None:
+        raise HTTPException(status_code=404, detail=f"unknown record_id {record_id}")
+
+    record = advocacy._load_record(record_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="record not available")
+
+    result = submit(ClaimPackage(record_id=record_id, status="ready"), {})
+    if result.outcome not in appeal_mod.APPEALABLE_OUTCOMES:
+        raise HTTPException(status_code=400,
+                            detail=f"claim outcome is {result.outcome}; nothing to appeal")
+
+    policies = load_policies(Path(get_settings().data_dir) / "policies")
+    retriever = PolicyRetriever(policies, llm.embed)
+    handler = appeal_mod.make_appeal_handler(policies, retriever, llm.complete)
+
+    try:
+        appeal = handler(record, result)
+    except Exception as exc:
+        if llm.is_quota_error(exc):
+            raise HTTPException(
+                status_code=503,
+                detail=f"Provider daily quota exhausted ({llm.FREE_TIER_DAILY_GENERATE} "
+                       f"generate requests/day on the free tier). Try again tomorrow.",
+            ) from exc
+        raise HTTPException(status_code=502, detail="could not draft an appeal") from exc
+
+    if appeal is None:
+        raise HTTPException(status_code=400, detail="nothing to appeal for this claim")
+
+    return appeals_store.save(record_id, appeal, drafted_by=principal.subject)
+
+
+@app.post("/claims/{record_id}/appeal/review")
+def review_claim_appeal(record_id: str, body: AppealReview,
+                        principal: Principal = Depends(require_staff)):
+    """A human decides whether the drafted appeal actually goes to the insurer."""
+    if body.state not in ("approved", "declined"):
+        raise HTTPException(status_code=400, detail="state must be approved or declined")
+    payload = appeals_store.review(record_id, body.state,
+                                    reviewed_by=principal.subject, note=body.note)
+    if payload is None:
+        raise HTTPException(status_code=404, detail="no draft to review")
+    return payload
 
 
 # --- patient ------------------------------------------------------------------

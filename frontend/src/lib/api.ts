@@ -308,3 +308,66 @@ export async function fetchJourney(recordId: string): Promise<JourneyDetail> {
     };
   }
 }
+
+// --- hospital console ---------------------------------------------------------
+
+export interface QueueRow {
+  record_id: string;
+  claim_type: string;
+  outcome: string;
+  breach_status: BreachStatus;
+  pre_submission_delay_min: number;
+  advocacy_state: string;
+  review_state: string | null;
+  action:
+    | "needs_review"
+    | "needs_draft"
+    | "sla_breach"
+    | "no_appeal_available"
+    | "approved"
+    | "declined";
+}
+
+export interface AppealCitation {
+  clause_id: string;
+  quoted_text: string;
+  relevance: string;
+}
+
+export interface DraftedAppeal {
+  record_id: string;
+  appeal: {
+    status: "appeal" | "no_valid_appeal";
+    appeal_text: string;
+    citations: AppealCitation[];
+    reasoning: string;
+  };
+  review_state: "drafted" | "approved" | "declined";
+  drafted_by: string;
+  drafted_at: string;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  review_note: string;
+}
+
+export interface ClaimDetail {
+  record_id: string;
+  claim_type: string;
+  outcome: string;
+  report: RadarReport;
+  advocacy: Advocacy;
+  appeal: DraftedAppeal | null;
+  consent_withdrawn: boolean;
+}
+
+export const fetchQueue = () =>
+  request<{ queue: QueueRow[] }>("/claims/queue").then((r) => r.queue);
+
+export const fetchClaim = (recordId: string) =>
+  request<ClaimDetail>(`/claims/${recordId}`);
+
+export const draftAppeal = (recordId: string) =>
+  post<DraftedAppeal>(`/claims/${recordId}/appeal`, {});
+
+export const reviewAppeal = (recordId: string, state: "approved" | "declined", note = "") =>
+  post<DraftedAppeal>(`/claims/${recordId}/appeal/review`, { state, note });

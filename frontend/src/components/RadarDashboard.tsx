@@ -4,11 +4,13 @@ import {
   AlertTriangle,
   Clock,
   FlaskConical,
+  Inbox,
   Loader2,
   Radar,
   TimerReset,
 } from "lucide-react";
 import { SignOutButton } from "@/components/SignOutButton";
+import { WorkQueue } from "@/components/WorkQueue";
 import {
   fetchJourney,
   fetchJourneys,
@@ -62,6 +64,9 @@ export function RadarDashboard() {
   const [selected, setSelected] = useState<string | null>(null);
   const [detail, setDetail] = useState<JourneyDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  // Both views here are staff-only, so this is a genuine tab rather than the
+  // access-control hole the old patient/radar tab pair was.
+  const [tab, setTab] = useState<"queue" | "radar">("queue");
 
   useEffect(() => {
     fetchJourneys()
@@ -113,6 +118,30 @@ export function RadarDashboard() {
         </div>
       </header>
 
+      <div className="mb-5 flex gap-1 border-b border-border">
+        {([
+          ["queue", "Work queue", Inbox],
+          ["radar", "Compliance Radar", Radar],
+        ] as const).map(([key, label, Icon]) => (
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            className={`-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2 text-sm transition-colors ${
+              tab === key
+                ? "border-primary font-medium text-primary-text"
+                : "border-transparent text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            <Icon className="size-4" />
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "queue" ? (
+        <WorkQueue />
+      ) : (
+      <>
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat label="Journeys" value={journeys.length} icon={Activity} />
         <Stat label="Breaches (>3h)" value={breaches} tone="breach" icon={AlertTriangle} />
@@ -172,6 +201,8 @@ export function RadarDashboard() {
 
         {detail && baseline && <JourneyDetailPanel detail={detail} baseline={baseline} />}
       </div>
+      </>
+      )}
 
       <p className="mt-4 text-center text-xs text-foreground/50">
         Synthetic timeline (deterministic per record). Real timestamps arrive with deployment;
