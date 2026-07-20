@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 
+from claimguard.comms import LANGUAGES, patient_status
 from claimguard.compliance_radar import radar
 
 app = FastAPI(title="ClaimGuard")
@@ -48,6 +49,7 @@ def health():
 def index():
     return ("<h1>ClaimGuard API</h1><p>Compliance Radar endpoints: "
             "<code>/radar/journeys</code>, <code>/radar/journey/{record_id}</code>. "
+            "Patient view: <code>/patient/{record_id}?lang=en|hi|ta</code>. "
             "Dashboard: run the Vite app in <code>frontend/</code>.</p>")
 
 
@@ -74,3 +76,19 @@ def radar_journey(record_id: str):
         "report": radar.analyze(journey).model_dump(),
         "baseline": _BASELINE,
     }
+
+
+@app.get("/patient/{record_id}")
+def patient_view(record_id: str, lang: str = "en", outcome: str | None = None,
+                 at: int | None = None):
+    """What the patient sees: plain-language status, ETA, and the messages sent."""
+    claim_type = _record_index().get(record_id)
+    if claim_type is None:
+        raise HTTPException(status_code=404, detail=f"unknown record_id {record_id}")
+    if lang not in LANGUAGES:
+        raise HTTPException(status_code=400,
+                            detail=f"unsupported lang {lang}; supported: {list(LANGUAGES)}")
+    journey = radar.generate_journey(record_id, claim_type)
+    report = radar.analyze(journey)
+    status = patient_status(journey, report, language=lang, now_minutes=at, outcome=outcome)
+    return {"synthetic": True, "languages": list(LANGUAGES), "status": status.model_dump()}

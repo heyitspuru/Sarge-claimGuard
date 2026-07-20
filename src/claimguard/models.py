@@ -136,3 +136,29 @@ class RadarReport(BaseModel):
     breach_status: Literal["ok", "pre_breach", "breach"]
     alert: bool
     synthetic: bool = True
+
+
+# --- Phase 4: Patient communication ---
+
+
+class PatientMessage(BaseModel):
+    record_id: str
+    event: str
+    language: str
+    text: str
+    at_minutes: int  # offset from the order handoff, same clock as Journey
+    channel: str = "whatsapp_sandbox"
+    synthetic: bool = True
+
+
+class PatientStatus(BaseModel):
+    record_id: str
+    language: str
+    stage: str
+    happening: str  # what's happening, in the patient's words
+    next_step: str  # what's next
+    eta_min: int | None = None
+    sla_min: int
+    elapsed_min: int
+    messages: list[PatientMessage] = Field(default_factory=list)
+    synthetic: bool = True

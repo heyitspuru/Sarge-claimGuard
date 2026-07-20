@@ -72,6 +72,18 @@ per record (the pipeline itself runs in milliseconds); real timestamps arrive on
 deployment. If the API is down, the dashboard renders bundled sample data so the UI is always
 demoable.
 
+**Patient view** (Phase 4): the second tab of the same app, or directly via
+`GET /patient/{record_id}?lang=en|hi|ta`. It shows what the patient is told — plain-language
+status, ETA to the next update, and the message timeline in their chosen language.
+
+Patient copy is **template-based, never model-generated**. `CLAUDE.md` makes "bad news phrased
+alarmingly" a test failure rather than a judgment call, and a reviewed template is auditable
+forever where a prompt is not. `comms/messages.py` holds the catalog (7 events × 3 languages) and
+`unsafe_terms()` holds the copy contract — the same function the tests assert every template
+against. Trigger timing is the other half of the tested behaviour: pharmacy readiness fires at
+**order** time (never gated on the insurer's approval), and the SLA alert fires **at** the 120-minute
+pre-breach mark, because an early warning delivered late is not a warning.
+
 ## Architecture sketch
 
 ```
@@ -119,7 +131,7 @@ data/golden/*.json ──┐
 | 1 | Thin pipeline (Summarizer→Coder→Packager→Submitter), orchestrator + audit log, integration + edge-case tests, real pipeline wired into eval, this README | ✅ done |
 | 2 | Negotiation/Appeal Agent — clause-grounded appeals, deterministic citation gate (grounding rate ≥ 0.98), "honest no valid appeal" path, denials corpus + grounding eval | ✅ done |
 | 3 | Compliance Radar — synthetic journey timeline, pre-submission delay vs. IRDAI baseline (1h pre-auth / 3h discharge), pre-breach alert at 2h, React/shadcn dashboard | ✅ done |
-| 4 | Patient communication layer — plain-language multilingual status/SLA alerts | ⏳ pending |
+| 4 | Patient communication layer — plain-language multilingual status/SLA alerts, template-based safe copy, patient view | ✅ done |
 | 5 | Hardening, full `docs/EVALUATION.md`, all §9 edge cases, demo recording | ⏳ pending |
 
 ## Demonstrating the packaging-validity DoD gate offline
@@ -258,9 +270,16 @@ multi-day free-tier run, labeled `gemini`.
   risk of a real insurer's name or product colliding with these.
 - **FHIR validation is base R4 only** (`fhir.resources`), no NHCX-specific profile
   constraints layered on top yet (`src/claimguard/agents/packager.py`).
-- **Compliance Radar and patient comms (Phases 3–4) do not exist yet.** In the *pipeline* eval
-  reports (`eval --pipeline`), `grounding_rate` is `"n/a (Phase 2)"` on purpose — grounding is
-  measured by the separate `eval --negotiation` report, not the pipeline one.
+- In the *pipeline* eval reports (`eval --pipeline`), `grounding_rate` is `"n/a (Phase 2)"` on
+  purpose — grounding is measured by the separate `eval --negotiation` report, not the pipeline one.
+- **Patient comms are not actually delivered anywhere.** The message catalog, trigger timing and
+  patient view are real and tested, but there is no WhatsApp/Twilio integration — `channel` is a
+  label (`whatsapp_sandbox`), not a send. Sandbox credentials plug in at the send boundary; nothing
+  in the tested logic changes when they do.
+- **Translations are hand-written for three languages** (English, Hindi, Tamil) and have not been
+  reviewed by a native speaker or a clinical-communication specialist. They are deliberately
+  template-based rather than model-translated (see below), which makes them safe-by-construction
+  but also means adding a language is a pull request, not a config flag.
 - **Negotiator real appeal-quality numbers are pending** a full `eval --negotiation` run (free-tier
   daily quota; see above). The deterministic grounding gate is proven; the LLM's appeal *quality*
   is not yet measured against real Gemini over the full corpus.
