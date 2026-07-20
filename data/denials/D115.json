@@ -1,0 +1,28 @@
+{
+  "scenario": {
+    "scenario_id": "D115",
+    "insurer_id": "MEDI",
+    "plan_id": "PLUS1",
+    "diagnosis": "Community-acquired pneumonia",
+    "procedures": [
+      "Oxygen supplementation via nasal cannula",
+      "Chest physiotherapy"
+    ],
+    "decision": {
+      "claim_id": "CLM-D115",
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "outcome": "rejected",
+      "claimed_amount": 60000,
+      "approved_amount": 0,
+      "reason_text": "Claim not admissible as per policy. No further details provided.",
+      "cited_clause_id": null
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D115",
+    "appeal_viable": false,
+    "expected_clause_ids": [],
+    "category": "ungroundable"
+  }
+}

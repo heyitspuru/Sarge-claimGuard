@@ -1,0 +1,48 @@
+{
+  "record": {
+    "record_id": "R0055",
+    "patient": {
+      "name": "Zaitra Kulkarni",
+      "age": 52,
+      "sex": "F",
+      "abha_id": "49-5003-2496-6850"
+    },
+    "admission_date": "2026-05-07",
+    "discharge_date": "2026-05-11",
+    "claim_type": "reimbursement",
+    "specialty": "neurology",
+    "diagnosis_text": "Cerebral infarction (acute ischemic stroke)",
+    "procedures": [
+      "CT brain plain",
+      "IV thrombolysis with alteplase"
+    ],
+    "medications": [
+      "Inj Alteplase (rtPA)",
+      "Tab Aspirin 150mg OD",
+      "Tab Atorvastatin 40mg OD",
+      "Tab Clopidogrel 75mg OD"
+    ],
+    "clinical_notes": "Patient was brought to emergency within 2 hours of sudden onset left-sided weakness and slurring of speech. NIHSS score on admission was 12. Non-contrast CT brain ruled out haemorrhage; clinical picture consistent with acute ischemic stroke in the right MCA territory. Patient was within the thrombolysis window and, after ruling out contraindications, was administered IV alteplase. Post-thrombolysis, patient showed partial improvement in power of the left upper and lower limb. Monitored in the stroke unit for 24 hours with no hemorrhagic transformation on repeat CT. Started on dual antiplatelet therapy and statin after 24 hours, underwent physiotherapy, and was discharged with residual mild left-sided weakness, advised for continued physiotherapy and follow-up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL2739000",
+      "sum_insured": 500000,
+      "claimed_amount": 273979
+    }
+  },
+  "answer_key": {
+    "record_id": "R0055",
+    "icd_codes": [
+      "I63.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

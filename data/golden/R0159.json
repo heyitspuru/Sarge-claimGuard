@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0159",
+    "patient": {
+      "name": "Fariq Sehgal",
+      "age": 64,
+      "sex": "M",
+      "abha_id": "66-8670-1997-7667"
+    },
+    "admission_date": "2026-05-20",
+    "discharge_date": "2026-05-26",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Dengue fever with warning signs",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "4-day h/o high fever, myalgia, retro-orbital pain. NS1 Ag +ve. Platelet nadir 32k/cumm D3, HCT rising - warning signs present. Managed as per WHO dengue protocol with IV fluids, strict I/O charting, serial platelet/HCT monitoring q6h. No bleed, no shock. Platelets recovered >100k by D6, afebrile 24h, discharged stable.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL2176728",
+      "sum_insured": 500000,
+      "claimed_amount": 51377
+    }
+  },
+  "answer_key": {
+    "record_id": "R0159",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "ready"
+  }
+}

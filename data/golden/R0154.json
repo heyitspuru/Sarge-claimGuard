@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0154",
+    "patient": {
+      "name": "Kritika Pant",
+      "age": 45,
+      "sex": "M",
+      "abha_id": "16-8495-1839-4475"
+    },
+    "admission_date": "2026-04-25",
+    "discharge_date": "2026-04-29",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Fever under evaluation, ?viral ?bacterial",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "Patient ko 8 din se dheere dheere bukhar chadh raha tha, pet mein bhi halka dard tha. Blood culture mein Salmonella Typhi positive aaya. Ceftriaxone injection start kiya gaya IV route se. 4 din mein bukhar kam hona shuru hua. Koi complication jaise bleeding ya perforation nahi hua. Patient ne diet bhi acchi tarah li. Discharge ke time bukhar nahi tha, oral antibiotic course complete karne ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL8979321",
+      "sum_insured": 1000000,
+      "claimed_amount": 50677
+    }
+  },
+  "answer_key": {
+    "record_id": "R0154",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

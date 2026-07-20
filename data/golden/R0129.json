@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0129",
+    "patient": {
+      "name": "Hamsini Bhatnagar",
+      "age": 54,
+      "sex": "M",
+      "abha_id": "70-2264-0795-9371"
+    },
+    "admission_date": "2026-06-26",
+    "discharge_date": "2026-07-02",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "Patient presented with insidious onset, step-ladder pattern fever for 8 days, associated with relative bradycardia, coated tongue, and diffuse abdominal discomfort. Blood culture sent on admission grew Salmonella Typhi, sensitive to ceftriaxone. Widal test also reactive at significant titres. Started on IV Ceftriaxone 2g OD; fever showed gradual defervescence by Day 4 of antibiotics. Patient monitored for complications including GI bleed and perforation, none noted. Tolerated soft diet well, ambulated without difficulty. Discharged afebrile with oral antibiotics to complete a 14-day course and advice on food hygiene.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL8587682",
+      "sum_insured": 500000,
+      "claimed_amount": 22023
+    }
+  },
+  "answer_key": {
+    "record_id": "R0129",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

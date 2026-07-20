@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0138",
+    "patient": {
+      "name": "Leena Mahajan",
+      "age": 37,
+      "sex": "F",
+      "abha_id": "18-4599-8920-8136"
+    },
+    "admission_date": "2026-07-04",
+    "discharge_date": "2026-07-11",
+    "claim_type": "cashless",
+    "specialty": "pulmonology",
+    "diagnosis_text": "Community-acquired pneumonia",
+    "procedures": [
+      "Oxygen supplementation via nasal cannula",
+      "Chest physiotherapy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Azithromycin 500mg IV OD",
+      "Nebulization with Salbutamol/Ipratropium",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "Patient presented with a 5-day history of fever, productive cough with yellowish sputum, and progressive breathlessness. On examination, SpO2 was 90% on room air, with coarse crepitations over the right lower lung zone. Chest X-ray showed right lower lobe consolidation, confirming community-acquired pneumonia. CURB-65 score of 2 warranted inpatient management. Patient started on IV antibiotics (ceftriaxone and azithromycin) as per hospital protocol, supplemental oxygen via nasal cannula, and nebulization. SpO2 improved to 96% on room air by Day 3, fever settled, and cough reduced significantly. Repeat chest examination showed resolving crepitations. Patient was weaned off oxygen and discharged in stable condition on oral antibiotics to complete a 7-day course.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL9154321",
+      "sum_insured": 500000,
+      "claimed_amount": 57664
+    }
+  },
+  "answer_key": {
+    "record_id": "R0138",
+    "icd_codes": [
+      "J18.9"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

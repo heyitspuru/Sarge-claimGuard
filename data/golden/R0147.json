@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0147",
+    "patient": {
+      "name": "Vedant Puri",
+      "age": 55,
+      "sex": "F",
+      "abha_id": "66-3040-4633-5356"
+    },
+    "admission_date": "2026-04-18",
+    "discharge_date": "2026-04-20",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Dengue fever with warning signs",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "4-day h/o high fever, myalgia, retro-orbital pain. NS1 Ag +ve. Platelet nadir 32k/cumm D3, HCT rising - warning signs present. Managed as per WHO dengue protocol with IV fluids, strict I/O charting, serial platelet/HCT monitoring q6h. No bleed, no shock. Platelets recovered >100k by D6, afebrile 24h, discharged stable.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL4473927",
+      "sum_insured": 500000,
+      "claimed_amount": 51223
+    }
+  },
+  "answer_key": {
+    "record_id": "R0147",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "ready"
+  }
+}

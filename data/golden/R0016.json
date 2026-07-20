@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0016",
+    "patient": {
+      "name": "Laksh Sibal",
+      "age": 45,
+      "sex": "F",
+      "abha_id": "31-6723-2686-5635"
+    },
+    "admission_date": "2026-07-01",
+    "discharge_date": "2026-07-03",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "Patient ko 8 din se dheere dheere bukhar chadh raha tha, pet mein bhi halka dard tha. Blood culture mein Salmonella Typhi positive aaya. Ceftriaxone injection start kiya gaya IV route se. 4 din mein bukhar kam hona shuru hua. Koi complication jaise bleeding ya perforation nahi hua. Patient ne diet bhi acchi tarah li. Discharge ke time bukhar nahi tha, oral antibiotic course complete karne ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL5150587",
+      "sum_insured": 1000000,
+      "claimed_amount": 51483
+    }
+  },
+  "answer_key": {
+    "record_id": "R0016",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

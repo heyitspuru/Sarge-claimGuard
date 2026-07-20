@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0157",
+    "patient": {
+      "name": "Andrew Iyer",
+      "age": 89,
+      "sex": "M",
+      "abha_id": "09-4092-4845-4347"
+    },
+    "admission_date": "2026-06-08",
+    "discharge_date": "2026-06-15",
+    "claim_type": "reimbursement",
+    "specialty": "orthopedics",
+    "diagnosis_text": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "medications": [
+      "Inj Cefuroxime 1.5g IV BD",
+      "Inj Enoxaparin 40mg SC OD",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Patient ghar par gir gaye the, uske baad se right leg par weight nahi daal pa rahe the aur leg thodi chhoti aur bahar ki taraf mudi hui lag rahi thi. X-ray mein hip ki fracture confirm hui. Operation kiya gaya (hemiarthroplasty) spinal anesthesia ke under. Operation acche se hua, koi dikkat nahi hui. Blood clot na bane isliye injection diya gaya roz. Doosre din se walker ki madad se chalna shuru karaya gaya. Discharge ke time patient walker se chal pa rahe the, ghar par precautions batayi gayi hain.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL1871326",
+      "sum_insured": 500000,
+      "claimed_amount": 328003
+    }
+  },
+  "answer_key": {
+    "record_id": "R0157",
+    "icd_codes": [
+      "S72.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

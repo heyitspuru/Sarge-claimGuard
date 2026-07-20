@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0106",
+    "patient": {
+      "name": "Zarna Chandran",
+      "age": 69,
+      "sex": "F",
+      "abha_id": "74-2610-6891-7692"
+    },
+    "admission_date": "2026-05-03",
+    "discharge_date": "2026-05-07",
+    "claim_type": "reimbursement",
+    "specialty": "orthopedics",
+    "diagnosis_text": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "medications": [
+      "Inj Cefuroxime 1.5g IV BD",
+      "Inj Enoxaparin 40mg SC OD",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Patient ghar par gir gaye the, uske baad se right leg par weight nahi daal pa rahe the aur leg thodi chhoti aur bahar ki taraf mudi hui lag rahi thi. X-ray mein hip ki fracture confirm hui. Operation kiya gaya (hemiarthroplasty) spinal anesthesia ke under. Operation acche se hua, koi dikkat nahi hui. Blood clot na bane isliye injection diya gaya roz. Doosre din se walker ki madad se chalna shuru karaya gaya. Discharge ke time patient walker se chal pa rahe the, ghar par precautions batayi gayi hain.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL6499167",
+      "sum_insured": 1000000,
+      "claimed_amount": 276324
+    }
+  },
+  "answer_key": {
+    "record_id": "R0106",
+    "icd_codes": [
+      "S72.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0068",
+    "patient": {
+      "name": "Radhika Mahal",
+      "age": 32,
+      "sex": "F",
+      "abha_id": "31-1436-7006-6384"
+    },
+    "admission_date": "2026-05-04",
+    "discharge_date": "2026-05-10",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Inguinal hernia",
+    "procedures": [
+      "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Tab Diclofenac 50mg BD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "8-month h/o reducible right groin swelling, worse on straining, cough impulse +ve. Dx: right indirect inguinal hernia. Elective open hernioplasty with mesh (Lichtenstein) under SA. Intra-op: indirect sac, bowel viable, no strangulation. Mesh placed tension-free. Post-op pain controlled with oral analgesics, ambulated same evening, wound clean. Discharged POD1, advised to avoid heavy lifting for 6 weeks, suture removal Day 10.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL7024960",
+      "sum_insured": 500000,
+      "claimed_amount": 41068
+    }
+  },
+  "answer_key": {
+    "record_id": "R0068",
+    "icd_codes": [
+      "K40.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

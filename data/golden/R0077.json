@@ -1,0 +1,44 @@
+{
+  "record": {
+    "record_id": "R0077",
+    "patient": {
+      "name": "Vedhika Dhawan",
+      "age": 24,
+      "sex": "F",
+      "abha_id": "03-6251-5578-8346"
+    },
+    "admission_date": "2026-05-14",
+    "discharge_date": "2026-05-18",
+    "claim_type": "cashless",
+    "specialty": "obstetrics",
+    "diagnosis_text": "Delivery by emergency lower segment caesarean section",
+    "procedures": [
+      "Emergency lower segment caesarean section"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Oxytocin as per protocol",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Primigravida at 39 weeks of gestation was admitted in early labour. Labour was augmented, however cardiotocography showed recurrent late decelerations with fetal heart rate in the range of 100-110 bpm, suggestive of fetal distress. In view of non-reassuring fetal status and failure to progress, decision for emergency lower segment caesarean section was taken. A live female baby was delivered with good Apgar scores, no immediate resuscitation required. Intraoperative blood loss was within normal limits, uterus well contracted. Post-operative course was uneventful, patient ambulated on Day 1, breastfeeding established, and was discharged on Day 3 in stable condition along with the neonate, with advice on wound care and postnatal follow-up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL5648044",
+      "sum_insured": 500000,
+      "claimed_amount": 75481
+    }
+  },
+  "answer_key": {
+    "record_id": "R0077",
+    "icd_codes": [
+      "O82"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

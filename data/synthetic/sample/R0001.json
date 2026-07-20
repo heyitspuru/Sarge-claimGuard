@@ -1,0 +1,37 @@
+{
+  "record_id": "R0001",
+  "patient": {
+    "name": "David Ranganathan",
+    "age": 30,
+    "sex": "M",
+    "abha_id": "03-0824-6281-9482"
+  },
+  "admission_date": "2026-07-05",
+  "discharge_date": "2026-07-12",
+  "claim_type": "reimbursement",
+  "specialty": "general_surgery",
+  "diagnosis_text": "Acute appendicitis",
+  "procedures": [
+    "Laparoscopic appendectomy"
+  ],
+  "medications": [
+    "Inj Ceftriaxone 1g IV BD",
+    "Inj Metronidazole 500mg IV TID",
+    "Tab Paracetamol 650mg SOS"
+  ],
+  "clinical_notes": "Patient ko pichhle 2 din se pet mein dard tha jo right side shift ho gaya, bukhar aur ulti bhi thi. USG mein appendix inflamed dikha. Emergency laparoscopic appendectomy ki gayi GA ke under. Operation ke baad recovery achhi rahi, patient ne oral diet second din se le li, koi complication nahi hua. Discharge ke time patient stable tha, wound clean and dry, follow-up ke liye bola gaya hai.",
+  "documents": [
+    "discharge_summary",
+    "final_bill",
+    "payment_receipts",
+    "claim_form",
+    "id_proof"
+  ],
+  "insurance": {
+    "insurer_id": "STAR",
+    "plan_id": "SEC1",
+    "policy_number": "POL1993518",
+    "sum_insured": 500000,
+    "claimed_amount": 54630
+  }
+}

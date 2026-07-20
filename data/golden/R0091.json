@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0091",
+    "patient": {
+      "name": "Henry Sinha",
+      "age": 32,
+      "sex": "F",
+      "abha_id": "55-4615-7627-3207"
+    },
+    "admission_date": "2026-05-05",
+    "discharge_date": "2026-05-10",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Cholelithiasis (gallstones) with chronic cholecystitis",
+    "procedures": [
+      "Laparoscopic cholecystectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Pantoprazole 40mg IV OD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "3-month h/o recurrent colicky RUQ pain, fatty food intolerance. USG abdomen: multiple gallstones, GB wall thickened - chronic calculous cholecystitis. LFTs WNL. Elective lap cholecystectomy under GA. Intra-op: chronically inflamed GB, Calot's triangle well delineated, CBD not injured, specimen retrieved intact. Smooth post-op course, oral fluids started 6h post-op, ambulated same evening. Discharged POD1, low-fat diet and wound care advice given.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL3023195",
+      "sum_insured": 1000000,
+      "claimed_amount": 58054
+    }
+  },
+  "answer_key": {
+    "record_id": "R0091",
+    "icd_codes": [
+      "K80.2"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

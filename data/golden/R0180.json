@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0180",
+    "patient": {
+      "name": "Vasudha Devan",
+      "age": 68,
+      "sex": "M",
+      "abha_id": "04-2399-8062-9434"
+    },
+    "admission_date": "2026-06-27",
+    "discharge_date": "2026-07-02",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Acute appendicitis",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Metronidazole 500mg IV TID",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "H/o pain abdomen x 2 days, shifted to RIF, fever+, vomiting+. USG s/o acute appendicitis. Emergency lap appendectomy done under GA. Intra-op: appendix inflamed, no perforation/rupture. Post-op course uneventful, started orally on POD1, drain removed POD2. Afebrile at discharge, wound healthy, sutures to be removed on Day 7 at follow up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL8068616",
+      "sum_insured": 1000000,
+      "claimed_amount": 56129
+    }
+  },
+  "answer_key": {
+    "record_id": "R0180",
+    "icd_codes": [
+      "K35.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

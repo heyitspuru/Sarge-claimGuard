@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0178",
+    "patient": {
+      "name": "Yashawini Gulati",
+      "age": 35,
+      "sex": "M",
+      "abha_id": "26-8002-1379-4518"
+    },
+    "admission_date": "2026-05-30",
+    "discharge_date": "2026-06-07",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Abdominal pain, cause unclear, obs.",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "Patient presented with insidious onset, step-ladder pattern fever for 8 days, associated with relative bradycardia, coated tongue, and diffuse abdominal discomfort. Blood culture sent on admission grew Salmonella Typhi, sensitive to ceftriaxone. Widal test also reactive at significant titres. Started on IV Ceftriaxone 2g OD; fever showed gradual defervescence by Day 4 of antibiotics. Patient monitored for complications including GI bleed and perforation, none noted. Tolerated soft diet well, ambulated without difficulty. Discharged afebrile with oral antibiotics to complete a 14-day course and advice on food hygiene.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL8624618",
+      "sum_insured": 500000,
+      "claimed_amount": 29496
+    }
+  },
+  "answer_key": {
+    "record_id": "R0178",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

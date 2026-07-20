@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0037",
+    "patient": {
+      "name": "Chakrika Chopra",
+      "age": 20,
+      "sex": "F",
+      "abha_id": "97-9237-6092-6030"
+    },
+    "admission_date": "2026-06-11",
+    "discharge_date": "2026-06-12",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Inguinal hernia",
+    "procedures": [
+      "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Tab Diclofenac 50mg BD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "Patient presented with a gradually increasing right groin swelling of 8 months duration, reducible on lying down, associated with occasional dragging discomfort, more pronounced on straining and coughing. Clinical examination confirmed a reducible right inguinal hernia with a positive cough impulse. Patient underwent elective open inguinal hernioplasty with mesh placement (Lichtenstein technique) under spinal anaesthesia. Intraoperative findings showed an indirect inguinal hernia with intact bowel loops, no signs of strangulation. Mesh was placed without tension, and the procedure was completed uneventfully. Post-operative recovery was smooth, patient ambulated the same evening, pain well controlled with oral analgesics, and was discharged the following day with wound care and activity restriction advice.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL9260026",
+      "sum_insured": 500000,
+      "claimed_amount": 62873
+    }
+  },
+  "answer_key": {
+    "record_id": "R0037",
+    "icd_codes": [
+      "K40.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "record": {
+    "record_id": "R0111",
+    "patient": {
+      "name": "Hredhaan Pandit",
+      "age": 88,
+      "sex": "F",
+      "abha_id": "90-6004-8046-1900"
+    },
+    "admission_date": "2026-04-29",
+    "discharge_date": "2026-05-04",
+    "claim_type": "cashless",
+    "specialty": "orthopedics",
+    "diagnosis_text": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "medications": [
+      "Inj Cefuroxime 1.5g IV BD",
+      "Inj Enoxaparin 40mg SC OD",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Patient ghar par gir gaye the, uske baad se right leg par weight nahi daal pa rahe the aur leg thodi chhoti aur bahar ki taraf mudi hui lag rahi thi. X-ray mein hip ki fracture confirm hui. Operation kiya gaya (hemiarthroplasty) spinal anesthesia ke under. Operation acche se hua, koi dikkat nahi hui. Blood clot na bane isliye injection diya gaya roz. Doosre din se walker ki madad se chalna shuru karaya gaya. Discharge ke time patient walker se chal pa rahe the, ghar par precautions batayi gayi hain.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL3278948",
+      "sum_insured": 1000000,
+      "claimed_amount": 311653
+    }
+  },
+  "answer_key": {
+    "record_id": "R0111",
+    "icd_codes": [
+      "S72.0"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

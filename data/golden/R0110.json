@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0110",
+    "patient": {
+      "name": "George Garde",
+      "age": 23,
+      "sex": "M",
+      "abha_id": "55-5148-2145-8628"
+    },
+    "admission_date": "2026-05-15",
+    "discharge_date": "2026-05-20",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Fever under evaluation, ?viral ?bacterial",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Metronidazole 500mg IV TID",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "H/o pain abdomen x 2 days, shifted to RIF, fever+, vomiting+. USG s/o acute appendicitis. Emergency lap appendectomy done under GA. Intra-op: appendix inflamed, no perforation/rupture. Post-op course uneventful, started orally on POD1, drain removed POD2. Afebrile at discharge, wound healthy, sutures to be removed on Day 7 at follow up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL4838362",
+      "sum_insured": 500000,
+      "claimed_amount": 44293
+    }
+  },
+  "answer_key": {
+    "record_id": "R0110",
+    "icd_codes": [
+      "K35.9"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0072",
+    "patient": {
+      "name": "Chavvi Rattan",
+      "age": 55,
+      "sex": "M",
+      "abha_id": "83-6732-2137-8325"
+    },
+    "admission_date": "2026-06-14",
+    "discharge_date": "2026-06-21",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Acute appendicitis",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Metronidazole 500mg IV TID",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "Patient presented with a 2-day history of periumbilical pain migrating to the right iliac fossa, associated with low-grade fever and vomiting. On examination, tenderness and guarding at McBurney's point with positive Rovsing's sign. USG abdomen showed a non-compressible, dilated appendix (9mm) with peri-appendiceal fat stranding, confirming acute appendicitis. Patient was taken up for emergency laparoscopic appendectomy under general anaesthesia. Intraoperatively, an inflamed, non-perforated appendix was noted; appendectomy performed uneventfully with no intraoperative complications. Post-op recovery was uneventful, patient tolerated oral feeds by day 2, ambulated independently, and was discharged in stable condition with advice for wound care and follow-up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL6748275",
+      "sum_insured": 500000,
+      "claimed_amount": 46517
+    }
+  },
+  "answer_key": {
+    "record_id": "R0072",
+    "icd_codes": [
+      "K35.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

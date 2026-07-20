@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0153",
+    "patient": {
+      "name": "Wridesh Issac",
+      "age": 83,
+      "sex": "F",
+      "abha_id": "11-9006-8578-5790"
+    },
+    "admission_date": "2026-05-26",
+    "discharge_date": "2026-05-30",
+    "claim_type": "cashless",
+    "specialty": "orthopedics",
+    "diagnosis_text": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "medications": [
+      "Inj Cefuroxime 1.5g IV BD",
+      "Inj Enoxaparin 40mg SC OD",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Elderly patient sustained a fall at home resulting in inability to bear weight on the right lower limb, with the limb held in a shortened and externally rotated position. X-ray pelvis with both hips confirmed a displaced fracture neck of right femur. Given the patient's age and fracture pattern, bipolar hemiarthroplasty was planned and performed under spinal anaesthesia. Intraoperative course was uneventful with good prosthesis fixation. Post-operative course included DVT prophylaxis with low-molecular-weight heparin, early mobilization with walker support from Day 2, and physiotherapy. Wound healed well with no signs of infection. Patient was discharged ambulant with walker assistance, advised on hip precautions and continued physiotherapy.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL7785986",
+      "sum_insured": 1000000,
+      "claimed_amount": 235577
+    }
+  },
+  "answer_key": {
+    "record_id": "R0153",
+    "icd_codes": [
+      "S72.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

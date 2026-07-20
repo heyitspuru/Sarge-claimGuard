@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0082",
+    "patient": {
+      "name": "Kai Sodhi",
+      "age": 39,
+      "sex": "M",
+      "abha_id": "04-9372-0521-4877"
+    },
+    "admission_date": "2026-06-01",
+    "discharge_date": "2026-06-06",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Abdominal pain, cause unclear, obs.",
+    "procedures": [
+      "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Tab Diclofenac 50mg BD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "Patient presented with a gradually increasing right groin swelling of 8 months duration, reducible on lying down, associated with occasional dragging discomfort, more pronounced on straining and coughing. Clinical examination confirmed a reducible right inguinal hernia with a positive cough impulse. Patient underwent elective open inguinal hernioplasty with mesh placement (Lichtenstein technique) under spinal anaesthesia. Intraoperative findings showed an indirect inguinal hernia with intact bowel loops, no signs of strangulation. Mesh was placed without tension, and the procedure was completed uneventfully. Post-operative recovery was smooth, patient ambulated the same evening, pain well controlled with oral analgesics, and was discharged the following day with wound care and activity restriction advice.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL4000009",
+      "sum_insured": 500000,
+      "claimed_amount": 66028
+    }
+  },
+  "answer_key": {
+    "record_id": "R0082",
+    "icd_codes": [
+      "K40.9"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

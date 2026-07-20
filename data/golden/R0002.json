@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0002",
+    "patient": {
+      "name": "Darpan Jha",
+      "age": 18,
+      "sex": "F",
+      "abha_id": "78-6579-7543-2319"
+    },
+    "admission_date": "2026-06-18",
+    "discharge_date": "2026-06-19",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Cholelithiasis (gallstones) with chronic cholecystitis",
+    "procedures": [
+      "Laparoscopic cholecystectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Pantoprazole 40mg IV OD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "3-month h/o recurrent colicky RUQ pain, fatty food intolerance. USG abdomen: multiple gallstones, GB wall thickened - chronic calculous cholecystitis. LFTs WNL. Elective lap cholecystectomy under GA. Intra-op: chronically inflamed GB, Calot's triangle well delineated, CBD not injured, specimen retrieved intact. Smooth post-op course, oral fluids started 6h post-op, ambulated same evening. Discharged POD1, low-fat diet and wound care advice given.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL4875749",
+      "sum_insured": 500000,
+      "claimed_amount": 63979
+    }
+  },
+  "answer_key": {
+    "record_id": "R0002",
+    "icd_codes": [
+      "K80.2"
+    ],
+    "expected_packaging": "ready"
+  }
+}

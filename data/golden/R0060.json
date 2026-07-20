@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0060",
+    "patient": {
+      "name": "Omkaar Lad",
+      "age": 63,
+      "sex": "F",
+      "abha_id": "33-2536-5936-8778"
+    },
+    "admission_date": "2026-07-08",
+    "discharge_date": "2026-07-15",
+    "claim_type": "reimbursement",
+    "specialty": "cardiology",
+    "diagnosis_text": "Acute myocardial infarction",
+    "procedures": [
+      "Coronary angiography",
+      "Primary PTCA with drug-eluting stent to LAD"
+    ],
+    "medications": [
+      "Tab Aspirin 150mg OD",
+      "Tab Clopidogrel 75mg OD",
+      "Tab Atorvastatin 80mg OD",
+      "Inj Heparin as per protocol"
+    ],
+    "clinical_notes": "Presented with acute onset central chest pain, diaphoresis, 2 hrs duration. ECG: STEMI anterior wall. Trop I markedly elevated. Emergency CAG done - 95% proximal LAD occlusion. Primary PTCA + DES to LAD, TIMI III flow achieved post-procedure. Post-PCI course uneventful, no arrhythmia. 2D-Echo: EF 45%, mild hypokinesia anterior wall. DAPT + statin + beta-blocker started. Ambulated D2, discharged stable D4 with cardiac rehab and lifestyle advice.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL0063943",
+      "sum_insured": 500000,
+      "claimed_amount": 294557
+    }
+  },
+  "answer_key": {
+    "record_id": "R0060",
+    "icd_codes": [
+      "I21.9"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

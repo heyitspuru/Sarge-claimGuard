@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0196",
+    "patient": {
+      "name": "Luke Wadhwa",
+      "age": 55,
+      "sex": "M",
+      "abha_id": "29-8518-6010-8188"
+    },
+    "admission_date": "2026-07-07",
+    "discharge_date": "2026-07-15",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Abdominal pain, cause unclear, obs.",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "Patient presented with high-grade fever for 4 days associated with severe myalgia, retro-orbital pain and rash. Warning signs noted: persistent vomiting, abdominal pain, and postural dizziness. NS1 antigen positive on Day 2 of illness; platelet count on admission was 68,000/cumm, trending down to 32,000/cumm by Day 3, with rising hematocrit suggestive of plasma leakage. Managed with aggressive IV fluid resuscitation per WHO dengue protocol, strict input-output monitoring, and serial CBC every 6 hours. Patient remained hemodynamically stable throughout, no bleeding manifestations. Platelet counts began recovering from Day 5, and patient was afebrile for 24 hours prior to discharge. Discharged in stable condition with advice for adequate hydration and follow-up CBC after 3 days.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL9998108",
+      "sum_insured": 500000,
+      "claimed_amount": 56295
+    }
+  },
+  "answer_key": {
+    "record_id": "R0196",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&family=Fira+Code:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ClaimGuard design system (design-system/claimguard/MASTER.md) */
+@theme {
+  --color-background: #dbd7d8;
+  --color-foreground: #2b2528;
+  --color-primary: #f0225f;
+  --color-primary-hover: #c11a4c;
+  --color-primary-foreground: #ffffff;
+  --color-muted: #cfc9cb;
+  --color-muted-foreground: #6b6265;
+  --color-border: #c4bec0;
+  --color-input: #c4bec0;
+  --color-ring: #f0225f;
+  --color-card: #ffffff;
+  --color-card-foreground: #2b2528;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #2b2528;
+  --color-secondary: #cfc9cb;
+  --color-secondary-foreground: #2b2528;
+  --color-accent: rgba(240, 34, 95, 0.1);
+  --color-accent-foreground: #f0225f;
+  --color-destructive: #b91c1c;
+  --color-destructive-foreground: #ffffff;
+  /* status (data-dense dashboard): green / amber / red */
+  --color-ok: #15803d;
+  --color-prebreach: #b45309;
+  --color-breach: #b91c1c;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'Fira Code', ui-monospace, monospace;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #dbd7d8;
+  color: #2b2528;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}

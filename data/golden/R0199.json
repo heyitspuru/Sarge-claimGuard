@@ -1,0 +1,47 @@
+{
+  "record": {
+    "record_id": "R0199",
+    "patient": {
+      "name": "Fariq Bains",
+      "age": 55,
+      "sex": "F",
+      "abha_id": "00-2602-9474-2445"
+    },
+    "admission_date": "2026-07-02",
+    "discharge_date": "2026-07-05",
+    "claim_type": "reimbursement",
+    "specialty": "endocrinology",
+    "diagnosis_text": "Type 2 diabetes mellitus with diabetic ketoacidosis",
+    "procedures": [
+      "IV insulin infusion titration",
+      "Arterial blood gas monitoring"
+    ],
+    "medications": [
+      "IV Insulin infusion (regular insulin)",
+      "IV Normal Saline",
+      "Inj Potassium chloride correction"
+    ],
+    "clinical_notes": "T2DM x 6 yrs, presented c/o vomiting, abdominal pain, altered sensorium x 2 days. RBS 485 mg/dL, ABG: pH 7.18, HCO3 9, ketonuria 3+ - DKA. Precipitant: UTI + non-compliance. ICU care: IV insulin infusion, fluid resuscitation, K+ correction, hourly glucose monitoring. Acidosis resolved by 36h, switched to SC basal-bolus insulin. Sensorium normalized. Discharged stable, diabetes education given, follow-up in endocrinology OPD advised.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL0561272",
+      "sum_insured": 500000,
+      "claimed_amount": 67676
+    }
+  },
+  "answer_key": {
+    "record_id": "R0199",
+    "icd_codes": [
+      "E11.1"
+    ],
+    "expected_packaging": "ready"
+  }
+}

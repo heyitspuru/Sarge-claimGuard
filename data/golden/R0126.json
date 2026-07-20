@@ -1,0 +1,48 @@
+{
+  "record": {
+    "record_id": "R0126",
+    "patient": {
+      "name": "Ekanta Anand",
+      "age": 58,
+      "sex": "F",
+      "abha_id": "51-4943-1200-6245"
+    },
+    "admission_date": "2026-07-06",
+    "discharge_date": "2026-07-07",
+    "claim_type": "reimbursement",
+    "specialty": "neurology",
+    "diagnosis_text": "Cerebral infarction (acute ischemic stroke)",
+    "procedures": [
+      "CT brain plain",
+      "IV thrombolysis with alteplase"
+    ],
+    "medications": [
+      "Inj Alteplase (rtPA)",
+      "Tab Aspirin 150mg OD",
+      "Tab Atorvastatin 40mg OD",
+      "Tab Clopidogrel 75mg OD"
+    ],
+    "clinical_notes": "Acute onset L-sided weakness + slurred speech, onset-to-door 2h. NIHSS 12 on admission. NCCT brain: no bleed. Dx: acute ischemic stroke, R MCA territory. Within thrombolysis window, no contraindications - IV alteplase given. Partial improvement in L limb power post-lysis. Stroke unit monitoring 24h, repeat CT: no hemorrhagic transformation. DAPT + statin started at 24h. PT initiated. Discharged with residual mild L hemiparesis, OPD f/u and continued physiotherapy advised.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL2821495",
+      "sum_insured": 1000000,
+      "claimed_amount": 211894
+    }
+  },
+  "answer_key": {
+    "record_id": "R0126",
+    "icd_codes": [
+      "I63.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

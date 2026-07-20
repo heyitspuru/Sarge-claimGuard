@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0190",
+    "patient": {
+      "name": "Zaitra Babu",
+      "age": 46,
+      "sex": "F",
+      "abha_id": "73-3438-4090-1536"
+    },
+    "admission_date": "2026-07-08",
+    "discharge_date": "2026-07-15",
+    "claim_type": "reimbursement",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Acute appendicitis",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Metronidazole 500mg IV TID",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "H/o pain abdomen x 2 days, shifted to RIF, fever+, vomiting+. USG s/o acute appendicitis. Emergency lap appendectomy done under GA. Intra-op: appendix inflamed, no perforation/rupture. Post-op course uneventful, started orally on POD1, drain removed POD2. Afebrile at discharge, wound healthy, sutures to be removed on Day 7 at follow up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL0848529",
+      "sum_insured": 500000,
+      "claimed_amount": 56855
+    }
+  },
+  "answer_key": {
+    "record_id": "R0190",
+    "icd_codes": [
+      "K35.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

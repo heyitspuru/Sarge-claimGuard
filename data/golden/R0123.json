@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0123",
+    "patient": {
+      "name": "Daniel Ganguly",
+      "age": 27,
+      "sex": "F",
+      "abha_id": "55-6134-2277-3308"
+    },
+    "admission_date": "2026-05-11",
+    "discharge_date": "2026-05-18",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Generalised weakness, w/u ongoing",
+    "procedures": [
+      "Laparoscopic cholecystectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Pantoprazole 40mg IV OD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "3-month h/o recurrent colicky RUQ pain, fatty food intolerance. USG abdomen: multiple gallstones, GB wall thickened - chronic calculous cholecystitis. LFTs WNL. Elective lap cholecystectomy under GA. Intra-op: chronically inflamed GB, Calot's triangle well delineated, CBD not injured, specimen retrieved intact. Smooth post-op course, oral fluids started 6h post-op, ambulated same evening. Discharged POD1, low-fat diet and wound care advice given.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL7254229",
+      "sum_insured": 1000000,
+      "claimed_amount": 49179
+    }
+  },
+  "answer_key": {
+    "record_id": "R0123",
+    "icd_codes": [
+      "K80.2"
+    ],
+    "expected_packaging": "needs_review"
+  }
+}

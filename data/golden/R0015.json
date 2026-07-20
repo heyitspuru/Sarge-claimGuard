@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0015",
+    "patient": {
+      "name": "Yashica Kota",
+      "age": 75,
+      "sex": "M",
+      "abha_id": "84-8372-6167-5136"
+    },
+    "admission_date": "2026-05-31",
+    "discharge_date": "2026-06-01",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Dengue fever with warning signs",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "Patient ko admission ke time tez bukhar tha, platelets gir rahe the, IV fluids diye gaye. NS1 positive tha aur warning signs jaise pet dard aur baar baar ulti bhi thi. Platelet count 30,000 tak neeche gaya, isliye close monitoring ki gayi CBC har 6 ghante mein. Koi bleeding nahi hua, patient stable raha. 5th din se platelets improve hone lage aur bukhar bhi utar gaya. Discharge ke time patient stable tha, hydration maintain karne ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL1341252",
+      "sum_insured": 500000,
+      "claimed_amount": 65243
+    }
+  },
+  "answer_key": {
+    "record_id": "R0015",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "ready"
+  }
+}

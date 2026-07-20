@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0193",
+    "patient": {
+      "name": "Ubika Bassi",
+      "age": 58,
+      "sex": "M",
+      "abha_id": "39-8155-9877-3033"
+    },
+    "admission_date": "2026-06-08",
+    "discharge_date": "2026-06-16",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "Patient ko 8 din se dheere dheere bukhar chadh raha tha, pet mein bhi halka dard tha. Blood culture mein Salmonella Typhi positive aaya. Ceftriaxone injection start kiya gaya IV route se. 4 din mein bukhar kam hona shuru hua. Koi complication jaise bleeding ya perforation nahi hua. Patient ne diet bhi acchi tarah li. Discharge ke time bukhar nahi tha, oral antibiotic course complete karne ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL5611923",
+      "sum_insured": 500000,
+      "claimed_amount": 50849
+    }
+  },
+  "answer_key": {
+    "record_id": "R0193",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

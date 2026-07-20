@@ -1,0 +1,28 @@
+{
+  "scenario": {
+    "scenario_id": "D013",
+    "insurer_id": "AROG",
+    "plan_id": "KAV1",
+    "diagnosis": "Acute myocardial infarction",
+    "procedures": [
+      "Coronary angiography",
+      "Primary PTCA with drug-eluting stent to LAD"
+    ],
+    "decision": {
+      "claim_id": "CLM-D013",
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "outcome": "rejected",
+      "claimed_amount": 90000,
+      "approved_amount": 0,
+      "reason_text": "Claim rejected: the condition falls within an excluded / waiting-period category. Expenses relating to the treatment of a Pre-Existing Disease and its direct comp",
+      "cited_clause_id": "AROG-KAV1-C07"
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D013",
+    "appeal_viable": false,
+    "expected_clause_ids": [],
+    "category": "genuine_exclusion"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0118",
+    "patient": {
+      "name": "Jeremiah Das",
+      "age": 51,
+      "sex": "M",
+      "abha_id": "81-8460-9240-6123"
+    },
+    "admission_date": "2026-06-01",
+    "discharge_date": "2026-06-06",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Cholelithiasis (gallstones) with chronic cholecystitis",
+    "procedures": [
+      "Laparoscopic cholecystectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV OD",
+      "Inj Pantoprazole 40mg IV OD",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "Patient presented with recurrent episodes of right upper quadrant pain over the past 3 months, colicky in nature, associated with fatty food intolerance and occasional nausea. Ultrasound abdomen revealed multiple gallstones with a thickened gallbladder wall, consistent with chronic calculous cholecystitis. Liver function tests were within normal limits. Patient underwent elective laparoscopic cholecystectomy under general anaesthesia. Intraoperative findings showed a chronically inflamed gallbladder with multiple stones, dissected without difficulty, Calot's triangle clearly delineated, no bile duct injury. Post-operative recovery was smooth, patient started on oral fluids within 6 hours, ambulated the same evening. Discharged Day 1 post-surgery in stable condition with dietary advice and follow-up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL5311858",
+      "sum_insured": 1000000,
+      "claimed_amount": 80003
+    }
+  },
+  "answer_key": {
+    "record_id": "R0118",
+    "icd_codes": [
+      "K80.2"
+    ],
+    "expected_packaging": "ready"
+  }
+}

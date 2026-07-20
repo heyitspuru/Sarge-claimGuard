@@ -1,0 +1,27 @@
+{
+  "scenario": {
+    "scenario_id": "D003",
+    "insurer_id": "AROG",
+    "plan_id": "KAV1",
+    "diagnosis": "Acute appendicitis",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "decision": {
+      "claim_id": "CLM-D003",
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "outcome": "rejected",
+      "claimed_amount": 60000,
+      "approved_amount": 0,
+      "reason_text": "Claim not admissible as per policy. No further details provided.",
+      "cited_clause_id": null
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D003",
+    "appeal_viable": false,
+    "expected_clause_ids": [],
+    "category": "ungroundable"
+  }
+}

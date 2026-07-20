@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0183",
+    "patient": {
+      "name": "Chaitanya Doshi",
+      "age": 27,
+      "sex": "F",
+      "abha_id": "48-7861-4656-8414"
+    },
+    "admission_date": "2026-06-17",
+    "discharge_date": "2026-06-22",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Dengue fever with warning signs",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "Patient ko admission ke time tez bukhar tha, platelets gir rahe the, IV fluids diye gaye. NS1 positive tha aur warning signs jaise pet dard aur baar baar ulti bhi thi. Platelet count 30,000 tak neeche gaya, isliye close monitoring ki gayi CBC har 6 ghante mein. Koi bleeding nahi hua, patient stable raha. 5th din se platelets improve hone lage aur bukhar bhi utar gaya. Discharge ke time patient stable tha, hydration maintain karne ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL7008945",
+      "sum_insured": 500000,
+      "claimed_amount": 69411
+    }
+  },
+  "answer_key": {
+    "record_id": "R0183",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "ready"
+  }
+}

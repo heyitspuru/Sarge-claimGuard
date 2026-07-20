@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0169",
+    "patient": {
+      "name": "Neel Ramaswamy",
+      "age": 53,
+      "sex": "F",
+      "abha_id": "70-0089-1626-9515"
+    },
+    "admission_date": "2026-04-23",
+    "discharge_date": "2026-04-24",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Dengue fever with warning signs",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "Patient presented with high-grade fever for 4 days associated with severe myalgia, retro-orbital pain and rash. Warning signs noted: persistent vomiting, abdominal pain, and postural dizziness. NS1 antigen positive on Day 2 of illness; platelet count on admission was 68,000/cumm, trending down to 32,000/cumm by Day 3, with rising hematocrit suggestive of plasma leakage. Managed with aggressive IV fluid resuscitation per WHO dengue protocol, strict input-output monitoring, and serial CBC every 6 hours. Patient remained hemodynamically stable throughout, no bleeding manifestations. Platelet counts began recovering from Day 5, and patient was afebrile for 24 hours prior to discharge. Discharged in stable condition with advice for adequate hydration and follow-up CBC after 3 days.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL2521507",
+      "sum_insured": 1000000,
+      "claimed_amount": 65415
+    }
+  },
+  "answer_key": {
+    "record_id": "R0169",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "ready"
+  }
+}

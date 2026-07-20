@@ -1,0 +1,29 @@
+{
+  "scenario": {
+    "scenario_id": "D010",
+    "insurer_id": "AROG",
+    "plan_id": "KAV1",
+    "diagnosis": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "decision": {
+      "claim_id": "CLM-D010",
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "outcome": "rejected",
+      "claimed_amount": 75000,
+      "approved_amount": 0,
+      "reason_text": "Claim rejected citing a waiting-period restriction that does not apply to this hospitalization.",
+      "cited_clause_id": "AROG-KAV1-C04"
+    }
+  },
+  "answer_key": {
+    "scenario_id": "D010",
+    "appeal_viable": true,
+    "expected_clause_ids": [
+      "AROG-KAV1-C01"
+    ],
+    "category": "miscited_rejection"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0142",
+    "patient": {
+      "name": "Kai Bava",
+      "age": 40,
+      "sex": "M",
+      "abha_id": "11-9520-3480-5035"
+    },
+    "admission_date": "2026-06-05",
+    "discharge_date": "2026-06-11",
+    "claim_type": "cashless",
+    "specialty": "endocrinology",
+    "diagnosis_text": "Type 2 diabetes mellitus with diabetic ketoacidosis",
+    "procedures": [
+      "IV insulin infusion titration",
+      "Arterial blood gas monitoring"
+    ],
+    "medications": [
+      "IV Insulin infusion (regular insulin)",
+      "IV Normal Saline",
+      "Inj Potassium chloride correction"
+    ],
+    "clinical_notes": "Known case of Type 2 diabetes mellitus presented with a 2-day history of vomiting, abdominal pain, and altered sensorium. On evaluation, blood glucose was 485 mg/dL with metabolic acidosis (pH 7.18, bicarbonate 9 mEq/L) and ketonuria 3+, confirming diabetic ketoacidosis. Managed in ICU with IV insulin infusion as per protocol, aggressive fluid resuscitation, and potassium correction with hourly monitoring of blood glucose and electrolytes. Precipitating cause identified as poor drug compliance with an intercurrent UTI. Acidosis corrected by 36 hours, patient transitioned to subcutaneous insulin, sensorium improved fully. Discharged in stable condition on a basal-bolus insulin regimen with diabetes education and follow-up advice.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL5076952",
+      "sum_insured": 500000,
+      "claimed_amount": 83001
+    }
+  },
+  "answer_key": {
+    "record_id": "R0142",
+    "icd_codes": [
+      "E11.1"
+    ],
+    "expected_packaging": "ready"
+  }
+}

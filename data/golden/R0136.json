@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0136",
+    "patient": {
+      "name": "Yachana Sule",
+      "age": 59,
+      "sex": "F",
+      "abha_id": "00-1299-6727-6398"
+    },
+    "admission_date": "2026-06-23",
+    "discharge_date": "2026-07-01",
+    "claim_type": "cashless",
+    "specialty": "general_surgery",
+    "diagnosis_text": "Acute appendicitis",
+    "procedures": [
+      "Laparoscopic appendectomy"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 1g IV BD",
+      "Inj Metronidazole 500mg IV TID",
+      "Tab Paracetamol 650mg SOS"
+    ],
+    "clinical_notes": "H/o pain abdomen x 2 days, shifted to RIF, fever+, vomiting+. USG s/o acute appendicitis. Emergency lap appendectomy done under GA. Intra-op: appendix inflamed, no perforation/rupture. Post-op course uneventful, started orally on POD1, drain removed POD2. Afebrile at discharge, wound healthy, sutures to be removed on Day 7 at follow up.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL1558342",
+      "sum_insured": 1000000,
+      "claimed_amount": 73760
+    }
+  },
+  "answer_key": {
+    "record_id": "R0136",
+    "icd_codes": [
+      "K35.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

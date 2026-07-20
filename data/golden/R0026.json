@@ -1,0 +1,46 @@
+{
+  "record": {
+    "record_id": "R0026",
+    "patient": {
+      "name": "Advik Subramaniam",
+      "age": 61,
+      "sex": "M",
+      "abha_id": "07-4137-4847-7718"
+    },
+    "admission_date": "2026-06-01",
+    "discharge_date": "2026-06-09",
+    "claim_type": "reimbursement",
+    "specialty": "orthopedics",
+    "diagnosis_text": "Fracture neck of femur",
+    "procedures": [
+      "Bipolar hemiarthroplasty"
+    ],
+    "medications": [
+      "Inj Cefuroxime 1.5g IV BD",
+      "Inj Enoxaparin 40mg SC OD",
+      "Tab Paracetamol 650mg TID"
+    ],
+    "clinical_notes": "Elderly patient sustained a fall at home resulting in inability to bear weight on the right lower limb, with the limb held in a shortened and externally rotated position. X-ray pelvis with both hips confirmed a displaced fracture neck of right femur. Given the patient's age and fracture pattern, bipolar hemiarthroplasty was planned and performed under spinal anaesthesia. Intraoperative course was uneventful with good prosthesis fixation. Post-operative course included DVT prophylaxis with low-molecular-weight heparin, early mobilization with walker support from Day 2, and physiotherapy. Wound healed well with no signs of infection. Patient was discharged ambulant with walker assistance, advised on hip precautions and continued physiotherapy.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL3417047",
+      "sum_insured": 1000000,
+      "claimed_amount": 311504
+    }
+  },
+  "answer_key": {
+    "record_id": "R0026",
+    "icd_codes": [
+      "S72.0"
+    ],
+    "expected_packaging": "ready"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0004",
+    "patient": {
+      "name": "Darsh Mukherjee",
+      "age": 58,
+      "sex": "F",
+      "abha_id": "97-4650-7529-1703"
+    },
+    "admission_date": "2026-05-09",
+    "discharge_date": "2026-05-16",
+    "claim_type": "cashless",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Dengue fever with warning signs",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "Patient ko admission ke time tez bukhar tha, platelets gir rahe the, IV fluids diye gaye. NS1 positive tha aur warning signs jaise pet dard aur baar baar ulti bhi thi. Platelet count 30,000 tak neeche gaya, isliye close monitoring ki gayi CBC har 6 ghante mein. Koi bleeding nahi hua, patient stable raha. 5th din se platelets improve hone lage aur bukhar bhi utar gaya. Discharge ke time patient stable tha, hydration maintain karne ki salah di gayi.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL4236671",
+      "sum_insured": 1000000,
+      "claimed_amount": 63375
+    }
+  },
+  "answer_key": {
+    "record_id": "R0004",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "ready"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0186",
+    "patient": {
+      "name": "Bahadurjit Raj",
+      "age": 51,
+      "sex": "F",
+      "abha_id": "42-6941-9984-9334"
+    },
+    "admission_date": "2026-05-05",
+    "discharge_date": "2026-05-11",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Enteric (typhoid) fever",
+    "procedures": [
+      "Blood culture sampling"
+    ],
+    "medications": [
+      "Inj Ceftriaxone 2g IV OD",
+      "Tab Paracetamol 650mg SOS",
+      "ORS and IV fluids"
+    ],
+    "clinical_notes": "Patient presented with insidious onset, step-ladder pattern fever for 8 days, associated with relative bradycardia, coated tongue, and diffuse abdominal discomfort. Blood culture sent on admission grew Salmonella Typhi, sensitive to ceftriaxone. Widal test also reactive at significant titres. Started on IV Ceftriaxone 2g OD; fever showed gradual defervescence by Day 4 of antibiotics. Patient monitored for complications including GI bleed and perforation, none noted. Tolerated soft diet well, ambulated without difficulty. Discharged afebrile with oral antibiotics to complete a 14-day course and advice on food hygiene.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "payment_receipts",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "AROG",
+      "plan_id": "KAV1",
+      "policy_number": "POL1591508",
+      "sum_insured": 500000,
+      "claimed_amount": 36141
+    }
+  },
+  "answer_key": {
+    "record_id": "R0186",
+    "icd_codes": [
+      "A01.0"
+    ],
+    "expected_packaging": "rejected"
+  }
+}

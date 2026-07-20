@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0194",
+    "patient": {
+      "name": "Tanmayi Sarraf",
+      "age": 70,
+      "sex": "F",
+      "abha_id": "19-0726-3779-2179"
+    },
+    "admission_date": "2026-05-29",
+    "discharge_date": "2026-06-01",
+    "claim_type": "cashless",
+    "specialty": "ophthalmology",
+    "diagnosis_text": "Senile cataract",
+    "procedures": [
+      "Phacoemulsification with IOL implantation"
+    ],
+    "medications": [
+      "Eye drops - Moxifloxacin 0.5%",
+      "Eye drops - Prednisolone acetate 1%",
+      "Eye drops - Ketorolac 0.5%"
+    ],
+    "clinical_notes": "Patient presented with progressive, painless diminution of vision in the right eye over 6 months, more pronounced for near work and in bright light, consistent with senile cataract. Best corrected visual acuity was 6/36 in the right eye. Slit-lamp examination confirmed nuclear sclerosis grade III cataract. Patient underwent uneventful phacoemulsification with foldable IOL implantation under topical anaesthesia. Intraoperative course was uncomplicated with good capsular bag stability. Post-operatively, vision improved to 6/9 on Day 1. Patient discharged the same day with topical antibiotic-steroid combination eye drops and advised to avoid water contact and strenuous activity for 2 weeks, with follow-up on Day 7.",
+    "documents": [
+      "discharge_summary",
+      "final_bill",
+      "preauth_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "MEDI",
+      "plan_id": "PLUS1",
+      "policy_number": "POL6133069",
+      "sum_insured": 500000,
+      "claimed_amount": 24690
+    }
+  },
+  "answer_key": {
+    "record_id": "R0194",
+    "icd_codes": [
+      "H25.9"
+    ],
+    "expected_packaging": "ready"
+  }
+}

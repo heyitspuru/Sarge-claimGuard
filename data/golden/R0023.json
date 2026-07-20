@@ -1,0 +1,45 @@
+{
+  "record": {
+    "record_id": "R0023",
+    "patient": {
+      "name": "Arin Mistry",
+      "age": 40,
+      "sex": "F",
+      "abha_id": "43-1982-9657-2492"
+    },
+    "admission_date": "2026-07-06",
+    "discharge_date": "2026-07-09",
+    "claim_type": "reimbursement",
+    "specialty": "internal_medicine",
+    "diagnosis_text": "Dengue fever with warning signs",
+    "procedures": [
+      "Serial hematocrit and platelet monitoring"
+    ],
+    "medications": [
+      "IV Fluids (Ringer Lactate)",
+      "Tab Paracetamol 650mg SOS",
+      "Inj Pantoprazole 40mg IV OD"
+    ],
+    "clinical_notes": "4-day h/o high fever, myalgia, retro-orbital pain. NS1 Ag +ve. Platelet nadir 32k/cumm D3, HCT rising - warning signs present. Managed as per WHO dengue protocol with IV fluids, strict I/O charting, serial platelet/HCT monitoring q6h. No bleed, no shock. Platelets recovered >100k by D6, afebrile 24h, discharged stable.",
+    "documents": [
+      "discharge_summary",
+      "payment_receipts",
+      "claim_form",
+      "id_proof"
+    ],
+    "insurance": {
+      "insurer_id": "STAR",
+      "plan_id": "SEC1",
+      "policy_number": "POL0868288",
+      "sum_insured": 500000,
+      "claimed_amount": 34905
+    }
+  },
+  "answer_key": {
+    "record_id": "R0023",
+    "icd_codes": [
+      "A90"
+    ],
+    "expected_packaging": "rejected"
+  }
+}
