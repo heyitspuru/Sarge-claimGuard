@@ -29,9 +29,13 @@ EVENTS = {
             "Your discharge medicines are being prepared now. "
             "The hospital team will tell you when they are ready to collect."
         ),
+        # "उन्हें कब लेना है" back-translated as "when to take them" — दवा लेना reads as
+        # consuming the medicine, turning a pickup notice into dosing guidance. Reworded
+        # to "when the medicines will be available", which is what the Tamil already does
+        # and what the English means. Found by the back-check, not by reading it.
         "hi": (
             "आपकी छुट्टी की दवाइयाँ अभी तैयार की जा रही हैं। "
-            "अस्पताल की टीम आपको बता देगी कि उन्हें कब लेना है।"
+            "अस्पताल की टीम आपको बता देगी कि दवाइयाँ कब मिल जाएँगी।"
         ),
         "ta": (
             "உங்கள் வீட்டுக்குச் செல்லும் மருந்துகள் இப்போது தயாராகி வருகின்றன. "
