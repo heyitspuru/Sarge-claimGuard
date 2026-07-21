@@ -134,6 +134,7 @@ A full audit of what separates this from a deployable system — legal, clinical
 | [`PROJECT_SPEC.md`](PROJECT_SPEC.md) | The full plan and phase gates |
 | [`CLAUDE.md`](CLAUDE.md) | Operating rules this repo was built under |
 | [`docs/PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md) | What it would take to be real |
+| [`docs/EVALUATION.md`](docs/EVALUATION.md) | Current numbers and where it fails (generated) |
 | [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md) | Reproducing the eval numbers |
 | [`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md) | Why patient copy isn't model-generated |
 | [`docs/NHCX_ACCESS.md`](docs/NHCX_ACCESS.md) | Phase-0 reality check on submission access |

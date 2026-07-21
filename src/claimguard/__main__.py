@@ -71,7 +71,16 @@ def _add_validate_translations_subparser(sub: argparse._SubParsersAction) -> Non
 def _cmd_eval(args: argparse.Namespace) -> None:
     if args.real_report:
         from claimguard.eval import real_run
-        real_run.print_real_report(real_run.report_from_checkpoint(Path(args.checkpoint)))
+        report = real_run.report_from_checkpoint(Path(args.checkpoint))
+        real_run.print_real_report(report)
+        if args.write_doc:
+            doc = Path(args.write_doc)
+            doc.parent.mkdir(parents=True, exist_ok=True)
+            doc.write_text(
+                real_run.evaluation_markdown(report, checkpoint=Path(args.checkpoint)),
+                encoding="utf-8",
+            )
+            print(f"\nwrote {doc}")
         return
 
     if args.real_run:
@@ -139,6 +148,8 @@ def _add_eval_subparser(sub: argparse._SubParsersAction) -> None:
                          "records and append to the checkpoint. Safe to stop on quota.")
     p.add_argument("--real-report", action="store_true",
                     help="Aggregate metrics + failure taxonomy from the accumulated checkpoint")
+    p.add_argument("--write-doc", type=str, nargs="?", const="docs/EVALUATION.md",
+                    help="With --real-report: (re)generate the eval doc from the checkpoint")
     p.add_argument("--checkpoint", type=str, default="data/eval_runs/pipeline_real.jsonl")
     p.add_argument("--limit", type=int, default=10,
                     help="Max records to process in this --real-run invocation")

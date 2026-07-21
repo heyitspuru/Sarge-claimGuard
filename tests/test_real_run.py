@@ -186,3 +186,47 @@ def test_classification_is_recomputed_not_read_from_the_checkpoint(tmp_path):
 ])
 def test_quota_detection_distinguishes_transport_from_quality(messages, expected):
     assert real_run._is_quota_error(messages) is expected
+
+
+# --- the generated eval doc ---------------------------------------------------
+
+
+def _report(**breakdown) -> dict:
+    return {"n": 10, "coding_f1": 0.5, "packaging_validity": 0.7, "errors": 0,
+            "coding_breakdown": {"exact": 5, "miss": 5},
+            "packaging_breakdown": breakdown}
+
+
+def test_eval_doc_calls_out_under_flagging_as_the_headline_failure(tmp_path):
+    """Under- and over-flagging are NOT symmetric. Marking `ready` something the answer
+    key wanted reviewed is the hard failure in CLAUDE.md; the reverse only wastes a
+    reviewer's time. The doc must not average them into one 'validity' number."""
+    md = real_run.evaluation_markdown(
+        _report(match=7, **{"needs_review->ready": 2, "ready->needs_review": 1}),
+        checkpoint=tmp_path / "cp.jsonl",
+    )
+    assert "2 of 10 records were under-flagged" in md
+    assert "needs_review->ready" in md
+    # the harmless direction must not be dressed up as the same defect
+    section = md.split("### The failure that matters most")[1]
+    assert "ready->needs_review" not in section
+
+
+def test_eval_doc_says_so_plainly_when_nothing_is_under_flagged(tmp_path):
+    md = real_run.evaluation_markdown(
+        _report(match=9, **{"ready->needs_review": 1}), checkpoint=tmp_path / "cp.jsonl")
+    assert "No under-flagged records" in md
+    assert "under-flagged:" not in md
+
+
+def test_eval_doc_is_honest_about_a_partial_sample(tmp_path):
+    md = real_run.evaluation_markdown(_report(match=10), checkpoint=tmp_path / "cp.jsonl")
+    assert "Partial sample" in md
+    assert "n = 10 / 200" in md
+    assert "Synthetic data only" in md
+
+
+def test_eval_doc_handles_an_empty_checkpoint(tmp_path):
+    md = real_run.evaluation_markdown(
+        real_run.report_from_checkpoint(tmp_path / "none.jsonl"), checkpoint=tmp_path / "none.jsonl")
+    assert "No records processed yet" in md
