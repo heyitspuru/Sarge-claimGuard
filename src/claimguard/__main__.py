@@ -129,6 +129,21 @@ def _cmd_eval(args: argparse.Namespace) -> None:
     eval_runner.print_report(report)
 
 
+def _cmd_demo(args: argparse.Namespace) -> None:
+    from claimguard import demo
+
+    raise SystemExit(demo.run(args.record_id, language=args.language))
+
+
+def _add_demo_subparser(sub: argparse._SubParsersAction) -> None:
+    p = sub.add_parser("demo", help="End-to-end walkthrough of one claim (offline on mock)")
+    p.add_argument("--record-id", type=str, default=None,
+                    help="Golden record to walk. Default: the first denied one, since an "
+                         "approved claim gives the Negotiator nothing to do.")
+    p.add_argument("--language", type=str, default="en", choices=("en", "hi", "ta"))
+    p.set_defaults(func=_cmd_demo)
+
+
 def _add_eval_subparser(sub: argparse._SubParsersAction) -> None:
     p = sub.add_parser("eval", help="Run the eval harness against a golden dir")
     p.add_argument("--golden", type=str, default="data/golden")
@@ -167,6 +182,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_gen_denials_subparser(sub)
     _add_eval_subparser(sub)
     _add_validate_translations_subparser(sub)
+    _add_demo_subparser(sub)
 
     return parser
 

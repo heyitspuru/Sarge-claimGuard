@@ -67,6 +67,13 @@ pytest
 
 `LLM_PROVIDER` defaults to `mock`, so all of the above runs offline, deterministically, with **no API key and no spend**. Set `LLM_PROVIDER=gemini` + `GEMINI_API_KEY` for real-provider runs.
 
+See one claim travel the whole way — agents, settlement, timeline, and both surfaces:
+
+```bash
+python -m claimguard demo                    # a denied record, end to end
+python -m claimguard demo --language hi      # the patient's messages in Hindi
+```
+
 Dashboard:
 
 ```bash

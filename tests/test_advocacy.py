@@ -165,3 +165,53 @@ def test_advocacy_track_is_delivered_in_the_patients_language(language):
     msgs = advocacy_messages("R0011", 300, "filed", language=language)
     assert {m.language for m in msgs} == {language}
     assert all(m.text.strip() for m in msgs)
+
+
+# --- the Negotiator's verdict outranks the prediction -------------------------
+
+
+def _stub_draft(status: str) -> dict:
+    return {"record_id": "X", "appeal": {"scenario_id": "S", "status": status,
+                                          "appeal_text": "", "citations": [],
+                                          "reasoning": "r"},
+            "review_state": "drafted", "drafted_by": "t", "drafted_at": "now",
+            "reviewed_by": None, "reviewed_at": None, "review_note": ""}
+
+
+def test_a_real_refusal_overrides_a_predicted_filing(monkeypatch):
+    """The clause-type prediction says "filed"; the Negotiator actually declined.
+
+    Found by the end-to-end demo, not by a test: the patient was being sent "we have
+    written back to your insurer on your behalf" for a claim the Negotiator had examined
+    and refused to appeal. A message describing action taken must come from the action.
+    """
+    rid = _require("filed")
+    assert advocacy.advocacy_state(rid)["state"] == "filed"
+
+    monkeypatch.setattr(advocacy.appeals_store, "get",
+                        lambda _rid: _stub_draft("no_valid_appeal"))
+    state = advocacy.advocacy_state(rid)
+    assert state["state"] == "no_valid_appeal"
+    assert state["supporting_clause"] is None, (
+        "a refusal has no clause to stand on; leaving one implies an argument we did "
+        "not make")
+
+
+def test_the_patient_is_not_told_an_appeal_was_filed_when_it_was_not(monkeypatch):
+    """The end-to-end consequence, asserted on the copy the patient actually receives."""
+    rid = _require("filed")
+    monkeypatch.setattr(advocacy.appeals_store, "get",
+                        lambda _rid: _stub_draft("no_valid_appeal"))
+    state = advocacy.advocacy_state(rid)
+    texts = " ".join(m.text for m in advocacy_messages(
+        rid, 100, state["state"], language="en",
+        filed_after_min=state["filed_after_min"]))
+    for claim in ("written back to your insurer", "asked them to look again"):
+        assert claim not in texts, f"patient told {claim!r} but no appeal was filed"
+
+
+def test_a_real_appeal_confirms_the_filing(monkeypatch):
+    """The override runs both ways — a genuine draft must not be downgraded."""
+    rid = _require("filed")
+    monkeypatch.setattr(advocacy.appeals_store, "get", lambda _rid: _stub_draft("appeal"))
+    assert advocacy.advocacy_state(rid)["state"] == "filed"

@@ -29,6 +29,7 @@ dishonesty the rest of the project is built to avoid.
 import json
 from pathlib import Path
 
+from claimguard import appeals_store
 from claimguard.agents.submitter import submit
 from claimguard.appeal import _pick_clause, _policy_for
 from claimguard.config import get_settings
@@ -108,6 +109,20 @@ def advocacy_state(record_id: str, *, policies_dir: Path | None = None) -> dict:
         state = "filed" if supporting else "no_valid_appeal"
     else:
         supporting, state = None, "no_valid_appeal"
+
+    # Everything above is a PREDICTION from clause types, used before the Negotiator has
+    # run on this record. Once a real draft exists, its verdict outranks the prediction.
+    #
+    # Without this the two disagree in the worst possible direction: on R0011 the
+    # prediction says "filed" because the denial cites a sub-limit, while the Negotiator
+    # actually read that sub-limit and declined to appeal. The patient was then sent
+    # "we have written back to your insurer on your behalf" — describing work nobody did.
+    # A patient-facing claim about action taken must come from the action, not a guess.
+    draft = appeals_store.get(record_id)
+    if draft is not None:
+        state = "filed" if draft["appeal"]["status"] == "appeal" else "no_valid_appeal"
+        if state == "no_valid_appeal":
+            supporting = None
 
     return {
         "state": state,
