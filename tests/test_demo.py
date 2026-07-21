@@ -32,8 +32,17 @@ def test_it_never_presents_a_mock_completion_as_a_refusal(walkthrough):
     genuinely declining. Showing that in a demo would fake the one property the project
     exists to demonstrate, so no appeal handler is wired on the mock at all."""
     out = walkthrough("R0011")
-    assert "running on the mock provider" in out or "STORED DRAFT" in out
     assert "LIVE DRAFT" not in out, "a live draft cannot exist on the mock provider"
+
+
+def test_a_record_with_no_stored_draft_explains_itself_rather_than_faking_one(
+        walkthrough, monkeypatch):
+    """The `or` this replaced always short-circuited on R0011's committed draft, so the
+    mock-provider branch was never actually exercised."""
+    monkeypatch.setattr(demo.appeals_store, "get", lambda _rid: None)
+    out = walkthrough("R0011")
+    assert "running on the mock provider" in out
+    assert "no_valid_appeal" in out, "it must name what the mock would fake, not hide it"
 
 
 def test_it_labels_mock_codes_as_meaningless(walkthrough):

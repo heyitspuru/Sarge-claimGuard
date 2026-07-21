@@ -111,8 +111,11 @@ def db_conn():
 
     try:
         conn = db.connect()
-    except psycopg.OperationalError as exc:
-        pytest.skip(f"postgres not reachable: {exc}")
+    except (psycopg.OperationalError, psycopg.errors.InsufficientPrivilege) as exc:
+        # InsufficientPrivilege too: connect() now runs CREATE EXTENSION, which a managed
+        # or non-superuser Postgres refuses. That is an unusable database, not a broken
+        # test — the same "skip, and say why" case as an unreachable one.
+        pytest.skip(f"postgres unusable for these tests: {exc}")
     db.init_schema(conn)
     yield conn
     conn.close()

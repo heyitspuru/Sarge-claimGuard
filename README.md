@@ -105,7 +105,7 @@ synthetic corpus is refused by design. Never enter a real ABHA id. The UI is lab
 | 4 | Patient comms — multilingual template-based status, patient view | ✅ |
 | 5 | Hardening — all 12 §9 edge cases, resumable real eval, auto-appeal, readiness audit | 🔄 |
 
-`281 passed`, ruff clean, green in CI — which runs the suite against a real Postgres + pgvector, with **no provider key**. The whole suite is offline on the mock by design: a test that reaches the network is itself the bug.
+Suite green in CI (badge above — it runs against a real Postgres + pgvector with **no provider key**), ruff clean. The whole suite is offline on the mock by design: a test that reaches the network is itself the bug. Exact counts live in the CI run, not here — hand-copied numbers drift.
 
 ## Eval
 

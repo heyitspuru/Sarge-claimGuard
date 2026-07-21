@@ -120,9 +120,14 @@ def advocacy_state(record_id: str, *, policies_dir: Path | None = None) -> dict:
     # A patient-facing claim about action taken must come from the action, not a guess.
     draft = appeals_store.get(record_id)
     if draft is not None:
-        state = "filed" if draft["appeal"]["status"] == "appeal" else "no_valid_appeal"
-        if state == "no_valid_appeal":
-            supporting = None
+        if draft["appeal"]["status"] == "appeal":
+            # The "filed" copy says we pointed the insurer at the clause providing cover,
+            # so a filed state without that clause is the same unbacked claim in the
+            # other direction. The prediction may not have looked one up (it only does
+            # for appealable clause types), so look now.
+            state, supporting = "filed", supporting or _supporting_clause(policy)
+        else:
+            state, supporting = "no_valid_appeal", None
 
     return {
         "state": state,

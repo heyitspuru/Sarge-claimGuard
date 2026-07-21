@@ -49,8 +49,11 @@ Two things to call out honestly while it scrolls:
 - **The mock's ICD codes are a stub** and will not match the diagnosis. The demo labels
   this itself. What the section demonstrates is the wiring — agent order, retries, the
   audit trail, the packaging gate — none of which depend on the provider.
-- Add `LLM_PROVIDER=gemini` to draft an appeal **live**, at ~2 requests. Worth doing once
-  on camera if quota allows; the stored R0011 draft covers you if it doesn't.
+- Add `LLM_PROVIDER=gemini` to draft an appeal **live** — but budget for more than the
+  two generate calls. The demo builds an ICD retriever and a policy retriever first, each
+  of which embeds its whole corpus, so a live run also spends a batch of embedding calls
+  before the Negotiator starts. The stored R0011 draft covers you if quota is tight, and
+  on a recording day it usually is.
 
 ---
 

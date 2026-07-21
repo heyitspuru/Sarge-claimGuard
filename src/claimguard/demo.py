@@ -22,7 +22,7 @@ from claimguard.comms import advocacy_messages, patient_status
 from claimguard.compliance_radar import radar
 from claimguard.config import get_settings
 from claimguard.coverage import PolicyRetriever, load_policies
-from claimguard.models import DischargeRecord
+from claimguard.models import SubmissionResult
 from claimguard.orchestrator import PipelineDeps, run_claim
 
 RULE = "=" * 72
@@ -42,14 +42,6 @@ def _section(title: str) -> None:
 
 def _money(n: int) -> str:
     return f"Rs {n:,}"
-
-
-def _load(record_id: str) -> DischargeRecord | None:
-    path = Path(get_settings().data_dir) / "golden" / f"{record_id}.json"
-    if not path.exists():
-        return None
-    return DischargeRecord.model_validate(
-        json.loads(path.read_text(encoding="utf-8"))["record"])
 
 
 def pick_record(preferred: str | None = None) -> str | None:
@@ -74,7 +66,9 @@ def run(record_id: str | None = None, *, language: str = "en") -> int:
     if rid is None:
         print("No golden records found. Run `python -m claimguard gen-data` first.")
         return 1
-    record = _load(rid)
+    # advocacy already has this loader, and its error handling (truncated JSON, missing
+    # "record" key) is the reason to reuse rather than re-write it.
+    record = advocacy._load_record(rid)
     if record is None:
         print(f"{rid} is not in the golden corpus.")
         return 1
@@ -143,7 +137,17 @@ def run(record_id: str | None = None, *, language: str = "en") -> int:
     # --- settlement -------------------------------------------------------------
     outcome = advocacy.outcome_for(rid)
     _section("2 · THE SETTLEMENT  (simulated insurer — deterministic, not a real payer)")
-    from claimguard.models import SubmissionResult
+    # outcome_for() adjudicates the record directly, independent of the run above. When
+    # the pipeline halted pre-submission that is a real divergence, and printing the
+    # settlement as though it happened would be exactly the dishonesty this demo exists
+    # to argue against — so say which one you are looking at.
+    if result["final_status"] != "adjudicated":
+        print(f"  ⚠ the pipeline above did NOT submit this claim (it stopped at"
+              f" {result['final_status']}).")
+        print("    What follows is the insurer's decision for this record in the corpus,")
+        print("    shown so the rest of the walkthrough has something to work on. On a")
+        print("    real run the gate above is the end of the road until a human clears it.")
+        print()
     scenario = appeal_mod.scenario_from_denial(
         record, SubmissionResult(record_id=rid, submission_id=f"SUB-{rid}",
                                  status="adjudicated", outcome=outcome), policies)
