@@ -16,6 +16,26 @@ This file is the procedure, written so it can be picked up cold after a long gap
 > requests (2 records' worth). Run it *before* the day's eval batch, not after, or it
 > will find the tank empty.
 
+## "Day" means a Pacific day, not your day
+
+The quota resets at **midnight US Pacific**, not local midnight. In IST that is:
+
+| | UTC | IST |
+|---|---|---|
+| Quota resets | 07:00 | **12:30 PM** (PDT, Mar–Nov) |
+| | 08:00 | **1:30 PM** (PST, Nov–Mar) |
+
+So an eval batch run late at night IST — say 00:30 IST — lands in the *previous*
+Pacific day and eats the quota you were expecting to have that morning. A run at 00:31
+IST on the 21st is 12:01 PM PDT on the **20th**.
+
+**Practical rule: do the whole day's spend in one sitting after 12:30 PM IST.** Check
+what window you are actually in before assuming a fresh tank:
+
+```bash
+python -c "import datetime as d; print(d.datetime.now(d.UTC).strftime('%H:%M UTC — reset at 07:00 UTC'))"
+```
+
 ## Where the data lives
 
 | What | Path | Committed? |
@@ -42,11 +62,11 @@ cd ~/Desktop/claimGuard
 #    --limit is an upper bound, not a target: it stops early and cleanly on quota.
 ./.venv/Scripts/python -m claimguard eval --real-run --limit 25
 
-# 2. See where the numbers stand
-./.venv/Scripts/python -m claimguard eval --real-report
+# 2. See where the numbers stand, and regenerate docs/EVALUATION.md from the checkpoint
+./.venv/Scripts/python -m claimguard eval --real-report --write-doc
 
 # 3. Persist the day's progress
-git add data/eval_runs/pipeline_real.jsonl
+git add data/eval_runs/pipeline_real.jsonl docs/EVALUATION.md
 git commit -m "data: eval checkpoint — day N"
 git push
 ```
