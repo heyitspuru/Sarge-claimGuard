@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "55-6134-2277-3308"
     },
-    "admission_date": "2026-05-11",
-    "discharge_date": "2026-05-18",
+    "admission_date": "2026-05-15",
+    "discharge_date": "2026-05-22",
     "claim_type": "cashless",
     "specialty": "general_surgery",
     "diagnosis_text": "Generalised weakness, w/u ongoing",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL7254229",
       "sum_insured": 1000000,
       "claimed_amount": 49179
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0123",

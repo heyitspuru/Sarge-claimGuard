@@ -1,77 +1,77 @@
 {
-  "insurer_id": "MEDI",
+  "insurer_id": "SYNTH2",
   "insurer_name": "MediCare Plus General Insurance Co. Ltd.",
-  "plan_id": "PLUS1",
+  "plan_id": "PLANB",
   "plan_name": "Health Plus Family Floater",
   "clauses": [
     {
-      "clause_id": "MEDI-PLUS1-C01",
+      "clause_id": "SYNTH2-PLANB-C01",
       "clause_type": "coverage",
       "text": "The Company undertakes to pay for Medical Expenses reasonably and necessarily incurred by an Insured Person for in-patient Hospitalisation during the Policy Period, up to the Sum Insured and Cumulative Bonus, if any, available under the Policy Schedule.",
       "structured": {"category": "in_patient_hospitalization", "min_hours": 24, "basis": "sum_insured_plus_bonus"}
     },
     {
-      "clause_id": "MEDI-PLUS1-C02",
+      "clause_id": "SYNTH2-PLANB-C02",
       "clause_type": "sub_limit",
       "text": "Room, boarding and nursing expenses shall not exceed 2% of the Sum Insured per day, subject to a maximum of Rs. 10,000 per day. Where actual room rent exceeds this eligibility, associated medical expenses shall be reimbursed in the same proportion as the eligible room rent bears to the actual room rent charged.",
       "structured": {"category": "room_rent", "limit_pct_si_per_day": 2.0, "cap_inr_per_day": 10000, "proportionate_deduction": true}
     },
     {
-      "clause_id": "MEDI-PLUS1-C03",
+      "clause_id": "SYNTH2-PLANB-C03",
       "clause_type": "sub_limit",
       "text": "Expenses towards Cataract surgery, including intra-ocular lens, shall be payable up to Rs. 35,000 per eye or 20% of the Sum Insured, whichever is lower, in any one Policy Year.",
       "structured": {"category": "cataract", "limit_pct_si": 20.0, "cap_inr": 35000, "basis": "per_eye_per_year"}
     },
     {
-      "clause_id": "MEDI-PLUS1-C04",
+      "clause_id": "SYNTH2-PLANB-C04",
       "clause_type": "waiting_period",
       "text": "Any claim arising during the first 30 days from the Policy commencement date shall not be admissible, except for claims arising out of an Accidental Injury covered under this Policy.",
       "structured": {"category": "initial_waiting", "waiting_days": 30, "applies_to": "illness", "accident_exempt": true}
     },
     {
-      "clause_id": "MEDI-PLUS1-C05",
+      "clause_id": "SYNTH2-PLANB-C05",
       "clause_type": "waiting_period",
       "text": "The following treatments shall have a specific waiting period of 24 months of continuous coverage from Policy inception: Hernia (all types), Cataract, Piles, Fissure and Fistula in Ano, Varicose Veins, and Joint Replacement Surgery not necessitated by Accident.",
       "structured": {"category": "specific_illness_waiting", "waiting_months": 24, "conditions": ["hernia", "cataract", "piles", "fistula_in_ano", "varicose_veins", "joint_replacement"]}
     },
     {
-      "clause_id": "MEDI-PLUS1-C06",
+      "clause_id": "SYNTH2-PLANB-C06",
       "clause_type": "waiting_period",
       "text": "Maternity Expense Benefit, covering delivery and pre/post-natal complications, shall become payable only after the Insured Person has been continuously covered for 24 months under this Policy, and is limited to two deliveries or terminations during the lifetime of the Policy.",
       "structured": {"category": "maternity_waiting", "waiting_months": 24, "max_deliveries_lifetime": 2}
     },
     {
-      "clause_id": "MEDI-PLUS1-C07",
+      "clause_id": "SYNTH2-PLANB-C07",
       "clause_type": "exclusion",
       "text": "Pre-Existing Diseases, as declared or otherwise known to the Insured Person at the time of proposal, and any complications arising therefrom, are excluded from the scope of cover until 48 months of continuous coverage have elapsed under this Policy.",
       "structured": {"category": "pre_existing_disease", "waiting_months": 48}
     },
     {
-      "clause_id": "MEDI-PLUS1-C08",
+      "clause_id": "SYNTH2-PLANB-C08",
       "clause_type": "exclusion",
       "text": "Costs of dental treatment, dentures and dental surgery of any kind, and any cosmetic, aesthetic or plastic surgery, are excluded unless required for the treatment of a covered Accidental Injury or Burns necessitating Hospitalisation.",
       "structured": {"category": "dental_cosmetic", "accident_exempt": true, "burns_exempt": true}
     },
     {
-      "clause_id": "MEDI-PLUS1-C09",
+      "clause_id": "SYNTH2-PLANB-C09",
       "clause_type": "coverage",
       "text": "Emergency road ambulance charges for transferring the Insured Person to the nearest Hospital with adequate facilities shall be reimbursed up to Rs. 3,000 per Hospitalisation event.",
       "structured": {"category": "ambulance", "cap_inr_per_hospitalization": 3000}
     },
     {
-      "clause_id": "MEDI-PLUS1-C10",
+      "clause_id": "SYNTH2-PLANB-C10",
       "clause_type": "coverage",
       "text": "Medical Expenses incurred up to 60 days prior to the date of admission, directly related to the illness or injury for which a Hospitalisation claim is admitted, shall be payable as Pre-Hospitalisation expenses.",
       "structured": {"category": "pre_hospitalization", "window_days": 60}
     },
     {
-      "clause_id": "MEDI-PLUS1-C11",
+      "clause_id": "SYNTH2-PLANB-C11",
       "clause_type": "coverage",
       "text": "Medical Expenses incurred up to 90 days from the date of discharge, directly related to the illness or injury for which a Hospitalisation claim is admitted, shall be payable as Post-Hospitalisation expenses.",
       "structured": {"category": "post_hospitalization", "window_days": 90}
     },
     {
-      "clause_id": "MEDI-PLUS1-C12",
+      "clause_id": "SYNTH2-PLANB-C12",
       "clause_type": "sub_limit",
       "text": "A mandatory Co-payment of 20% shall apply to all claims where treatment is availed at a Hospital located within a metropolitan city Zone A, as defined in the Policy Schedule, irrespective of the Insured Person's age.",
       "structured": {"category": "co_payment", "copay_pct": 20.0, "applies_to": "zone_a_hospitals"}

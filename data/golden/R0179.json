@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "45-4680-7750-0186"
     },
-    "admission_date": "2026-05-28",
-    "discharge_date": "2026-06-05",
+    "admission_date": "2026-06-01",
+    "discharge_date": "2026-06-09",
     "claim_type": "cashless",
     "specialty": "ophthalmology",
     "diagnosis_text": "Abdominal pain, cause unclear, obs.",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL7482970",
       "sum_insured": 1000000,
       "claimed_amount": 29580
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0179",

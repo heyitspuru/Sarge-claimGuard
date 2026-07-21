@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "83-4005-7172-7958"
     },
-    "admission_date": "2026-04-24",
-    "discharge_date": "2026-04-29",
+    "admission_date": "2026-04-28",
+    "discharge_date": "2026-05-03",
     "claim_type": "reimbursement",
     "specialty": "general_surgery",
     "diagnosis_text": "Inguinal hernia",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL4924337",
       "sum_insured": 500000,
       "claimed_amount": 54715
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0064",

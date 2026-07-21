@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "10-2560-7151-2577"
     },
-    "admission_date": "2026-05-20",
-    "discharge_date": "2026-05-23",
+    "admission_date": "2026-05-24",
+    "discharge_date": "2026-05-27",
     "claim_type": "cashless",
     "specialty": "orthopedics",
     "diagnosis_text": "Fracture neck of femur",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL1557218",
       "sum_insured": 500000,
       "claimed_amount": 238123
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0191",

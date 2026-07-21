@@ -11,9 +11,17 @@ declines it. A model-drafted letter is never sent to an insurer unread.
 ## `R0011.json` — a real honest-no
 
 Genuine `gemini-2.5-flash` output, not a fixture. The Negotiator read the insurer's
-cited clause (`STAR-SEC1-C03`, the cataract sub-limit), checked it against every other
-retrieved clause, and concluded the insurer had applied it **correctly** — so it declined
-to appeal and said why.
+cited clause (the cataract sub-limit), checked it against every other retrieved clause,
+and concluded the insurer had applied it **correctly** — so it declined to appeal and
+said why.
+
+> **Stale clause id, deliberately.** This draft quotes `STAR-SEC1-C03`. The insurers were
+> renamed after it was generated (their abbreviations collided with real Indian
+> insurance entities), and that clause is now `SYNTH1-PLANA-C03`. The text here is
+> **left exactly as the model produced it** — editing a model's own words to tidy up a
+> rename would turn a genuine artifact into a fabricated one, which is the specific
+> dishonesty this file exists to guard against. It will be re-drafted against the renamed
+> corpus on the next quota day, and this note removed then.
 
 That is the property the whole project is built around, on a real record: an advocate
 that argues every case is worthless, and the refusals are what make the appeals

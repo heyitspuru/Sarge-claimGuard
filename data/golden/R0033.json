@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "67-6402-0679-7016"
     },
-    "admission_date": "2026-05-15",
-    "discharge_date": "2026-05-18",
+    "admission_date": "2026-05-19",
+    "discharge_date": "2026-05-22",
     "claim_type": "cashless",
     "specialty": "pulmonology",
     "diagnosis_text": "Community-acquired pneumonia",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL8773132",
       "sum_insured": 500000,
       "claimed_amount": 40581
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0033",

@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "13-9221-4480-0134"
     },
-    "admission_date": "2026-06-26",
-    "discharge_date": "2026-07-03",
+    "admission_date": "2026-06-30",
+    "discharge_date": "2026-07-07",
     "claim_type": "cashless",
     "specialty": "internal_medicine",
     "diagnosis_text": "Dengue fever with warning signs",
@@ -27,12 +27,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL0997837",
       "sum_insured": 1000000,
       "claimed_amount": 68765
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0098",

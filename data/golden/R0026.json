@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "07-4137-4847-7718"
     },
-    "admission_date": "2026-06-01",
-    "discharge_date": "2026-06-09",
+    "admission_date": "2026-06-05",
+    "discharge_date": "2026-06-13",
     "claim_type": "reimbursement",
     "specialty": "orthopedics",
     "diagnosis_text": "Fracture neck of femur",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL3417047",
       "sum_insured": 1000000,
       "claimed_amount": 311504
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0026",

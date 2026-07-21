@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "64-0085-9979-8732"
     },
-    "admission_date": "2026-04-27",
-    "discharge_date": "2026-05-02",
+    "admission_date": "2026-05-01",
+    "discharge_date": "2026-05-06",
     "claim_type": "reimbursement",
     "specialty": "neurology",
     "diagnosis_text": "Cerebral infarction (acute ischemic stroke)",
@@ -31,12 +31,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL0008062",
       "sum_insured": 1000000,
       "claimed_amount": 210655
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0057",

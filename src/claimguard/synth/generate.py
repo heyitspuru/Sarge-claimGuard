@@ -19,7 +19,12 @@ from faker import Faker
 from claimguard.models import AnswerKey, DischargeRecord, Insurance, Patient
 from claimguard.synth import templates
 
-INSURERS = [("STAR", "SEC1"), ("MEDI", "PLUS1"), ("AROG", "KAV1")]
+# Deliberately non-existent insurer codes. The originals were abbreviations that collided
+# with real Indian insurance entities, and this repo publishes invented policy *wordings*
+# under whatever name sits here — a reader could reasonably have taken those for real
+# policy terms. Names that announce themselves as synthetic cannot be misread, and that
+# matches what the rest of the project claims about itself.
+INSURERS = [("SYNTH1", "PLANA"), ("SYNTH2", "PLANB"), ("SYNTH3", "PLANC")]
 SUM_INSURED_OPTIONS = [500000, 1000000]
 
 # Specialty-appropriate age bands; falls back to DEFAULT_AGE_BAND otherwise.

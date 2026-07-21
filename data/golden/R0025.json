@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "14-3337-7617-4093"
     },
-    "admission_date": "2026-06-19",
-    "discharge_date": "2026-06-20",
+    "admission_date": "2026-06-23",
+    "discharge_date": "2026-06-24",
     "claim_type": "cashless",
     "specialty": "neurology",
     "diagnosis_text": "Cerebral infarction (acute ischemic stroke)",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL1925449",
       "sum_insured": 1000000,
       "claimed_amount": 281376
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0025",

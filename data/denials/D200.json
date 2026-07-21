@@ -1,8 +1,8 @@
 {
   "scenario": {
     "scenario_id": "D200",
-    "insurer_id": "STAR",
-    "plan_id": "SEC1",
+    "insurer_id": "SYNTH3",
+    "plan_id": "PLANC",
     "diagnosis": "Cerebral infarction (acute ischemic stroke)",
     "procedures": [
       "CT brain plain",
@@ -10,20 +10,20 @@
     ],
     "decision": {
       "claim_id": "CLM-D200",
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "outcome": "partial",
       "claimed_amount": 100000,
       "approved_amount": 80000,
-      "reason_text": "Room rent / sub-limit restricted to Rs.5000 per day; excess of Rs.20000 disallowed as per policy terms.",
-      "cited_clause_id": "STAR-SEC1-C02"
+      "reason_text": "Room rent / sub-limit restricted to Rs.3500 per day; excess of Rs.20000 disallowed as per policy terms.",
+      "cited_clause_id": "SYNTH3-PLANC-C02"
     }
   },
   "answer_key": {
     "scenario_id": "D200",
     "appeal_viable": true,
     "expected_clause_ids": [
-      "STAR-SEC1-C02"
+      "SYNTH3-PLANC-C02"
     ],
     "category": "partial_sublimit"
   }

@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "13-5885-7095-1585"
     },
-    "admission_date": "2026-05-22",
-    "discharge_date": "2026-05-24",
+    "admission_date": "2026-05-26",
+    "discharge_date": "2026-05-28",
     "claim_type": "reimbursement",
     "specialty": "obstetrics",
     "diagnosis_text": "Delivery by emergency lower segment caesarean section",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL9103453",
       "sum_insured": 1000000,
       "claimed_amount": 91180
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0134",

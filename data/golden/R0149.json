@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "20-2428-5127-6165"
     },
-    "admission_date": "2026-07-15",
-    "discharge_date": "2026-07-22",
+    "admission_date": "2026-07-19",
+    "discharge_date": "2026-07-26",
     "claim_type": "cashless",
     "specialty": "general_surgery",
     "diagnosis_text": "Abdominal pain, cause unclear, obs.",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL6509330",
       "sum_insured": 500000,
       "claimed_amount": 61464
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0149",

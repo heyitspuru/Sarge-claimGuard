@@ -1,21 +1,21 @@
 {
   "scenario": {
     "scenario_id": "D105",
-    "insurer_id": "MEDI",
-    "plan_id": "PLUS1",
+    "insurer_id": "SYNTH2",
+    "plan_id": "PLANB",
     "diagnosis": "Senile cataract",
     "procedures": [
       "Phacoemulsification with IOL implantation"
     ],
     "decision": {
       "claim_id": "CLM-D105",
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "outcome": "rejected",
       "claimed_amount": 90000,
       "approved_amount": 0,
       "reason_text": "Claim rejected: the condition falls within an excluded / waiting-period category. Pre-Existing Diseases, as declared or otherwise known to the Insured Person at t",
-      "cited_clause_id": "MEDI-PLUS1-C07"
+      "cited_clause_id": "SYNTH2-PLANB-C07"
     }
   },
   "answer_key": {

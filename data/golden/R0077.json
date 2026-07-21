@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "03-6251-5578-8346"
     },
-    "admission_date": "2026-05-14",
-    "discharge_date": "2026-05-18",
+    "admission_date": "2026-05-18",
+    "discharge_date": "2026-05-22",
     "claim_type": "cashless",
     "specialty": "obstetrics",
     "diagnosis_text": "Delivery by emergency lower segment caesarean section",
@@ -27,12 +27,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL5648044",
       "sum_insured": 500000,
       "claimed_amount": 75481
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0077",

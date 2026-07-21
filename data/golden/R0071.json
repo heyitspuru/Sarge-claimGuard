@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "32-6819-5044-6600"
     },
-    "admission_date": "2026-05-07",
-    "discharge_date": "2026-05-08",
+    "admission_date": "2026-05-11",
+    "discharge_date": "2026-05-12",
     "claim_type": "cashless",
     "specialty": "internal_medicine",
     "diagnosis_text": "Enteric (typhoid) fever",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL1665941",
       "sum_insured": 500000,
       "claimed_amount": 35242
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0071",

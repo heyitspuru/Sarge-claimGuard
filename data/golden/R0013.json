@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "82-8288-0729-0222"
     },
-    "admission_date": "2026-04-20",
-    "discharge_date": "2026-04-27",
+    "admission_date": "2026-04-24",
+    "discharge_date": "2026-05-01",
     "claim_type": "cashless",
     "specialty": "ophthalmology",
     "diagnosis_text": "Abdominal pain, cause unclear, obs.",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL7918058",
       "sum_insured": 1000000,
       "claimed_amount": 23392
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0013",

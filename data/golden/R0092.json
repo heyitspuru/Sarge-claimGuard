@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "60-1755-3715-2530"
     },
-    "admission_date": "2026-05-03",
-    "discharge_date": "2026-05-07",
+    "admission_date": "2026-05-07",
+    "discharge_date": "2026-05-11",
     "claim_type": "cashless",
     "specialty": "cardiology",
     "diagnosis_text": "Acute myocardial infarction",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL2782724",
       "sum_insured": 500000,
       "claimed_amount": 303827
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0092",

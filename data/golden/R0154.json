@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "16-8495-1839-4475"
     },
-    "admission_date": "2026-04-25",
-    "discharge_date": "2026-04-29",
+    "admission_date": "2026-04-29",
+    "discharge_date": "2026-05-03",
     "claim_type": "cashless",
     "specialty": "internal_medicine",
     "diagnosis_text": "Fever under evaluation, ?viral ?bacterial",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL8979321",
       "sum_insured": 1000000,
       "claimed_amount": 50677
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0154",

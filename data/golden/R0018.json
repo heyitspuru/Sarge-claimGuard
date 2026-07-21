@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "40-2614-0141-9314"
     },
-    "admission_date": "2026-07-05",
-    "discharge_date": "2026-07-10",
+    "admission_date": "2026-07-09",
+    "discharge_date": "2026-07-14",
     "claim_type": "cashless",
     "specialty": "ophthalmology",
     "diagnosis_text": "Senile cataract",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL1705864",
       "sum_insured": 1000000,
       "claimed_amount": 25473
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0018",

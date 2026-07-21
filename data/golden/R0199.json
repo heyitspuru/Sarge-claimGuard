@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "00-2602-9474-2445"
     },
-    "admission_date": "2026-07-02",
-    "discharge_date": "2026-07-05",
+    "admission_date": "2026-07-06",
+    "discharge_date": "2026-07-09",
     "claim_type": "reimbursement",
     "specialty": "endocrinology",
     "diagnosis_text": "Type 2 diabetes mellitus with diabetic ketoacidosis",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL0561272",
       "sum_insured": 500000,
       "claimed_amount": 67676
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0199",

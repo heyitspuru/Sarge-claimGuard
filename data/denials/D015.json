@@ -1,8 +1,8 @@
 {
   "scenario": {
     "scenario_id": "D015",
-    "insurer_id": "AROG",
-    "plan_id": "KAV1",
+    "insurer_id": "SYNTH1",
+    "plan_id": "PLANA",
     "diagnosis": "Acute myocardial infarction",
     "procedures": [
       "Coronary angiography",
@@ -10,8 +10,8 @@
     ],
     "decision": {
       "claim_id": "CLM-D015",
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "outcome": "rejected",
       "claimed_amount": 60000,
       "approved_amount": 0,

@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "42-6941-9984-9334"
     },
-    "admission_date": "2026-05-05",
-    "discharge_date": "2026-05-11",
+    "admission_date": "2026-05-09",
+    "discharge_date": "2026-05-15",
     "claim_type": "reimbursement",
     "specialty": "internal_medicine",
     "diagnosis_text": "Enteric (typhoid) fever",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL1591508",
       "sum_insured": 500000,
       "claimed_amount": 36141
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0186",

@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "97-9237-6092-6030"
     },
-    "admission_date": "2026-06-11",
-    "discharge_date": "2026-06-12",
+    "admission_date": "2026-06-15",
+    "discharge_date": "2026-06-16",
     "claim_type": "reimbursement",
     "specialty": "general_surgery",
     "diagnosis_text": "Inguinal hernia",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL9260026",
       "sum_insured": 500000,
       "claimed_amount": 62873
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0037",

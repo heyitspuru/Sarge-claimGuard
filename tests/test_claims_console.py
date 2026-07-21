@@ -47,7 +47,7 @@ def _fake_appeal(record_id: str) -> AppealResult:
     return AppealResult(
         scenario_id=f"AUTO-{record_id}", status="appeal",
         appeal_text="The sub-limit was over-applied.",
-        citations=[Citation(clause_id="STAR-SEC1-C01", quoted_text="cover",
+        citations=[Citation(clause_id="SYNTH1-PLANA-C01", quoted_text="cover",
                             relevance="provides cover")],
         reasoning="grounded",
     )

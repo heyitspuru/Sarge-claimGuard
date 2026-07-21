@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "99-1617-2888-1817"
     },
-    "admission_date": "2026-07-04",
-    "discharge_date": "2026-07-08",
+    "admission_date": "2026-07-08",
+    "discharge_date": "2026-07-12",
     "claim_type": "reimbursement",
     "specialty": "general_surgery",
     "diagnosis_text": "Cholelithiasis (gallstones) with chronic cholecystitis",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL6823971",
       "sum_insured": 1000000,
       "claimed_amount": 67053
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0132",

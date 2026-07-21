@@ -1,28 +1,28 @@
 {
   "scenario": {
     "scenario_id": "D110",
-    "insurer_id": "MEDI",
-    "plan_id": "PLUS1",
+    "insurer_id": "SYNTH2",
+    "plan_id": "PLANB",
     "diagnosis": "Inguinal hernia",
     "procedures": [
       "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
     ],
     "decision": {
       "claim_id": "CLM-D110",
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "outcome": "rejected",
       "claimed_amount": 75000,
       "approved_amount": 0,
       "reason_text": "Claim rejected citing a waiting-period restriction that does not apply to this hospitalization.",
-      "cited_clause_id": "MEDI-PLUS1-C04"
+      "cited_clause_id": "SYNTH2-PLANB-C04"
     }
   },
   "answer_key": {
     "scenario_id": "D110",
     "appeal_viable": true,
     "expected_clause_ids": [
-      "MEDI-PLUS1-C01"
+      "SYNTH2-PLANB-C01"
     ],
     "category": "miscited_rejection"
   }

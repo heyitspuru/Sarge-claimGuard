@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "56-4331-6462-0420"
     },
-    "admission_date": "2026-07-01",
-    "discharge_date": "2026-07-02",
+    "admission_date": "2026-07-05",
+    "discharge_date": "2026-07-06",
     "claim_type": "cashless",
     "specialty": "pulmonology",
     "diagnosis_text": "Fever under evaluation, ?viral ?bacterial",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL7858270",
       "sum_insured": 500000,
       "claimed_amount": 34922
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0094",

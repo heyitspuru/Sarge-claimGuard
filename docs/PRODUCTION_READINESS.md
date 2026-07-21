@@ -72,7 +72,7 @@ register or reading level. Only humans move that ceiling.
 | Gate | Status | What it takes |
 |---|---|---|
 | ⚖️🏛️ Real policy documents | **Absent** | Agreements with insurers, or use of publicly filed policy wordings with counsel review |
-| ⚖️ Insurer naming | **Synthetic** | `STAR`/`MEDI`/`AROG` are invented codes. **Rename before the repo goes public** to remove any chance of collision with a real insurer's marks |
+| ⚖️ Insurer naming | **Synthetic** | `SYNTH1`/`SYNTH2`/`SYNTH3` are invented codes. **Rename before the repo goes public** to remove any chance of collision with a real insurer's marks |
 | 🧑 Clause-extraction accuracy | **Unmeasured** | Real policy PDFs are messy; clause segmentation quality is untested outside the synthetic corpus |
 
 The Negotiator's grounding gate is **structurally** sound — it cannot cite a clause that

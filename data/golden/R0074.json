@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "59-0031-4491-9232"
     },
-    "admission_date": "2026-06-16",
-    "discharge_date": "2026-06-20",
+    "admission_date": "2026-06-20",
+    "discharge_date": "2026-06-24",
     "claim_type": "cashless",
     "specialty": "ophthalmology",
     "diagnosis_text": "Senile cataract",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL7523682",
       "sum_insured": 1000000,
       "claimed_amount": 43090
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0074",

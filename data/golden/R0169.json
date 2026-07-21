@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "70-0089-1626-9515"
     },
-    "admission_date": "2026-04-23",
-    "discharge_date": "2026-04-24",
+    "admission_date": "2026-04-27",
+    "discharge_date": "2026-04-28",
     "claim_type": "cashless",
     "specialty": "internal_medicine",
     "diagnosis_text": "Dengue fever with warning signs",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL2521507",
       "sum_insured": 1000000,
       "claimed_amount": 65415
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0169",

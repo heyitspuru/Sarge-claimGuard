@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "33-2536-5936-8778"
     },
-    "admission_date": "2026-07-08",
-    "discharge_date": "2026-07-15",
+    "admission_date": "2026-07-12",
+    "discharge_date": "2026-07-19",
     "claim_type": "reimbursement",
     "specialty": "cardiology",
     "diagnosis_text": "Acute myocardial infarction",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL0063943",
       "sum_insured": 500000,
       "claimed_amount": 294557
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0060",

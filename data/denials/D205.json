@@ -1,21 +1,21 @@
 {
   "scenario": {
     "scenario_id": "D205",
-    "insurer_id": "STAR",
-    "plan_id": "SEC1",
+    "insurer_id": "SYNTH3",
+    "plan_id": "PLANC",
     "diagnosis": "Fracture neck of femur",
     "procedures": [
       "Bipolar hemiarthroplasty"
     ],
     "decision": {
       "claim_id": "CLM-D205",
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "outcome": "rejected",
       "claimed_amount": 90000,
       "approved_amount": 0,
-      "reason_text": "Claim rejected: the condition falls within an excluded / waiting-period category. Any Pre-Existing Disease, and its direct complications, shall be excluded until ",
-      "cited_clause_id": "STAR-SEC1-C07"
+      "reason_text": "Claim rejected: the condition falls within an excluded / waiting-period category. Expenses relating to the treatment of a Pre-Existing Disease and its direct comp",
+      "cited_clause_id": "SYNTH3-PLANC-C07"
     }
   },
   "answer_key": {

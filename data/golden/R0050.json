@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "16-9784-6493-6657"
     },
-    "admission_date": "2026-05-20",
-    "discharge_date": "2026-05-21",
+    "admission_date": "2026-05-24",
+    "discharge_date": "2026-05-25",
     "claim_type": "reimbursement",
     "specialty": "general_surgery",
     "diagnosis_text": "Acute appendicitis",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL8720097",
       "sum_insured": 500000,
       "claimed_amount": 81040
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0050",

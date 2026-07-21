@@ -1,8 +1,8 @@
 {
   "scenario": {
     "scenario_id": "D103",
-    "insurer_id": "MEDI",
-    "plan_id": "PLUS1",
+    "insurer_id": "SYNTH2",
+    "plan_id": "PLANB",
     "diagnosis": "Type 2 diabetes mellitus with diabetic ketoacidosis",
     "procedures": [
       "IV insulin infusion titration",
@@ -10,8 +10,8 @@
     ],
     "decision": {
       "claim_id": "CLM-D103",
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "outcome": "rejected",
       "claimed_amount": 60000,
       "approved_amount": 0,

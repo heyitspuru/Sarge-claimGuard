@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "93-0666-8364-5074"
     },
-    "admission_date": "2026-06-27",
-    "discharge_date": "2026-07-03",
+    "admission_date": "2026-07-01",
+    "discharge_date": "2026-07-07",
     "claim_type": "cashless",
     "specialty": "cardiology",
     "diagnosis_text": "Acute myocardial infarction",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL9528831",
       "sum_insured": 1000000,
       "claimed_amount": 431429
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0032",

@@ -1,8 +1,8 @@
 {
   "scenario": {
     "scenario_id": "D100",
-    "insurer_id": "MEDI",
-    "plan_id": "PLUS1",
+    "insurer_id": "SYNTH2",
+    "plan_id": "PLANB",
     "diagnosis": "Type 2 diabetes mellitus with diabetic ketoacidosis",
     "procedures": [
       "IV insulin infusion titration",
@@ -10,20 +10,20 @@
     ],
     "decision": {
       "claim_id": "CLM-D100",
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "outcome": "partial",
       "claimed_amount": 100000,
       "approved_amount": 80000,
       "reason_text": "Room rent / sub-limit restricted to Rs.7500 per day; excess of Rs.20000 disallowed as per policy terms.",
-      "cited_clause_id": "MEDI-PLUS1-C02"
+      "cited_clause_id": "SYNTH2-PLANB-C02"
     }
   },
   "answer_key": {
     "scenario_id": "D100",
     "appeal_viable": true,
     "expected_clause_ids": [
-      "MEDI-PLUS1-C02"
+      "SYNTH2-PLANB-C02"
     ],
     "category": "partial_sublimit"
   }

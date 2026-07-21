@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "33-4018-7801-7598"
     },
-    "admission_date": "2026-05-21",
-    "discharge_date": "2026-05-24",
+    "admission_date": "2026-05-25",
+    "discharge_date": "2026-05-28",
     "claim_type": "cashless",
     "specialty": "general_surgery",
     "diagnosis_text": "Cholelithiasis (gallstones) with chronic cholecystitis",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL9834788",
       "sum_insured": 1000000,
       "claimed_amount": 84369
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0014",

@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "53-3204-5080-0487"
     },
-    "admission_date": "2026-06-29",
-    "discharge_date": "2026-07-06",
+    "admission_date": "2026-07-03",
+    "discharge_date": "2026-07-10",
     "claim_type": "cashless",
     "specialty": "obstetrics",
     "diagnosis_text": "Abdominal pain, cause unclear, obs.",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL0125034",
       "sum_insured": 500000,
       "claimed_amount": 94019
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0090",

@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "10-9832-6389-8692"
     },
-    "admission_date": "2026-05-15",
-    "discharge_date": "2026-05-23",
+    "admission_date": "2026-05-19",
+    "discharge_date": "2026-05-27",
     "claim_type": "cashless",
     "specialty": "pulmonology",
     "diagnosis_text": "Community-acquired pneumonia",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL8414078",
       "sum_insured": 1000000,
       "claimed_amount": 77656
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0058",

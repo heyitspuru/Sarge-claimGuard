@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "43-1955-4590-4544"
     },
-    "admission_date": "2026-06-07",
-    "discharge_date": "2026-06-11",
+    "admission_date": "2026-06-11",
+    "discharge_date": "2026-06-15",
     "claim_type": "cashless",
     "specialty": "endocrinology",
     "diagnosis_text": "Type 2 diabetes mellitus with diabetic ketoacidosis",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL0910317",
       "sum_insured": 1000000,
       "claimed_amount": 105547
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0040",

@@ -56,7 +56,7 @@ def test_it_labels_mock_codes_as_meaningless(walkthrough):
 def test_the_settlement_shows_what_the_patient_actually_loses(walkthrough):
     out = walkthrough("R0011")
     assert "SHORTFALL" in out, "an approved-vs-claimed gap is the patient's out-of-pocket"
-    assert "STAR-SEC1-C03" in out, "the denial must name the real clause it rests on"
+    assert "SYNTH1-PLANA-C03" in out, "the denial must name the real clause it rests on"
 
 
 def test_the_close_states_the_limitations(walkthrough):

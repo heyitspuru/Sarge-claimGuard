@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "53-5285-4300-1960"
     },
-    "admission_date": "2026-06-04",
-    "discharge_date": "2026-06-08",
+    "admission_date": "2026-06-08",
+    "discharge_date": "2026-06-12",
     "claim_type": "reimbursement",
     "specialty": "cardiology",
     "diagnosis_text": "Abdominal pain, cause unclear, obs.",
@@ -31,12 +31,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL3767249",
       "sum_insured": 1000000,
       "claimed_amount": 323768
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0127",

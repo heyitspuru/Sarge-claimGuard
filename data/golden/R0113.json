@@ -7,8 +7,8 @@
       "sex": "M",
       "abha_id": "20-4191-5379-6003"
     },
-    "admission_date": "2026-06-13",
-    "discharge_date": "2026-06-15",
+    "admission_date": "2026-06-17",
+    "discharge_date": "2026-06-19",
     "claim_type": "reimbursement",
     "specialty": "general_surgery",
     "diagnosis_text": "Cholelithiasis (gallstones) with chronic cholecystitis",
@@ -29,12 +29,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL6907093",
       "sum_insured": 500000,
       "claimed_amount": 86701
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0113",

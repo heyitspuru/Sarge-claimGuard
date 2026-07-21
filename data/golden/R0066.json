@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "99-0595-8278-5277"
     },
-    "admission_date": "2026-05-07",
-    "discharge_date": "2026-05-11",
+    "admission_date": "2026-05-11",
+    "discharge_date": "2026-05-15",
     "claim_type": "reimbursement",
     "specialty": "pulmonology",
     "diagnosis_text": "Fever under evaluation, ?viral ?bacterial",
@@ -31,12 +31,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "STAR",
-      "plan_id": "SEC1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "policy_number": "POL4932573",
       "sum_insured": 500000,
       "claimed_amount": 52410
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0066",

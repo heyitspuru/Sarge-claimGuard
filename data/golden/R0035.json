@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "08-4745-3783-8306"
     },
-    "admission_date": "2026-05-11",
-    "discharge_date": "2026-05-16",
+    "admission_date": "2026-05-15",
+    "discharge_date": "2026-05-20",
     "claim_type": "cashless",
     "specialty": "neurology",
     "diagnosis_text": "Cerebral infarction (acute ischemic stroke)",
@@ -30,12 +30,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL4003761",
       "sum_insured": 500000,
       "claimed_amount": 179582
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0035",

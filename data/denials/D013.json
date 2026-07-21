@@ -1,8 +1,8 @@
 {
   "scenario": {
     "scenario_id": "D013",
-    "insurer_id": "AROG",
-    "plan_id": "KAV1",
+    "insurer_id": "SYNTH1",
+    "plan_id": "PLANA",
     "diagnosis": "Acute myocardial infarction",
     "procedures": [
       "Coronary angiography",
@@ -10,13 +10,13 @@
     ],
     "decision": {
       "claim_id": "CLM-D013",
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH1",
+      "plan_id": "PLANA",
       "outcome": "rejected",
       "claimed_amount": 90000,
       "approved_amount": 0,
-      "reason_text": "Claim rejected: the condition falls within an excluded / waiting-period category. Expenses relating to the treatment of a Pre-Existing Disease and its direct comp",
-      "cited_clause_id": "AROG-KAV1-C07"
+      "reason_text": "Claim rejected: the condition falls within an excluded / waiting-period category. Any Pre-Existing Disease, and its direct complications, shall be excluded until ",
+      "cited_clause_id": "SYNTH1-PLANA-C07"
     }
   },
   "answer_key": {

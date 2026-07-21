@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "34-9067-8185-1369"
     },
-    "admission_date": "2026-05-18",
-    "discharge_date": "2026-05-25",
+    "admission_date": "2026-05-22",
+    "discharge_date": "2026-05-29",
     "claim_type": "cashless",
     "specialty": "general_surgery",
     "diagnosis_text": "Acute appendicitis",
@@ -27,12 +27,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "policy_number": "POL8485789",
       "sum_insured": 1000000,
       "claimed_amount": 48697
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0086",

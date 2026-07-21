@@ -5,12 +5,12 @@ from claimguard.models import AppealResult, Citation, DenialAnswerKey
 
 
 def test_grounding_rate_counts_only_resolving_citations():
-    corpus = {"STAR-SEC1-C02", "STAR-SEC1-C01"}
+    corpus = {"SYNTH1-PLANA-C02", "SYNTH1-PLANA-C01"}
     results = [
         AppealResult(scenario_id="D1", status="appeal", appeal_text="x",
-                     citations=[Citation(clause_id="STAR-SEC1-C02", quoted_text="a", relevance="b")]),
+                     citations=[Citation(clause_id="SYNTH1-PLANA-C02", quoted_text="a", relevance="b")]),
         AppealResult(scenario_id="D2", status="appeal", appeal_text="x",
-                     citations=[Citation(clause_id="STAR-SEC1-C99", quoted_text="a", relevance="b")]),
+                     citations=[Citation(clause_id="SYNTH1-PLANA-C99", quoted_text="a", relevance="b")]),
     ]
     assert grounding.grounding_rate(results, corpus) == 0.5
 

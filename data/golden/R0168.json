@@ -7,8 +7,8 @@
       "sex": "F",
       "abha_id": "05-3240-2557-7355"
     },
-    "admission_date": "2026-05-26",
-    "discharge_date": "2026-06-02",
+    "admission_date": "2026-05-30",
+    "discharge_date": "2026-06-06",
     "claim_type": "cashless",
     "specialty": "obstetrics",
     "diagnosis_text": "Delivery by emergency lower segment caesarean section",
@@ -28,12 +28,13 @@
       "id_proof"
     ],
     "insurance": {
-      "insurer_id": "AROG",
-      "plan_id": "KAV1",
+      "insurer_id": "SYNTH3",
+      "plan_id": "PLANC",
       "policy_number": "POL2141871",
       "sum_insured": 500000,
       "claimed_amount": 71114
-    }
+    },
+    "disposition": "discharged"
   },
   "answer_key": {
     "record_id": "R0168",

@@ -1,16 +1,16 @@
 {
   "scenario": {
     "scenario_id": "D111",
-    "insurer_id": "MEDI",
-    "plan_id": "PLUS1",
+    "insurer_id": "SYNTH2",
+    "plan_id": "PLANB",
     "diagnosis": "Inguinal hernia",
     "procedures": [
       "Open inguinal hernioplasty with mesh (Lichtenstein repair)"
     ],
     "decision": {
       "claim_id": "CLM-D111",
-      "insurer_id": "MEDI",
-      "plan_id": "PLUS1",
+      "insurer_id": "SYNTH2",
+      "plan_id": "PLANB",
       "outcome": "rejected",
       "claimed_amount": 60000,
       "approved_amount": 0,
