@@ -94,3 +94,25 @@ def patient_client():
             "otp": challenge["simulated_otp"]})
         assert r.status_code == 200, r.text
         yield client, record_id
+
+
+@pytest.fixture
+def db_conn():
+    """A live Postgres connection, or a skip that says *why* there isn't one.
+
+    Both db tests used to swallow every exception as "postgres not reachable". That
+    hid a real bug for as long as it existed: connect() failed against a bare server
+    because the `vector` extension did not exist yet, and CI reported it as an absent
+    database. Only a genuine connection failure skips here — anything else raises.
+    """
+    import psycopg
+
+    from claimguard import db
+
+    try:
+        conn = db.connect()
+    except psycopg.OperationalError as exc:
+        pytest.skip(f"postgres not reachable: {exc}")
+    db.init_schema(conn)
+    yield conn
+    conn.close()

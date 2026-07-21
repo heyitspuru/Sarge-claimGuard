@@ -56,15 +56,8 @@ def test_retriever_ranks_exact_description_match_first():
 
 
 @pytest.mark.db
-def test_load_refs_into_db_upserts_icd_codes_and_policy_clauses():
-    import claimguard.db as db
-
-    try:
-        conn = db.connect()
-    except Exception:
-        pytest.skip("postgres not reachable")
-    db.init_schema(conn)
-
+def test_load_refs_into_db_upserts_icd_codes_and_policy_clauses(db_conn):
+    conn = db_conn
     icd.load_refs_into_db(conn)
 
     n_icd = conn.execute("SELECT count(*) FROM icd_codes").fetchone()[0]
