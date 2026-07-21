@@ -342,10 +342,13 @@ def draft_claim_appeal(record_id: str, principal: Principal = Depends(require_st
 def review_claim_appeal(record_id: str, body: AppealReview,
                         principal: Principal = Depends(require_staff)):
     """A human decides whether the drafted appeal actually goes to the insurer."""
-    if body.state not in ("approved", "declined"):
-        raise HTTPException(status_code=400, detail="state must be approved or declined")
-    payload = appeals_store.review(record_id, body.state,
-                                    reviewed_by=principal.subject, note=body.note)
+    # The store owns what is reviewable (valid states, and that a refusal is terminal);
+    # duplicating the rules here would let the two drift apart.
+    try:
+        payload = appeals_store.review(record_id, body.state,
+                                        reviewed_by=principal.subject, note=body.note)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
     if payload is None:
         raise HTTPException(status_code=404, detail="no draft to review")
     return payload

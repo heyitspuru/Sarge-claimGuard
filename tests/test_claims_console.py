@@ -240,3 +240,32 @@ def test_review_is_recorded_durably(staff_client):
 def test_store_rejects_a_nonsense_review_state():
     with pytest.raises(ValueError):
         appeals_store.review("R0001", "sent", reviewed_by="x")
+
+
+def _a_refusal(record_id: str) -> AppealResult:
+    """What the Negotiator stores when it examines a claim and declines to appeal."""
+    return AppealResult(
+        scenario_id=f"AUTO-{record_id}", status="no_valid_appeal",
+        appeal_text="", citations=[],
+        reasoning="the sub-limit the insurer applied genuinely sits in this policy",
+    )
+
+
+def test_a_refusal_cannot_be_approved_to_send(staff_client):
+    """"Approved" means cleared to go to the insurer. On a refusal there is no letter —
+    empty `appeal_text`, no citations — so approving it asserts an appeal is on its way
+    when nothing exists. Terminal, not pending."""
+    rid = _a_denied_record()
+    appeals_store.save(rid, _a_refusal(rid), drafted_by="drafter")
+
+    r = staff_client.post(f"/claims/{rid}/appeal/review", json={"state": "approved"})
+    assert r.status_code == 400
+    assert "no letter" in r.json()["detail"]
+    assert appeals_store.get(rid)["review_state"] == "drafted", "must stay untouched"
+
+
+def test_a_refusal_cannot_be_declined_either(staff_client):
+    rid = _a_denied_record()
+    appeals_store.save(rid, _a_refusal(rid), drafted_by="drafter")
+    assert staff_client.post(f"/claims/{rid}/appeal/review",
+                             json={"state": "declined"}).status_code == 400

@@ -65,6 +65,15 @@ def review(record_id: str, state: str, *, reviewed_by: str, note: str = "") -> d
     payload = get(record_id)
     if payload is None:
         return None
+    # A refusal is terminal, not pending. "approved" here would read as "cleared to go to
+    # the insurer" while `appeal_text` is empty and there are no citations — a claim that
+    # an appeal is on its way when nothing exists. Guarded at the store, not the UI, so
+    # every caller (API, CLI, a future batch job) inherits it.
+    if payload["appeal"]["status"] == "no_valid_appeal":
+        raise ValueError(
+            "this draft is the Negotiator declining to appeal — there is no letter to "
+            "approve or decline. Nothing is pending."
+        )
     payload |= {
         "review_state": state,
         "reviewed_by": reviewed_by,

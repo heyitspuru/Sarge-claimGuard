@@ -200,7 +200,10 @@ export function ClaimDetail({ recordId }: { recordId: string }) {
               )}
             </div>
 
-            {appeal.review_state === "drafted" && (
+            {/* A refusal is terminal — there is no letter to approve. Offering the
+                button once let a reviewer mark "approved to send" on an empty appeal. */}
+            {appeal.review_state === "drafted" &&
+              appeal.appeal.status !== "no_valid_appeal" && (
               <div className="border-t border-border pt-3">
                 <label htmlFor="review-note" className={MICRO_LABEL}>
                   Reviewer note (optional)
