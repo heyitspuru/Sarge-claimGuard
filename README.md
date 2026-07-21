@@ -8,6 +8,17 @@ In India, a hospital discharge becomes an insurance claim. When that claim is de
 
 Solo project, **synthetic data only**, built phase-by-phase against `PROJECT_SPEC.md` under the rules in `CLAUDE.md`.
 
+<!-- DEMO VIDEO: upload the recording to a GitHub Release (or drag it into an issue to
+     get a CDN URL) and replace this block with the player. GitHub renders <video> in
+     README.md; a plain markdown image link will not play. Script: docs/DEMO_SCRIPT.md -->
+
+> **▶ Watch the 4-minute demo** — *recording in progress; see [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md) for what it covers.*
+
+There is **no hosted instance, deliberately.** The Negotiator costs real provider quota,
+so a public button would exhaust a free tier in minutes and then show every visitor an
+error. The video shows it working; the repo lets you run it yourself, with your own key
+if you want the live model. See [Running it](#running-it).
+
 ---
 
 ## How it works
@@ -67,17 +78,33 @@ That grounding step is enforced **structurally, not by prompting**. The model ca
 
 ---
 
-## Quickstart
+## Running it
+
+### Everything, with no API key
 
 ```bash
 python -m venv .venv
 .venv/Scripts/pip install -e ".[dev]"
-python -m claimguard gen-data --n 500 --golden 200 --seed 7
-python -m claimguard eval --negotiation    # the grounding gate
-pytest
+python -m claimguard demo        # one claim, end to end
+pytest                           # the whole suite
 ```
 
-`LLM_PROVIDER` defaults to `mock`, so all of the above runs offline, deterministically, with **no API key and no spend**. Set `LLM_PROVIDER=gemini` + `GEMINI_API_KEY` for real-provider runs.
+`LLM_PROVIDER` defaults to `mock`, so this runs **offline, deterministically, with no key and no spend**. The corpus is committed, so there's no generation step — the pipeline, the grounding gate, the radar, both surfaces and every test work immediately.
+
+What the mock *cannot* do is draft an appeal. It returns an empty completion that the grounding gate downgrades to `no_valid_appeal` — indistinguishable from the Negotiator genuinely declining. Rather than show you a fake refusal, the mock path refuses to draft at all and says why.
+
+### Bring your own key (for the live Negotiator)
+
+```bash
+cp .env.example .env             # then add your own key
+# LLM_PROVIDER=gemini
+# GEMINI_API_KEY=...             # aistudio.google.com/apikey — the free tier is enough
+python -m claimguard demo        # now drafts live
+```
+
+**Budget note, learned the hard way:** the free tier is exactly **20 generate requests/day** (`gemini-2.5-flash`), and it resets at **midnight US Pacific**, not your local midnight. A live `demo` run also embeds the ICD and policy corpora before the Negotiator starts. Drafting one appeal is cheap; re-running eval batches is not. Details in [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md).
+
+Your key stays in your `.env`, which is gitignored and has never been committed.
 
 See one claim travel the whole way — agents, settlement, timeline, and both surfaces:
 
