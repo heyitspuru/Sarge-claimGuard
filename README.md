@@ -1,5 +1,7 @@
 # ClaimGuard
 
+[![CI](https://github.com/heyitspuru/Sarge-claimGuard/actions/workflows/ci.yml/badge.svg)](https://github.com/heyitspuru/Sarge-claimGuard/actions/workflows/ci.yml)
+
 **Drafts insurance appeals grounded in the patient's actual policy clauses — and refuses to invent one when the policy doesn't support it.**
 
 In India, a hospital discharge becomes an insurance claim. When that claim is denied, most patients accept it — not because the denial is right, but because reading a policy document is a specialist skill they don't have. ClaimGuard reads it for them.
@@ -48,7 +50,7 @@ That last step is enforced **structurally, not by prompting**. The model cannot 
 ### Running alongside
 
 - **Compliance Radar** — where the time actually goes between discharge and submission, against the IRDAI baseline (1h pre-auth / 3h discharge), with a pre-breach alert at the 2-hour mark. Journeys are a *synthetic* timeline: the pipeline runs in milliseconds, so real handoff timestamps don't exist yet, and every report says so.
-- **Patient comms** — plain-language status in English, Hindi or Tamil. Copy is **template-based, never model-generated**: "bad news phrased alarmingly" is a test failure under `CLAUDE.md`, and a reviewed template stays auditable where a prompt doesn't. Pharmacy readiness fires at *order* time, never gated on the insurer.
+- **Patient comms** — plain-language status in English, Hindi or Tamil. Copy is **template-based: no model generates a patient message at runtime**. "Bad news phrased alarmingly" is a test failure under `CLAUDE.md`, and a fixed catalog stays auditable where a prompt doesn't. (The Hindi and Tamil *translations* in that catalog were model-written and are screened by blind back-translation — see below.) Pharmacy readiness fires at *order* time, never gated on the insurer.
 - **Cross-cutting** — consent is re-checked *between* steps (a withdrawal arriving mid-claim still halts it), duplicate ABHA admissions are flagged but never blocked, and every step writes a replayable audit entry.
 
 ---
@@ -96,7 +98,7 @@ synthetic corpus is refused by design. Never enter a real ABHA id. The UI is lab
 | 4 | Patient comms — multilingual template-based status, patient view | ✅ |
 | 5 | Hardening — all 12 §9 edge cases, resumable real eval, auto-appeal, readiness audit | 🔄 |
 
-`204 passed, 4 skipped`, ruff clean. The 4 skips are the translation-artifact tests, which skip with an actionable reason until the one-shot back-check has run.
+`281 passed`, ruff clean, green in CI — which runs the suite against a real Postgres + pgvector, with **no provider key**. The whole suite is offline on the mock by design: a test that reaches the network is itself the bug.
 
 ## Eval
 
@@ -104,16 +106,18 @@ synthetic corpus is refused by design. Never enter a real ABHA id. The UI is lab
 |---|---|---|
 | `grounding_rate` | **1.000** / 48 | No citation ever failed to resolve. CI gate ≥ 0.98. |
 | `packaging_validity` | **1.000** / 170 | Packager isolation gate — runs offline, no key. |
-| `coding_f1` | 0.500 | Real Gemini, **n=10 of 200** — underpowered, accumulating. |
+| `coding_f1` | 0.618 | Real Gemini, **n=17 of 200** — underpowered, accumulating. |
 
 ```
 where coding lands:          where packaging lands:
-  exact      3                 match                7
-  sibling    4                 needs_review->ready  2
-  miss       3                 ready->needs_review  1
+  exact      8                 match                13
+  sibling    5                 needs_review->ready   3   <-- under-flagged
+  miss       4                 ready->needs_review   1
 ```
 
 `sibling` = right ICD family, wrong leaf. The coder is mostly **oriented but imprecise** rather than lost — a different problem with a different fix, which a collapsed exact/miss split would hide.
+
+**The open defect: 3 of 17 records were under-flagged** — packaged `ready` when the answer key wanted a human to see them first. The two directions are not symmetric. Over-flagging costs a reviewer's time; under-flagging is the one that can send a wrong claim, and `CLAUDE.md` treats it as a hard failure rather than a tuning parameter. It has now held near 18% across two independent batches, so it is more likely a real property of the confidence threshold than a small-sample artifact. Live numbers in [`docs/EVALUATION.md`](docs/EVALUATION.md), regenerated from the checkpoint on every run.
 
 The free tier allows exactly **20 generate requests/day** (confirmed from the provider's quota error), i.e. 10 records/day, so the full corpus is a ~20-day accumulation. `eval --real-run` is resumable and quota-safe: records cut off by a 429 are left unrecorded for retry, and a provider limit never enters the accuracy denominator. Procedure in [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md).
 
@@ -122,7 +126,7 @@ The free tier allows exactly **20 generate requests/day** (confirmed from the pr
 - **Not clinically validated.** Coding F1 is agreement with an *unadjudicated* synthetic answer key — no certified coder has reviewed it.
 - **Not connected to real NHCX.** The Submitter is a labelled simulator; sandbox access needs organisation-level NHA onboarding ([`docs/NHCX_ACCESS.md`](docs/NHCX_ACCESS.md)).
 - **Not delivering patient messages anywhere.** `channel` is a label, not a send.
-- **Not native-speaker reviewed.** Hindi/Tamil copy is model-written. Automated checks prove only the *absence of alarming terms* — never warmth, register or reading level ([`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md)).
+- **Not native-speaker reviewed.** Hindi/Tamil copy is model-written, then screened by blind back-translation for *meaning drift* — which caught a real one: the Hindi pharmacy notice said "when to take them" (dosing) where the English said "when they are ready to collect" (pickup). Fluent, plausible, and wrong; only the round-trip exposed it ([`docs/TRANSLATION_BACKCHECK.md`](docs/TRANSLATION_BACKCHECK.md)). The screen cannot establish warmth, register or reading level — those still need a human ([`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md)).
 - **Never touching real patient data.** Synthetic only, by design.
 
 A full audit of what separates this from a deployable system — legal, clinical and human gates, tagged by who can actually close them — is in [**`docs/PRODUCTION_READINESS.md`**](docs/PRODUCTION_READINESS.md). Most of it isn't code.
@@ -136,5 +140,7 @@ A full audit of what separates this from a deployable system — legal, clinical
 | [`docs/PRODUCTION_READINESS.md`](docs/PRODUCTION_READINESS.md) | What it would take to be real |
 | [`docs/EVALUATION.md`](docs/EVALUATION.md) | Current numbers and where it fails (generated) |
 | [`docs/EVAL_RUNBOOK.md`](docs/EVAL_RUNBOOK.md) | Reproducing the eval numbers |
-| [`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md) | Why patient copy isn't model-generated |
+| [`docs/TRANSLATION_VALIDATION.md`](docs/TRANSLATION_VALIDATION.md) | How patient copy is validated, and what that can't prove |
+| [`docs/TRANSLATION_BACKCHECK.md`](docs/TRANSLATION_BACKCHECK.md) | The back-check artifact — 38 strings, every verdict |
+| [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md) | The demo walkthrough, both surfaces |
 | [`docs/NHCX_ACCESS.md`](docs/NHCX_ACCESS.md) | Phase-0 reality check on submission access |
