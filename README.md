@@ -27,12 +27,21 @@ flowchart TD
 
     NEG --> GATE{"does every citation<br/>resolve to a clause<br/>actually retrieved?"}
     GATE -->|yes| AP["grounded appeal<br/><i>quotes the real clause text</i>"]
-    GATE -->|no| NO["<b>no_valid_appeal</b><br/><i>honest refusal</i>"]
+    GATE -->|no| NO["<b>no_valid_appeal</b><br/><i>honest refusal — terminal,<br/>there is no letter to approve</i>"]
+
+    AP --> HR{"<b>a person reads it</b><br/>drafting is not sending"}
+    HR -->|approved| SENT["sent to the insurer"]
+    HR -->|declined| HELD["not sent"]
+
+    SENT --> PT["<b>the patient is told</b><br/>after it is resolved, naming<br/>the real clause · en / hi / ta"]
+    NO --> PT
 
     style NEG fill:#F0225F,color:#fff
     style GATE fill:#F0225F,color:#fff
+    style HR fill:#F0225F,color:#fff
     style NO fill:#B45309,color:#fff
     style AP fill:#15803D,color:#fff
+    style SENT fill:#15803D,color:#fff
 ```
 
 **The Negotiator is the point; everything else is the plumbing it stands on.**
@@ -43,7 +52,9 @@ flowchart TD
 4. **Submitter** is deterministic, idempotent and has no LLM, so a retry after a dropped connection re-attaches to the original submission instead of filing a second claim. It's a labelled simulator, not real NHCX.
 5. **Negotiator** fires automatically on a denial. It retrieves clauses from the patient's own policy, drafts an appeal — and then every citation the model produced is **filtered against the clauses actually retrieved**. Anything hallucinated is dropped, and the quoted text is replaced with the clause's *real* text rather than the model's rendering of it. An appeal left with no surviving citation is downgraded to `no_valid_appeal`.
 
-That last step is enforced **structurally, not by prompting**. The model cannot emit a citation that doesn't resolve, because the gate runs after it and discards what doesn't. `grounding_rate` is a CI gate at ≥ 0.98.
+6. **A person reads it.** A drafted appeal lands in `drafted` and goes nowhere until a staff member approves or declines it — an appeal is a formal communication to an insurer on someone else's behalf, so **drafting is not sending**. A `no_valid_appeal` can't be approved at all: there is no letter, and recording an approval against one would assert an appeal was on its way when nothing exists.
+
+That grounding step is enforced **structurally, not by prompting**. The model cannot emit a citation that doesn't resolve, because the gate runs after it and discards what doesn't. `grounding_rate` is a CI gate at ≥ 0.98.
 
 **An advocate that argues every case is worthless. The refusals are what make the appeals credible.**
 
@@ -51,6 +62,7 @@ That last step is enforced **structurally, not by prompting**. The model cannot 
 
 - **Compliance Radar** — where the time actually goes between discharge and submission, against the IRDAI baseline (1h pre-auth / 3h discharge), with a pre-breach alert at the 2-hour mark. Journeys are a *synthetic* timeline: the pipeline runs in milliseconds, so real handoff timestamps don't exist yet, and every report says so.
 - **Patient comms** — plain-language status in English, Hindi or Tamil. Copy is **template-based: no model generates a patient message at runtime**. "Bad news phrased alarmingly" is a test failure under `CLAUDE.md`, and a fixed catalog stays auditable where a prompt doesn't. (The Hindi and Tamil *translations* in that catalog were model-written and are screened by blind back-translation — see below.) Pharmacy readiness fires at *order* time, never gated on the insurer.
+- **The advocacy track** — the patient gets a *lead* the moment a decision lands (something came back, we're on it, nothing is needed from you) and the *full* story once it's resolved, naming the actual clause. Resolved-then-reported: a live feed of "denied" with no resolution yet is anxiety, not transparency. When the exclusion genuinely applies they're told that plainly, and still handed a next step.
 - **Cross-cutting** — consent is re-checked *between* steps (a withdrawal arriving mid-claim still halts it), duplicate ABHA admissions are flagged but never blocked, and every step writes a replayable audit entry.
 
 ---
