@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
   "fastapi", "uvicorn[standard]", "pydantic>=2", "pydantic-settings",
-  "psycopg[binary]", "pgvector", "faker", "google-genai", "fhir.resources>=7", "httpx",
+  "psycopg[binary]", "pgvector", "faker", "google-genai", "fhir.resources>=7", "annotated-types<0.8", "httpx",
 ]
 
 [project.optional-dependencies]
