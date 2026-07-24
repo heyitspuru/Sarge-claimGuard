@@ -1,0 +1,22 @@
+{
+  "record_id": "R0021",
+  "appeal": {
+    "scenario_id": "AUTO-R0021",
+    "status": "appeal",
+    "appeal_text": "The insurer's decision to limit the entire claim amount based on clause SYNTH3-PLANC-C02 is an incorrect application of the policy terms. Clause SYNTH3-PLANC-C02 specifically restricts only 'Room rent, boarding and nursing expenses' and does not apply to other medical expenses related to the diagnosis of Acute myocardial infarction and the procedures performed, such as Coronary angiography and Primary PTCA with drug-eluting stent. These other medical expenses should be assessed and paid according to the general coverage terms up to the Sum Insured, not disproportionately reduced by a clause meant for lodging and care costs only.",
+    "citations": [
+      {
+        "clause_id": "SYNTH3-PLANC-C02",
+        "quoted_text": "Room rent, boarding and nursing expenses shall be restricted to 1.5% of the Sum Insured per day, subject to a maximum of Rs. 6,000 per day. If the Insured Person opts for a higher category room, all associated expenses shall be paid in proportion to the entitled room rent.",
+        "relevance": "This clause, cited by the insurer for the partial payment, explicitly details a sub-limit solely for 'Room rent, boarding and nursing expenses'. It does not grant the insurer authority to apply this restriction to the entirety of a claim that includes significant medical procedures like Primary PTCA with a drug-eluting stent."
+      }
+    ],
+    "reasoning": "The insurer has cited clause SYNTH3-PLANC-C02 to limit the overall claim payment from Rs.325691 to Rs.162845. However, a plain reading of SYNTH3-PLANC-C02 clearly indicates that its sub-limit applies exclusively to 'Room rent, boarding and nursing expenses'. The diagnosis (Acute myocardial infarction) and procedures (Coronary angiography, Primary PTCA with drug-eluting stent) involve substantial costs beyond room and nursing, such as surgical fees, stent cost, medication, and diagnostic tests. Applying a room-rent-specific sub-limit to the entire claim, including these core medical treatment costs, is a misinterpretation and misapplication of the policy clause. The portion of the claim related to the actual medical treatment and procedures, distinct from room/boarding/nursing, should not be subject to this specific sub-limit and should be covered under the general hospitalization terms."
+  },
+  "review_state": "approved",
+  "drafted_by": "claims@demo-hospital.test",
+  "drafted_at": "2026-07-22T17:42:06Z",
+  "reviewed_by": "claims@demo-hospital.test",
+  "reviewed_at": "2026-07-22T17:42:20Z",
+  "review_note": "ok"
+}
